@@ -33,4 +33,12 @@ public class Vehicle {
         else
             speed = 0;
     }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
 }
