@@ -1,5 +1,5 @@
 public class TrafficLight {
-    int position;
+    private int position;
     boolean status; //true = green | false = red
 
     public void toggleColour() {
@@ -10,11 +10,7 @@ public class TrafficLight {
         return position;
     }
 
-    public void setPosition(int position) {
+    public TrafficLight(int position) {
         this.position = position;
-    }
-
-    public boolean isStatus() {
-        return status;
     }
 }

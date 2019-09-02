@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Simulation {
     int speedMax, time;
-    private final int MAXSPEED = 3, STOPTIME = 50, NUMROADS = 5, NUMCARS = 1;
+    private final int MAXSPEED = 3, STOPTIME = 100, NUMROADS = 10, NUMCARS = 1;
     private ArrayList<RoadStraight> roads = new ArrayList<>();
     private Random random = new Random();
 
@@ -12,7 +12,7 @@ public class Simulation {
             RoadStraight roadStraight = new RoadStraight();
             if (i < NUMCARS)
                 roadStraight.createVehicle("Car", random.nextInt(roadStraight.getLength()));
-            roadStraight.createTrafficLight();
+            roadStraight.createTrafficLight(10);
             roads.add(roadStraight);
         }
     }
@@ -30,16 +30,19 @@ public class Simulation {
                         roads.get(i).destroyVehicle(roads.get(i).getVehicle().getPosition()); //Removes old car from road
                     }
                     if (roads.get(i).getVehicle() != null) { //checks for vehicle
-
-                        if (roads.get(i).getVehicle().getPosition() + roads.get(i).getVehicle().getSpeed() > (
-                                roads.get(i).getTrafficLight().getPosition() -
-                                        roads.get(i).getVehicle().getSpeed() /
-                                                roads.get(i).getVehicle().getDeceleration()) &&
-                                roads.get(i).getTrafficLight().status)
-                            roads.get(i).getVehicle().stop();
-                        roads.get(i).getVehicle().drive(MAXSPEED);
+                        if (roads.get(i).getVehicle().getPosition() < roads.get(i).getTrafficLight().getPosition()) {
+                            if (roads.get(i).getVehicle().getPosition() + roads.get(i).getVehicle().getSpeed() > (
+                                    roads.get(i).getTrafficLight().getPosition() - MAXSPEED) &&
+                                    roads.get(i).getTrafficLight().status) { // checks for red light and acts accordingly
+                                roads.get(i).getVehicle().drive(MAXSPEED);
+                            }
+                        } else roads.get(i).getVehicle().drive(MAXSPEED);
                     }
                     time++;
+                    if (time == 25 | time == 50) {
+                        roads.get(i).getTrafficLight().toggleColour();
+                        System.out.println("LIGHT TOGGLED");
+                    }
                 }
             }
         }

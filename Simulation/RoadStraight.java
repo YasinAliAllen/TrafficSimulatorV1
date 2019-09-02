@@ -29,8 +29,8 @@ public class RoadStraight {
         vehicle = null;
     }
 
-    public void createTrafficLight() {
-        trafficLight = new TrafficLight();
+    public void createTrafficLight(int position) {
+        trafficLight = new TrafficLight(position);
     }
 
     public int getLength() {
