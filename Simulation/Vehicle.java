@@ -6,8 +6,8 @@ public class Vehicle {
         breadth = 1;
         length = 2 * breadth;
         speed = 0;
-        acceleration = 5;
-        deceleration = 10;
+        acceleration = 1;
+        deceleration = 2;
     }
 
     public Vehicle(int position, int length, int breadth, int speed, int acceleration, int deceleration) {
@@ -17,6 +17,15 @@ public class Vehicle {
         this.speed = speed;
         this.acceleration = acceleration;
         this.deceleration = deceleration;
+    }
+
+    public Vehicle(int position) {
+        this.position = position;
+        breadth = 1;
+        length = 2 * breadth;
+        speed = 0;
+        acceleration = 1;
+        deceleration = 2;
     }
 
     public void drive(int maxSpeed) {
@@ -40,5 +49,13 @@ public class Vehicle {
 
     public int getSpeed() {
         return speed;
+    }
+
+    public int getDeceleration() {
+        return deceleration;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 }

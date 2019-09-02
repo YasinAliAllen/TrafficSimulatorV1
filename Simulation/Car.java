@@ -6,4 +6,8 @@ public class Car extends Vehicle {
     public Car() {
         super();
     }
+
+    public Car(int position) {
+        super(position);
+    }
 }
