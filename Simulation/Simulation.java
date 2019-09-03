@@ -60,11 +60,9 @@ public class Simulation {
                         }
                         time++;
                         if (time % 25 == 0) {
-                            for (i = 0; i < NUMROADS; i++) {
-                                if (roads.get(i).getTrafficLight() != null) {
-                                    roads.get(i).getTrafficLight().toggleColour(); //changes light colour
-                                    System.out.println("LIGHT TOGGLED");
-                                }
+                            for (int j = 0; j < NUMLIGHTS; j++) {
+                                roads.get(trafficLights.get(j)).getTrafficLight().toggleColour();
+                                System.out.println("Light " + j + " on road " + trafficLights.get(j) + " toggled");
                             }
                         }
                     }
@@ -73,5 +71,6 @@ public class Simulation {
         }
     }
 }
+
 
 
