@@ -33,11 +33,13 @@ public class Simulation {
                     if (roads.get(i).getVehicle() != null) { //checks for vehicle
                         if (roads.get(i).getTrafficLight().isStatus()) // checks for green light
                             roads.get(i).getVehicle().drive(MAXSPEED);
-                        else if (roads.get(i).getVehicle().getPosition() + roads.get(i).getVehicle().getSpeed() > roads.get(i).getTrafficLight().getPosition())
-                            roads.get(i).getVehicle().stop();
-                        else
-                            roads.get(i).getVehicle().drive(MAXSPEED);
-
+                        else {
+                            if ((roads.get(i).getVehicle().getPosition() < roads.get(i).getTrafficLight().getPosition()) && (roads.get(i).getVehicle().getPosition() + roads.get(i).getVehicle().getSpeed() >
+                                    roads.get(i).getTrafficLight().getPosition()))
+                                roads.get(i).getVehicle().stop();
+                            else
+                                roads.get(i).getVehicle().drive(MAXSPEED);
+                        }
                         time++;
                         if (time % 25 == 0) {
                             for (i = 0; i < NUMROADS; i++) {

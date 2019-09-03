@@ -29,11 +29,11 @@ public class Vehicle {
     }
 
     public void drive(int maxSpeed) {
-        position += speed;
         if (speed + acceleration < maxSpeed)
             speed += acceleration;
         else
             speed = maxSpeed;
+        position += speed;
     }
 
     public void stop() {
@@ -41,6 +41,7 @@ public class Vehicle {
             speed -= deceleration;
         else
             speed = 0;
+        position += speed;
     }
 
     public int getPosition() {
