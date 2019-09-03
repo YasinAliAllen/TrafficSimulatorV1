@@ -13,4 +13,8 @@ public class TrafficLight {
     public TrafficLight(int position) {
         this.position = position;
     }
+
+    public boolean isStatus() {
+        return status;
+    }
 }
