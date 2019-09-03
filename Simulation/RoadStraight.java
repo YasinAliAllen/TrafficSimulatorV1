@@ -1,6 +1,8 @@
+import java.util.ArrayList;
+
 public class RoadStraight {
     private int length;
-    private Vehicle vehicle;
+    private ArrayList<Vehicle> vehicle = new ArrayList<>();
     private TrafficLight trafficLight;
 
     public RoadStraight() {
@@ -14,13 +16,16 @@ public class RoadStraight {
     public void createVehicle(String type, int position) {
         switch (type) {
             case "Car":
-                vehicle = new Car(position);
+                Car car = new Car(position);
+                vehicle.add(car);
                 break;
             case "Motorbike":
-                vehicle = new Motorbike();
+                Motorbike motorbike = new Motorbike();
+                vehicle.add(motorbike);
                 break;
             case "Bus":
-                vehicle = new Bus();
+                Bus bus = new Bus();
+                vehicle.add(bus);
                 break;
         }
     }
@@ -37,8 +42,11 @@ public class RoadStraight {
         return length;
     }
 
-    public Vehicle getVehicle() {
-        return vehicle;
+    public Vehicle getVehicle(int vehicleNum) {
+        if (vehicle.isEmpty())
+            return null;
+        else
+            return vehicle.get(vehicleNum);
     }
 
     public TrafficLight getTrafficLight() {
