@@ -36,27 +36,28 @@ public class Simulation {
     void startSimulation() {
         while (time < STOPTIME) {
             for (int i = 0; i < roads.size(); i++) { //moves any vehicle on a road
-                if (roads.get(i).getVehicle(0) != null) { //checks for vehicle
-                    System.out.println("Road: " + i + " Position: " + roads.get(i).getVehicle(0).getPosition());
-                    if (roads.get(i).getVehicle(0).getPosition() + roads.get(i).getVehicle(0).getSpeed()
-                            > roads.get(i).getLength()) {
-                        roads.get(i + 1).createVehicle("Car", (roads.get(i).getVehicle(0).getPosition() +
-                                roads.get(i).getVehicle(0).getSpeed()) % roads.get(i).getLength()); //Creates car on next road
-                        roads.get(i + 1).getVehicle(0).setSpeed(roads.get(i).getVehicle(0).getSpeed()); //Sets new cars speed
-                        roads.get(i).destroyVehicle(0); //Removes old car from road
-                    }
-                    if (roads.get(i).getVehicle(0) != null) { //checks for vehicle
-                        if (roads.get(i).getTrafficLight() == null || roads.get(i).getTrafficLight().isStatus()) // checks for green light or no light
-                            roads.get(i).getVehicle(0).drive(MAXSPEED);
-                        else {
-                            if ((roads.get(i).getVehicle(0).getPosition() <= //checks if car needs to stop before light
-                                    roads.get(i).getTrafficLight().getPosition()) &&
-                                    (roads.get(i).getVehicle(0).getPosition() + roads.get(i).getVehicle(0).getSpeed() >=
-                                            roads.get(i).getTrafficLight().getPosition())) {
-                                roads.get(i).getVehicle(0).stop();
+                for (int c = 0; c < roads.get(i).countVehicles(); c++) {
+                    if (roads.get(i).getVehicle(c) != null) { //checks for vehicles
+                        System.out.println("Car: " + c + " Road: " + i + " Position: " + roads.get(i).getVehicle(c).getPosition());
+                        if (roads.get(i).getVehicle(c).getPosition() + roads.get(i).getVehicle(c).getSpeed()
+                                > roads.get(i).getLength()) {
+                            roads.get(i + 1).createVehicle("Car", (roads.get(i).getVehicle(c).getPosition() +
+                                    roads.get(i).getVehicle(c).getSpeed()) % roads.get(i).getLength()); //Creates car on next road
+                            roads.get(i + 1).getVehicle(c).setSpeed(roads.get(i).getVehicle(c).getSpeed()); //Sets new cars speed
+                            roads.get(i).destroyVehicle(c); //Removes old car from road
+                        }
+                        if (roads.get(i).getVehicle(c) != null) { //checks for vehicle
+                            if (roads.get(i).getTrafficLight() == null || roads.get(i).getTrafficLight().isStatus()) // checks for green light or no light
+                                roads.get(i).getVehicle(c).drive(MAXSPEED);
+                            else {
+                                if ((roads.get(i).getVehicle(c).getPosition() <= //checks if car needs to stop before light
+                                        roads.get(i).getTrafficLight().getPosition()) &&
+                                        (roads.get(i).getVehicle(c).getPosition() + roads.get(i).getVehicle(0).getSpeed() >=
+                                                roads.get(i).getTrafficLight().getPosition())) {
+                                    roads.get(i).getVehicle(c).stop();
+                                } else
+                                    roads.get(i).getVehicle(c).drive(MAXSPEED);
                             }
-                            else
-                                roads.get(i).getVehicle(0).drive(MAXSPEED);
                         }
                         time++;
                         if (time % 25 == 0) {

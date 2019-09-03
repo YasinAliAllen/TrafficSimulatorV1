@@ -49,6 +49,10 @@ public class RoadStraight {
             return vehicle.get(vehicleNum);
     }
 
+    public int countVehicles() {
+        return vehicle.size();
+    }
+
     public TrafficLight getTrafficLight() {
         return trafficLight;
     }
