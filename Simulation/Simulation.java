@@ -43,7 +43,7 @@ public class Simulation {
                         roads.get(i + 1).createVehicle("Car", (roads.get(i).getVehicle(0).getPosition() +
                                 roads.get(i).getVehicle(0).getSpeed()) % roads.get(i).getLength()); //Creates car on next road
                         roads.get(i + 1).getVehicle(0).setSpeed(roads.get(i).getVehicle(0).getSpeed()); //Sets new cars speed
-                        roads.get(i).destroyVehicle(roads.get(i).getVehicle(0).getPosition()); //Removes old car from road
+                        roads.get(i).destroyVehicle(0); //Removes old car from road
                     }
                     if (roads.get(i).getVehicle(0) != null) { //checks for vehicle
                         if (roads.get(i).getTrafficLight() == null || roads.get(i).getTrafficLight().isStatus()) // checks for green light or no light

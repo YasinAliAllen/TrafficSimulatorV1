@@ -30,8 +30,8 @@ public class RoadStraight {
         }
     }
 
-    public void destroyVehicle(int position) {
-        vehicle = null;
+    public void destroyVehicle(int vehicleNum) {
+        vehicle.remove(vehicleNum);
     }
 
     public void createTrafficLight(int position) {
