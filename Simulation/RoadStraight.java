@@ -13,10 +13,10 @@ public class RoadStraight {
         this.length = length;
     }
 
-    public void createVehicle(String type, int position) {
+    public void createVehicle(String type, int position, int vehicleNum) {
         switch (type) {
             case "Car":
-                Car car = new Car(position);
+                Car car = new Car(position, vehicleNum);
                 vehicle.add(car);
                 break;
             case "Motorbike":

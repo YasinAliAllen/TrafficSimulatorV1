@@ -1,5 +1,5 @@
 public class Vehicle {
-    private int position, length, breadth, speed, acceleration, deceleration;
+    private int position, length, breadth, speed, acceleration, deceleration, vehicleNum;
 
     public Vehicle() {
         position = 0;
@@ -8,6 +8,7 @@ public class Vehicle {
         speed = 0;
         acceleration = 1;
         deceleration = 2;
+        vehicleNum = 1;
     }
 
     public Vehicle(int position, int length, int breadth, int speed, int acceleration, int deceleration) {
@@ -19,13 +20,14 @@ public class Vehicle {
         this.deceleration = deceleration;
     }
 
-    public Vehicle(int position) {
+    public Vehicle(int position, int vehicleNum) {
         this.position = position;
         breadth = 1;
         length = 2 * breadth;
         speed = 0;
         acceleration = 1;
         deceleration = 2;
+        this.vehicleNum = vehicleNum;
     }
 
     public void drive(int maxSpeed) {
@@ -58,5 +60,9 @@ public class Vehicle {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public int getVehicleNum() {
+        return vehicleNum;
     }
 }
