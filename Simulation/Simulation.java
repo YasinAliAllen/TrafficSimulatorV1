@@ -62,7 +62,8 @@ public class Simulation {
                                 roads.get(i + 1).createVehicle("Car",
                                         (roads.get(i).getVehicle(c).getPosition() +
                                                 roads.get(i).getVehicle(c).getSpeed() +
-                                                roads.get(i).getVehicle(c).getAcceleration()) % roads.get(i).getLength(),
+                                                roads.get(i).getVehicle(c).getAcceleration()) %
+                                                roads.get(i).getLength(),
                                         roads.get(i).getVehicle(c).getVehicleNum()); //Creates car on next road
                                 roads.get(i + 1).getVehicle(c).setSpeed(roads.get(i).getVehicle(c).getSpeed() +
                                         roads.get(i).getVehicle(c).getAcceleration()); //Sets new cars speed
@@ -70,25 +71,33 @@ public class Simulation {
                             }
                         }
                         if (roads.get(i).getVehicle(c) != null) { //checks for vehicle
-                            if (roads.get(i).getTrafficLight() == null || roads.get(i).getTrafficLight().isStatus()) // checks for green light or no light
+                            if (roads.get(i).countLights() != 0) {
+                                for (int t = 0; t < roads.get(i).countLights(); t++) {
+                                    if (roads.get(i).getTrafficLight(t).isStatus()) // checks for green light or no light
+                                        roads.get(i).getVehicle(c).drive(MAXSPEED);
+                                    else {
+                                        if ((roads.get(i).getVehicle(c).getPosition() <= //checks if car needs to stop before light
+                                                roads.get(i).getTrafficLight(t).getPosition()) &&
+                                                (roads.get(i).getVehicle(c).getPosition() +
+                                                        roads.get(i).getVehicle(c).getSpeed() >=
+                                                        roads.get(i).getTrafficLight(t).getPosition())) {
+                                            roads.get(i).getVehicle(c).stop();
+                                        } else
+                                            roads.get(i).getVehicle(c).drive(MAXSPEED);
+                                    }
+                                }
+                            } else {
                                 roads.get(i).getVehicle(c).drive(MAXSPEED);
-                            else {
-                                if ((roads.get(i).getVehicle(c).getPosition() <= //checks if car needs to stop before light
-                                        roads.get(i).getTrafficLight().getPosition()) &&
-                                        (roads.get(i).getVehicle(c).getPosition() +
-                                                roads.get(i).getVehicle(0).getSpeed() >=
-                                                roads.get(i).getTrafficLight().getPosition())) {
-                                    roads.get(i).getVehicle(c).stop();
-                                } else
-                                    roads.get(i).getVehicle(c).drive(MAXSPEED);
                             }
                         }
                         time++; //updates timer after every car is moved
                         if (time % 25 == 0) {
                             for (int j = 0; j < NUMLIGHTS; j++) {
-                                roads.get(lightsRoads.get(j)).getTrafficLight().toggleColour();
-                                System.out.println("Light " + j + " on road " + lightsRoads.get(j) + " At position " +
-                                        roads.get(lightsRoads.get(j)).getTrafficLight().getPosition() + " toggled");
+                                for (int t = 0; t < roads.get(i).countLights(); t++) {
+                                    roads.get(i).getTrafficLight(t).toggleColour();
+                                    System.out.println("Light " + j + " on road " + lightsRoads.get(j) + " At position " +
+                                            roads.get(lightsRoads.get(j)).getTrafficLight(t).getPosition() + " toggled");
+                                }
                             }
                         }
                     }

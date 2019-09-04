@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class RoadStraight {
     private int length;
     private ArrayList<Vehicle> vehicle = new ArrayList<>();
-    private TrafficLight trafficLight;
+    private ArrayList<TrafficLight> trafficLights = new ArrayList<>();
 
     public RoadStraight() {
         length = 20;
@@ -35,7 +35,8 @@ public class RoadStraight {
     }
 
     public void createTrafficLight(int position) {
-        trafficLight = new TrafficLight(position);
+        TrafficLight trafficLight = new TrafficLight(position);
+        trafficLights.add(trafficLight);
     }
 
     public int getLength() {
@@ -53,7 +54,14 @@ public class RoadStraight {
         return vehicle.size();
     }
 
-    public TrafficLight getTrafficLight() {
-        return trafficLight;
+    public int countLights() {
+        return trafficLights.size();
+    }
+
+    public TrafficLight getTrafficLight(int lightNum) {
+        if (trafficLights.isEmpty())
+            return null;
+        else
+            return trafficLights.get(lightNum);
     }
 }
