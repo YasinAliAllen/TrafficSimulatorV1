@@ -65,4 +65,8 @@ public class Vehicle {
     public int getVehicleNum() {
         return vehicleNum;
     }
+
+    public int getAcceleration() {
+        return acceleration;
+    }
 }
