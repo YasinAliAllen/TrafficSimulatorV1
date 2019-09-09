@@ -31,7 +31,9 @@ public class RoadStraight {
     }
 
     public void destroyVehicle(int vehicleNum) {
-        vehicle.remove(vehicleNum);
+        for (int i = 0; i < vehicle.size(); i++)
+            if (vehicle.get(i).getVehicleNum() == vehicleNum) //removes car with matching number
+                vehicle.remove(i);
     }
 
     public void createTrafficLight(int position) {
@@ -47,7 +49,11 @@ public class RoadStraight {
         if (vehicle.isEmpty())
             return null;
         else
-            return vehicle.get(vehicleNum);
+            for (int i = 0; i < vehicle.size(); i++) { //cycles through all vehicles
+                if (vehicle.get(i).getVehicleNum() == vehicleNum) //gets car with matching number
+                    return vehicle.get(i);
+            }
+        return null;
     }
 
     public int countVehicles() {
