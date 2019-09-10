@@ -42,16 +42,27 @@ public class Simulation {
         }
     }
 
-/*
-    void updateSimulation(int roadNumber, int carNumber) {
-        if (roads.get(roadNumber).getVehicle(carNumber).getPosition() < roads.get(roadNumber))
-        if (roads.get(roadNumber).getVehicle(carNumber).getSpeed() == MAXSPEED) {
-            if (roads.get(roadNumber).getVehicle(carNumber).getPosition() + roads.get(roadNumber).getVehicle(carNumber).getSpeed() ) {
-            }
-        }
-        }
-*/
+    private void changeRoads(int road, int vehicle) {
+        roads.get(road + 1).createVehicle("Car",
+                (roads.get(road).getVehicle(vehicle).getPosition() +
+                        roads.get(road).getVehicle(vehicle).getSpeed()) % roads.get(road).getLength(),
+                roads.get(road).getVehicle(vehicle).getVehicleNum()); //Creates car on next road
+        roads.get(road + 1).getVehicle(vehicle).setSpeed(roads.get(road).getVehicle(vehicle).getSpeed());
+        //Sets new cars speed
+        roads.get(road).destroyVehicle(vehicle); //Removes old car from old road
+    }
 
+    private void changeRoadsAccelerating(int road, int vehicle) {
+        roads.get(road + 1).createVehicle("Car",
+                (roads.get(road).getVehicle(vehicle).getPosition() +
+                        roads.get(road).getVehicle(vehicle).getSpeed() +
+                        roads.get(road).getVehicle(vehicle).getAcceleration()) %
+                        roads.get(road).getLength(),
+                roads.get(road).getVehicle(vehicle).getVehicleNum()); //Creates car on next road
+        roads.get(road + 1).getVehicle(vehicle).setSpeed(roads.get(road).getVehicle(vehicle).getSpeed() +
+                roads.get(road).getVehicle(vehicle).getAcceleration()); //Sets new cars speed
+        roads.get(road).destroyVehicle(vehicle); //Removes old car from road
+    }
 
     void startSimulation() {
         while (time < STOPTIME) {
@@ -64,27 +75,12 @@ public class Simulation {
                         if (roads.get(i).getVehicle(c).getSpeed() == MAXSPEED) //checks if car needs to accelerate
                         {
                             if (roads.get(i).getVehicle(c).getPosition() + roads.get(i).getVehicle(c).getSpeed()
-                                    > roads.get(i).getLength()) { //checks if car needs to swap roads
-                                roads.get(i + 1).createVehicle("Car",
-                                        (roads.get(i).getVehicle(c).getPosition() +
-                                                roads.get(i).getVehicle(c).getSpeed()) % roads.get(i).getLength(),
-                                        roads.get(i).getVehicle(c).getVehicleNum()); //Creates car on next road
-                                roads.get(i + 1).getVehicle(c).setSpeed(roads.get(i).getVehicle(c).getSpeed()); //Sets new cars speed
-                                roads.get(i).destroyVehicle(c); //Removes old car from road
-                            }
-
+                                    > roads.get(i).getLength()) //checks if car needs to swap roads
+                                changeRoads(i, c);
                         } else {
                             if (roads.get(i).getVehicle(c).getPosition() + roads.get(i).getVehicle(c).getSpeed() + roads.get(i).getVehicle(c).getAcceleration()
                                     > roads.get(i).getLength()) {
-                                roads.get(i + 1).createVehicle("Car",
-                                        (roads.get(i).getVehicle(c).getPosition() +
-                                                roads.get(i).getVehicle(c).getSpeed() +
-                                                roads.get(i).getVehicle(c).getAcceleration()) %
-                                                roads.get(i).getLength(),
-                                        roads.get(i).getVehicle(c).getVehicleNum()); //Creates car on next road
-                                roads.get(i + 1).getVehicle(c).setSpeed(roads.get(i).getVehicle(c).getSpeed() +
-                                        roads.get(i).getVehicle(c).getAcceleration()); //Sets new cars speed
-                                roads.get(i).destroyVehicle(c); //Removes old car from road
+                                changeRoadsAccelerating(i, c);
                             }
                         }
                     }
