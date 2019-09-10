@@ -2,7 +2,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Simulation {
-    private final int MAXSPEED = 3, STOPTIME = 1000, NUMROADS = 10, NUMCARS = 2, NUMLIGHTS = 3;
+    private final int MAXSPEED = 3, STOPTIME = 1000, NUMROADS = 10, NUMLIGHTS = 3, NUMCARS = 2;
+    int currentCars = NUMCARS;
     int time, lightsRoad, lightsPosition, carsRoad, carPosition;
     private ArrayList<RoadStraight> roads = new ArrayList<>();//array storing roads
     private ArrayList<Integer> lightsRoads = new ArrayList<>();//array with random values to assign roads for lights to
@@ -43,30 +44,57 @@ public class Simulation {
     }
 
     private void changeRoads(int road, int vehicle) {
-        roads.get(road + 1).createVehicle("Car",
-                (roads.get(road).getVehicle(vehicle).getPosition() +
-                        roads.get(road).getVehicle(vehicle).getSpeed()) % roads.get(road).getLength(),
-                roads.get(road).getVehicle(vehicle).getVehicleNum()); //Creates car on next road
-        roads.get(road + 1).getVehicle(vehicle).setSpeed(roads.get(road).getVehicle(vehicle).getSpeed());
-        //Sets new cars speed
-        roads.get(road).destroyVehicle(vehicle); //Removes old car from old road
+        if (road + 1 == NUMROADS) {
+            System.out.println("We have run out of road for vehicle " + vehicle);
+            roads.get(road).destroyVehicle(vehicle);
+            currentCars--;
+        } else {
+            roads.get(road + 1).createVehicle("Car",
+                    (roads.get(road).getVehicle(vehicle).getPosition() +
+                            roads.get(road).getVehicle(vehicle).getSpeed()) % roads.get(road).getLength(),
+                    roads.get(road).getVehicle(vehicle).getVehicleNum()); //Creates car on next road
+            roads.get(road + 1).getVehicle(vehicle).setSpeed(roads.get(road).getVehicle(vehicle).getSpeed());
+            //Sets new cars speed
+            roads.get(road).destroyVehicle(vehicle); //Removes old car from old road
+        }
     }
 
     private void changeRoadsAccelerating(int road, int vehicle) {
-        roads.get(road + 1).createVehicle("Car",
-                (roads.get(road).getVehicle(vehicle).getPosition() +
-                        roads.get(road).getVehicle(vehicle).getSpeed() +
-                        roads.get(road).getVehicle(vehicle).getAcceleration()) %
-                        roads.get(road).getLength(),
-                roads.get(road).getVehicle(vehicle).getVehicleNum()); //Creates car on next road
-        roads.get(road + 1).getVehicle(vehicle).setSpeed(roads.get(road).getVehicle(vehicle).getSpeed() +
-                roads.get(road).getVehicle(vehicle).getAcceleration()); //Sets new cars speed
-        roads.get(road).destroyVehicle(vehicle); //Removes old car from road
+        if (road + 1 == NUMROADS) {
+            System.out.println("We have run out of road for vehicle " + vehicle);
+            roads.get(road).destroyVehicle(vehicle);
+            currentCars--;
+
+        } else {
+            roads.get(road + 1).createVehicle("Car",
+                    (roads.get(road).getVehicle(vehicle).getPosition() +
+                            roads.get(road).getVehicle(vehicle).getSpeed() +
+                            roads.get(road).getVehicle(vehicle).getAcceleration()) %
+                            roads.get(road).getLength(),
+                    roads.get(road).getVehicle(vehicle).getVehicleNum()); //Creates car on next road
+            roads.get(road + 1).getVehicle(vehicle).setSpeed(roads.get(road).getVehicle(vehicle).getSpeed() +
+                    roads.get(road).getVehicle(vehicle).getAcceleration()); //Sets new cars speed
+            roads.get(road).destroyVehicle(vehicle); //Removes old car from road
+        }
     }
+
+    private void toggleLights(int road) {
+        if (roads.get(road).countLights() != 0)
+            for (int t = 0; t < NUMLIGHTS; t++) {
+                if (roads.get(road).getTrafficLight(t) != null) {
+                    roads.get(road).getTrafficLight(t).toggleColour();
+                    System.out.println("Light " + t + " on road " + road + " At position " +
+                            roads.get(road).getTrafficLight(t).getPosition() + " toggled");
+                }
+            }
+    }
+
 
     void startSimulation() {
         while (time < STOPTIME) {
-            for (int i = 0; i < roads.size(); i++) { //moves any vehicle on a road
+            for (int i = 0; i < roads.size(); i++) { //updates all roads
+
+
                 for (int c = 0; c < NUMCARS; c++) {
                     if (roads.get(i).getVehicle(c) != null) { //checks for vehicles
                         System.out.println("Car: " + roads.get(i).getVehicle(c).getVehicleNum() + " Road: " + i +
@@ -78,12 +106,12 @@ public class Simulation {
                                     > roads.get(i).getLength()) //checks if car needs to swap roads
                                 changeRoads(i, c);
                         } else {
-                            if (roads.get(i).getVehicle(c).getPosition() + roads.get(i).getVehicle(c).getSpeed() + roads.get(i).getVehicle(c).getAcceleration()
-                                    > roads.get(i).getLength()) {
+                            if (roads.get(i).getVehicle(c).getPosition() + roads.get(i).getVehicle(c).getSpeed() +
+                                    roads.get(i).getVehicle(c).getAcceleration()
+                                    > roads.get(i).getLength()) //checks if car needs to swap roads + accelerate
                                 changeRoadsAccelerating(i, c);
                             }
                         }
-                    }
                     if (roads.get(i).getVehicle(c) != null) { //checks for vehicle
                         if (roads.get(i).countLights() != 0) {
                             for (int j = 0; j < roads.get(i).countLights(); j++) {
@@ -108,24 +136,16 @@ public class Simulation {
                         }
                     }
                 }
-                if (time % 25 == 0) {
-                    if (roads.get(i).countLights() != 0)
-                        for (int t = 0; t < NUMLIGHTS; t++) {
-                            if (roads.get(i).getTrafficLight(t) != null) {
-                                roads.get(i).getTrafficLight(t).toggleColour();
-                                System.out.println("Light " + t + " on road " + i + " At position " +
-                                        roads.get(i).getTrafficLight(t).getPosition() + " toggled");
-
-                            }
-                        }
-                }
+                if (time % 25 == 0)
+                    toggleLights(i);
             }
-            time++; //updates timer after every car is moved
-
+            time++; //updates timer after all cars are moved
+            if (time == STOPTIME)
+                System.out.println("We have run out of time!");
+            if (currentCars == 0) {
+                System.out.println("We have run out of cars!");
+                System.exit(0);
+            }
         }
     }
 }
-
-
-
-
