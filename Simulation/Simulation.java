@@ -34,7 +34,7 @@ public class Simulation {
             for (int j = 0; j < NUMLIGHTS; j++) { // creates a traffic light on a road
                 if (roads.size() == lightsRoads.get(j)) { //checks which road to create a light on
                     lightsPosition = random.nextInt(roadStraight.getLength());
-                    roadStraight.createTrafficLight(lightsPosition);
+                    roadStraight.createTrafficLight(j, lightsPosition);
                     System.out.println("Light " + j + " created on road " + i + " at position " + lightsPosition);
                 }
             }
@@ -64,7 +64,7 @@ public class Simulation {
                         if (roads.get(i).getVehicle(c).getSpeed() == MAXSPEED) //checks if car needs to accelerate
                         {
                             if (roads.get(i).getVehicle(c).getPosition() + roads.get(i).getVehicle(c).getSpeed()
-                                    > roads.get(i).getLength()) {
+                                    > roads.get(i).getLength()) { //checks if car needs to swap roads
                                 roads.get(i + 1).createVehicle("Car",
                                         (roads.get(i).getVehicle(c).getPosition() +
                                                 roads.get(i).getVehicle(c).getSpeed()) % roads.get(i).getLength(),
@@ -90,36 +90,42 @@ public class Simulation {
                     }
                     if (roads.get(i).getVehicle(c) != null) { //checks for vehicle
                         if (roads.get(i).countLights() != 0) {
-                            for (int t = 0; t < roads.get(i).countLights(); t++) {
-                                if (roads.get(i).getTrafficLight(t).isStatus()) // checks for green light or no light
-                                    roads.get(i).getVehicle(c).drive(MAXSPEED);
-                                else {
-                                    if ((roads.get(i).getVehicle(c).getPosition() <= //checks if car needs to stop before light
-                                            roads.get(i).getTrafficLight(t).getPosition()) &&
-                                            (roads.get(i).getVehicle(c).getPosition() +
-                                                    roads.get(i).getVehicle(c).getSpeed() >=
-                                                    roads.get(i).getTrafficLight(t).getPosition())) {
-                                        roads.get(i).getVehicle(c).stop();
-                                    } else
-                                        roads.get(i).getVehicle(c).drive(MAXSPEED);
+                            for (int j = 0; j < roads.get(i).countLights(); j++) {
+                                for (int t = 0; t < NUMLIGHTS; t++) {
+                                    if (roads.get(i).getTrafficLight(t) != null)
+                                        if (roads.get(i).getTrafficLight(t).isStatus()) // checks for green light or no light
+                                            roads.get(i).getVehicle(c).drive(MAXSPEED);
+                                        else {
+                                            if ((roads.get(i).getVehicle(c).getPosition() <= //checks if car needs to stop before light
+                                                    roads.get(i).getTrafficLight(t).getPosition()) &&
+                                                    (roads.get(i).getVehicle(c).getPosition() +
+                                                            roads.get(i).getVehicle(c).getSpeed() >=
+                                                            roads.get(i).getTrafficLight(t).getPosition())) {
+                                                roads.get(i).getVehicle(c).stop();
+                                            } else
+                                                roads.get(i).getVehicle(c).drive(MAXSPEED);
+                                        }
                                 }
                             }
                         } else {
                             roads.get(i).getVehicle(c).drive(MAXSPEED);
                         }
                     }
-                    time++; //updates timer after every car is moved
-                    if (time % 25 == 0) {
-                        for (int j = 0; j < NUMLIGHTS; j++) {
-                            for (int t = 0; t < roads.get(i).countLights(); t++) {
+                }
+                if (time % 25 == 0) {
+                    if (roads.get(i).countLights() != 0)
+                        for (int t = 0; t < NUMLIGHTS; t++) {
+                            if (roads.get(i).getTrafficLight(t) != null) {
                                 roads.get(i).getTrafficLight(t).toggleColour();
-                                System.out.println("Light " + j + " on road " + lightsRoads.get(j) + " At position " +
-                                        roads.get(lightsRoads.get(j)).getTrafficLight(t).getPosition() + " toggled");
+                                System.out.println("Light " + t + " on road " + i + " At position " +
+                                        roads.get(i).getTrafficLight(t).getPosition() + " toggled");
+
                             }
                         }
-                    }
                 }
             }
+            time++; //updates timer after every car is moved
+
         }
     }
 }

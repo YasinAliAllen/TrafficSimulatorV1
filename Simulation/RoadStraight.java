@@ -36,8 +36,8 @@ public class RoadStraight {
                 vehicle.remove(i);
     }
 
-    public void createTrafficLight(int position) {
-        TrafficLight trafficLight = new TrafficLight(position);
+    public void createTrafficLight(int trafficLightNum, int position) {
+        TrafficLight trafficLight = new TrafficLight(trafficLightNum, position);
         trafficLights.add(trafficLight);
     }
 
@@ -49,9 +49,9 @@ public class RoadStraight {
         if (vehicle.isEmpty())
             return null;
         else
-            for (int i = 0; i < vehicle.size(); i++) { //cycles through all vehicles
-                if (vehicle.get(i).getVehicleNum() == vehicleNum) //gets car with matching number
-                    return vehicle.get(i);
+            for (Vehicle value : vehicle) { //cycles through all vehicles
+                if (value.getVehicleNum() == vehicleNum) //gets car with matching number
+                    return value;
             }
         return null;
     }
@@ -68,6 +68,10 @@ public class RoadStraight {
         if (trafficLights.isEmpty())
             return null;
         else
-            return trafficLights.get(lightNum);
+            for (TrafficLight value : trafficLights) { //cycles through all vehicles
+                if (value.getLightNumber() == lightNum) //gets car with matching number
+                    return value;
+            }
+        return null;
     }
 }
