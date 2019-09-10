@@ -13,39 +13,40 @@ public class RoadStraight {
         this.length = length;
     }
 
-    public void createVehicle(String type, int position, int vehicleNum) {
+    void createVehicle(String type,
+                       int position, int vehicleNum, int breadth, int speed, int acceleration, int deceleration) {
         switch (type) {
             case "Car":
-                Car car = new Car(position, vehicleNum);
+                Car car = new Car(position, vehicleNum, breadth, speed, acceleration, deceleration);
                 vehicle.add(car);
                 break;
             case "Motorbike":
-                Motorbike motorbike = new Motorbike();
+                Motorbike motorbike = new Motorbike(position, vehicleNum, breadth, speed, acceleration, deceleration);
                 vehicle.add(motorbike);
                 break;
             case "Bus":
-                Bus bus = new Bus();
+                Bus bus = new Bus(position, vehicleNum, breadth, speed, acceleration, deceleration);
                 vehicle.add(bus);
                 break;
         }
     }
 
-    public void destroyVehicle(int vehicleNum) {
+    void destroyVehicle(int vehicleNum) {
         for (int i = 0; i < vehicle.size(); i++)
             if (vehicle.get(i).getVehicleNum() == vehicleNum) //removes car with matching number
                 vehicle.remove(i);
     }
 
-    public void createTrafficLight(int trafficLightNum, int position) {
+    void createTrafficLight(int trafficLightNum, int position) {
         TrafficLight trafficLight = new TrafficLight(trafficLightNum, position);
         trafficLights.add(trafficLight);
     }
 
-    public int getLength() {
+    int getLength() {
         return length;
     }
 
-    public Vehicle getVehicle(int vehicleNum) {
+    Vehicle getVehicle(int vehicleNum) {
         if (vehicle.isEmpty())
             return null;
         else
@@ -60,7 +61,7 @@ public class RoadStraight {
         return vehicle.size();
     }
 
-    public int countLights() {
+    int countLights() {
         return trafficLights.size();
     }
 

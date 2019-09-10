@@ -1,36 +1,18 @@
 public class Vehicle {
-    private int position, length, breadth, speed, acceleration, deceleration, vehicleNum;
+    public int length, breadth; //these will be used later
+    private int position, speed, acceleration, deceleration, vehicleNum;
 
-    public Vehicle() {
-        position = 0;
-        breadth = 1;
-        length = 2 * breadth;
-        speed = 0;
-        acceleration = 1;
-        deceleration = 2;
-        vehicleNum = 1;
-    }
-
-    public Vehicle(int position, int length, int breadth, int speed, int acceleration, int deceleration) {
+    public Vehicle(int position, int vehicleNum, int breadth, int speed, int acceleration, int deceleration) {
         this.position = position;
-        this.length = length;
         this.breadth = breadth;
+        this.length = 2 * breadth;
         this.speed = speed;
         this.acceleration = acceleration;
         this.deceleration = deceleration;
-    }
-
-    public Vehicle(int position, int vehicleNum) {
-        this.position = position;
-        breadth = 1;
-        length = 2 * breadth;
-        speed = 0;
-        acceleration = 1;
-        deceleration = 2;
         this.vehicleNum = vehicleNum;
     }
 
-    public void drive(int maxSpeed) {
+    void drive(int maxSpeed) {
         if (speed + acceleration < maxSpeed)
             speed += acceleration;
         else
@@ -38,7 +20,7 @@ public class Vehicle {
         position += speed;
     }
 
-    public void stop() {
+    void stop() {
         if (speed - deceleration > 0)
             speed -= deceleration;
         else
@@ -46,11 +28,11 @@ public class Vehicle {
         position += speed;
     }
 
-    public int getPosition() {
+    int getPosition() {
         return position;
     }
 
-    public int getSpeed() {
+    int getSpeed() {
         return speed;
     }
 
@@ -58,15 +40,15 @@ public class Vehicle {
         return deceleration;
     }
 
-    public void setSpeed(int speed) {
+    void setSpeed(int speed) {
         this.speed = speed;
     }
 
-    public int getVehicleNum() {
+    int getVehicleNum() {
         return vehicleNum;
     }
 
-    public int getAcceleration() {
+    int getAcceleration() {
         return acceleration;
     }
 }

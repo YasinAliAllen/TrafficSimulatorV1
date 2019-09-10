@@ -1,13 +1,5 @@
 public class Car extends Vehicle {
-    public Car(int position, int length, int breadth, int speed, int acceleration, int deceleration) {
-        super(position, length, breadth, speed, acceleration, deceleration);
-    }
-
-    public Car() {
-        super();
-    }
-
-    public Car(int position, int vehicleNum) {
-        super(position, vehicleNum);
+    public Car(int position, int vehicleNum, int breadth, int speed, int acceleration, int deceleration) {
+        super(position, vehicleNum, breadth, speed, acceleration, deceleration);
     }
 }
