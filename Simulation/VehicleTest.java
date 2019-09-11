@@ -1,10 +1,12 @@
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class VehicleTest {
     private Vehicle vehicle = new Vehicle(0, 0, 1, 0, 1, 2);
     private int position = 0;
 
-    @org.junit.jupiter.api.Test
+    @Test
     void drive() {
         for (int i = 0; i < 3; i++) {
             assertEquals(i, vehicle.getSpeed());
@@ -14,7 +16,7 @@ class VehicleTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void stop() {
         int speed = 5;
         vehicle.setSpeed(speed);
@@ -28,33 +30,33 @@ class VehicleTest {
 
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getPosition() {
         assertEquals(0, vehicle.getPosition());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getSpeed() {
         assertEquals(0, vehicle.getSpeed());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getDeceleration() {
         assertEquals(2, vehicle.getDeceleration());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setSpeed() {
         vehicle.setSpeed(100);
         assertEquals(100, vehicle.getSpeed());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getVehicleNum() {
         assertEquals(0, vehicle.getVehicleNum());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getAcceleration() {
         assertEquals(1, vehicle.getAcceleration());
     }
