@@ -1,5 +1,5 @@
 public class Vehicle {
-    public int length, breadth; //these will be used later
+    public int length, breadth; //these will be used in next program
     private int position, speed, acceleration, deceleration, vehicleNum;
 
     public Vehicle(int position, int vehicleNum, int breadth, int speed, int acceleration, int deceleration) {

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class RoadStraight {
     private int length;
-    private ArrayList<Vehicle> vehicle = new ArrayList<>();
+    private ArrayList<Vehicle> vehicles = new ArrayList<>();
     private ArrayList<TrafficLight> trafficLights = new ArrayList<>();
 
     public RoadStraight() {
@@ -18,23 +18,23 @@ public class RoadStraight {
         switch (type) {
             case "Car":
                 Car car = new Car(position, vehicleNum, breadth, speed, acceleration, deceleration);
-                vehicle.add(car);
+                vehicles.add(car);
                 break;
             case "Motorbike":
                 Motorbike motorbike = new Motorbike(position, vehicleNum, breadth, speed, acceleration, deceleration);
-                vehicle.add(motorbike);
+                vehicles.add(motorbike);
                 break;
             case "Bus":
                 Bus bus = new Bus(position, vehicleNum, breadth, speed, acceleration, deceleration);
-                vehicle.add(bus);
+                vehicles.add(bus);
                 break;
         }
     }
 
     void destroyVehicle(int vehicleNum) {
-        for (int i = 0; i < vehicle.size(); i++)
-            if (vehicle.get(i).getVehicleNum() == vehicleNum) //removes car with matching number
-                vehicle.remove(i);
+        for (int i = 0; i < vehicles.size(); i++)
+            if (vehicles.get(i).getVehicleNum() == vehicleNum) //removes car with matching number
+                vehicles.remove(i);
     }
 
     void createTrafficLight(int trafficLightNum, int position) {
@@ -47,10 +47,10 @@ public class RoadStraight {
     }
 
     Vehicle getVehicle(int vehicleNum) {
-        if (vehicle.isEmpty())
+        if (vehicles.isEmpty())
             return null;
         else
-            for (Vehicle value : vehicle) { //cycles through all vehicles
+            for (Vehicle value : vehicles) { //cycles through all vehicles
                 if (value.getVehicleNum() == vehicleNum) //gets car with matching number
                     return value;
             }
@@ -58,7 +58,7 @@ public class RoadStraight {
     }
 
     public int countVehicles() {
-        return vehicle.size();
+        return vehicles.size();
     }
 
     int countLights() {

@@ -1,7 +1,7 @@
 class TrafficLight {
     private int position;
     private boolean status; //true = green | false = red
-    private int lightNum = 1;
+    private int lightNum;
 
     TrafficLight(int lightNum, int position) {
         this.position = position;
