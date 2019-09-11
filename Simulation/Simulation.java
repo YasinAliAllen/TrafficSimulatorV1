@@ -30,82 +30,86 @@ public class Simulation {
                 if (roads.size() == carsRoads.get(c)) {
                     int carPosition = random.nextInt(roadStraight.getLength());
                     roadStraight.createVehicle("Car", carPosition, c, 1, 0, 1, 2);
-                    System.out.println("Car " + c + " created at position " + carPosition + " on road " + i);
+                    System.out.printf("Car %d created on road %d at position %d.\n", c, i, carPosition);
                 }
             }
             for (int j = 0; j < NUMLIGHTS; j++) { // creates a traffic light on a road
                 if (roads.size() == lightsRoads.get(j)) { //checks which road to create a light on
                     int lightsPosition = random.nextInt(roadStraight.getLength());
                     roadStraight.createTrafficLight(j, lightsPosition);
-                    System.out.println("Light " + j + " created on road " + i + " at position " + lightsPosition);
+                    System.out.printf("Light %d created on road %d at position %d.\n", j, i, lightsPosition);
                 }
             }
             roads.add(roadStraight);
         }
     }
 
-    private void changeRoads(int road, int vehicle) {
-        if (road + 1 == NUMROADS) {
-            System.out.println("We have run out of road for vehicle " + vehicle);
-            roads.get(road).destroyVehicle(vehicle);
+    private void changeRoads(int roadNum, int vehicleNum) {
+        if (roadNum + 1 == NUMROADS) {
+            System.out.println("We have run out of road for vehicle " + vehicleNum);
+            roads.get(roadNum).destroyVehicle(vehicleNum);
             currentCars--;
         } else {
-            roads.get(road + 1).createVehicle("Car",
-                    (roads.get(road).getVehicle(vehicle).getPosition() +
-                            roads.get(road).getVehicle(vehicle).getSpeed()) % roads.get(road).getLength(),
-                    roads.get(road).getVehicle(vehicle).getVehicleNum(), 1, 3, 1, 2); //Creates car on next road
-            roads.get(road + 1).getVehicle(vehicle).setSpeed(roads.get(road).getVehicle(vehicle).getSpeed());
+            roads.get(roadNum + 1).createVehicle("Car",
+                    (roads.get(roadNum).getVehicle(vehicleNum).getPosition() +
+                            roads.get(roadNum).getVehicle(vehicleNum).getSpeed()) % roads.get(roadNum).getLength(),
+                    roads.get(roadNum).getVehicle(vehicleNum).getVehicleNum(),
+                    1, 3, 1, 2); //Creates car on next road
+            roads.get(roadNum + 1)
+                    .getVehicle(vehicleNum).setSpeed(roads.get(roadNum).getVehicle(vehicleNum).getSpeed());
             //Sets new cars speed
-            roads.get(road).destroyVehicle(vehicle); //Removes old car from old road
+            roads.get(roadNum).destroyVehicle(vehicleNum); //Removes old car from old road
         }
     }
 
-    private void changeRoadsAccelerating(int road, int vehicle) {
-        if (road + 1 == NUMROADS) {
-            System.out.println("We have run out of road for vehicle " + vehicle);
-            roads.get(road).destroyVehicle(vehicle);
+    private void changeRoadsAccelerating(int roadNum, int vehicleNum) {
+        if (roadNum + 1 == NUMROADS) {
+            System.out.println("We have run out of road for vehicle " + vehicleNum);
+            roads.get(roadNum).destroyVehicle(vehicleNum);
             currentCars--;
 
         } else {
-            roads.get(road + 1).createVehicle("Car",
-                    (roads.get(road).getVehicle(vehicle).getPosition() +
-                            roads.get(road).getVehicle(vehicle).getSpeed() +
-                            roads.get(road).getVehicle(vehicle).getAcceleration()) %
-                            roads.get(road).getLength(),
-                    roads.get(road).getVehicle(vehicle).getVehicleNum(), 1, roads.get(road).getVehicle(vehicle).getSpeed() +
-                            roads.get(road).getVehicle(vehicle).getAcceleration(), 1, 2); //Creates car on next road
-            roads.get(road).destroyVehicle(vehicle); //Removes old car from road
+            roads.get(roadNum + 1).createVehicle("Car",
+                    (roads.get(roadNum).getVehicle(vehicleNum).getPosition() +
+                            roads.get(roadNum).getVehicle(vehicleNum).getSpeed() +
+                            roads.get(roadNum).getVehicle(vehicleNum).getAcceleration()) %
+                            roads.get(roadNum).getLength(),
+                    roads.get(roadNum).getVehicle(vehicleNum).getVehicleNum(), 1,
+                    roads.get(roadNum).getVehicle(vehicleNum).getSpeed() +
+                            roads.get(roadNum).getVehicle(vehicleNum).getAcceleration(),
+                    1, 2); //Creates car on next road
+            roads.get(roadNum).destroyVehicle(vehicleNum); //Removes old car from road
         }
     }
 
-    private void toggleLights(int road) {
-        if (roads.get(road).countLights() != 0)
+    private void toggleLights(int roadNum) {
+        if (roads.get(roadNum).countLights() != 0)
             for (int t = 0; t < NUMLIGHTS; t++) {
-                if (roads.get(road).getTrafficLight(t) != null) {
-                    roads.get(road).getTrafficLight(t).toggleColour();
-                    System.out.println("Light " + t + " on road " + road + " At position " +
-                            roads.get(road).getTrafficLight(t).getPosition() + " toggled");
+                if (roads.get(roadNum).getTrafficLight(t) != null) {
+                    roads.get(roadNum).getTrafficLight(t).toggleColour();
+                    System.out.printf("Light %d on road %d at position %d toggled.\n", t, roadNum,
+                            roads.get(roadNum).getTrafficLight(t).getPosition());
                 }
             }
     }
 
-    private void checkForLight(int road, int vehicle) {
-        for (int j = 0; j < roads.get(road).countLights(); j++) {
+    private void checkForLight(int roadNum, int vehicleNum) {
+        for (int j = 0; j < roads.get(roadNum).countLights(); j++) {
             for (int t = 0; t < NUMLIGHTS; t++) {
-                if (roads.get(road).getTrafficLight(t) != null)
-                    if (roads.get(road).getTrafficLight(t).isStatus())
+                if (roads.get(roadNum).getTrafficLight(t) != null)
+                    if (roads.get(roadNum).getTrafficLight(t).isStatus())
                         // checks for green light or no light
-                        roads.get(road).getVehicle(vehicle).drive(MAXSPEED);
+                        roads.get(roadNum).getVehicle(vehicleNum).drive(MAXSPEED);
                     else {
-                        if ((roads.get(road).getVehicle(vehicle).getPosition() <=
+                        if ((roads.get(roadNum).getVehicle(vehicleNum).getPosition() <=
                                 //checks if car needs to stop before light
-                                roads.get(road).getTrafficLight(t).getPosition()) &&
-                                (roads.get(road).getVehicle(vehicle).getPosition() +
-                                        roads.get(road).getVehicle(vehicle).getSpeed() >=
-                                        roads.get(road).getTrafficLight(t).getPosition())) {
-                            roads.get(road).getVehicle(vehicle).stop();
+                                roads.get(roadNum).getTrafficLight(t).getPosition()) &&
+                                (roads.get(roadNum).getVehicle(vehicleNum).getPosition() +
+                                        roads.get(roadNum).getVehicle(vehicleNum).getSpeed() >=
+                                        roads.get(roadNum).getTrafficLight(t).getPosition())) {
+                            roads.get(roadNum).getVehicle(vehicleNum).stop();
                         } else
-                            roads.get(road).getVehicle(vehicle).drive(MAXSPEED);
+                            roads.get(roadNum).getVehicle(vehicleNum).drive(MAXSPEED);
                     }
             }
         }
@@ -116,32 +120,38 @@ public class Simulation {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                for (int i = 0; i < roads.size(); i++) { //updates all roads
-                    for (int c = 0; c < NUMCARS; c++) {
-                        if (roads.get(i).getVehicle(c) != null) { //checks for vehicles
-                            System.out.println("Vehicle: " + roads.get(i).getVehicle(c).getVehicleNum() + " Road: " + i +
-                                    " Position: " + roads.get(i).getVehicle(c).getPosition());
-                            if (roads.get(i).getVehicle(c).getSpeed() == MAXSPEED) //checks if car needs to accelerate
+                for (int roadNum = 0; roadNum < roads.size(); roadNum++) { //updates all roads
+                    for (int vehicleNum = 0; vehicleNum < NUMCARS; vehicleNum++) {
+                        if (roads.get(roadNum).getVehicle(vehicleNum) != null) { //checks for vehicles
+                            System.out.printf("Vehicle: %d | Road: %d | Position: %d\n",
+                                    roads.get(roadNum).getVehicle(vehicleNum).getVehicleNum(), roadNum,
+                                    roads.get(roadNum).getVehicle(vehicleNum).getPosition());
+                            if (roads.get(roadNum).getVehicle(vehicleNum).getSpeed() == MAXSPEED)
+                            //checks if car needs to accelerate
                             {
-                                if (roads.get(i).getVehicle(c).getPosition() + roads.get(i).getVehicle(c).getSpeed()
-                                        > roads.get(i).getLength()) //checks if car needs to swap roads
-                                    changeRoads(i, c);
+                                if (roads.get(roadNum).getVehicle(vehicleNum).getPosition() +
+                                        roads.get(roadNum).getVehicle(vehicleNum).getSpeed()
+                                        > roads.get(roadNum).getLength()) //checks if car needs to swap roads
+                                    changeRoads(roadNum, vehicleNum);
                             } else {
-                                if (roads.get(i).getVehicle(c).getPosition() + roads.get(i).getVehicle(c).getSpeed() +
-                                        roads.get(i).getVehicle(c).getAcceleration()
-                                        > roads.get(i).getLength()) //checks if car needs to swap roads + accelerate
-                                    changeRoadsAccelerating(i, c);
+                                if (roads.get(roadNum).getVehicle(vehicleNum).getPosition() +
+                                        roads.get(roadNum).getVehicle(vehicleNum).getSpeed() +
+                                        roads.get(roadNum).getVehicle(vehicleNum).getAcceleration()
+                                        > roads.get(roadNum).getLength())
+                                    //checks if car needs to swap roads + accelerate
+                                    changeRoadsAccelerating(roadNum, vehicleNum);
                             }
                         }
-                        if (roads.get(i).getVehicle(c) != null) { //checks for vehicle as one may have been removed
-                            if (roads.get(i).countLights() != 0)
-                                checkForLight(i, c);
+                        if (roads.get(roadNum).getVehicle(vehicleNum) != null) {
+                            //checks for vehicle as one may have been removed
+                            if (roads.get(roadNum).countLights() != 0)
+                                checkForLight(roadNum, vehicleNum);
                             else
-                                roads.get(i).getVehicle(c).drive(MAXSPEED);
+                                roads.get(roadNum).getVehicle(vehicleNum).drive(MAXSPEED);
                         }
                     }
                     if (time % 25 == 0)
-                        toggleLights(i);
+                        toggleLights(roadNum);
                 }
                 time++; //updates timer after all cars are moved
                 if (currentCars == 0) {
