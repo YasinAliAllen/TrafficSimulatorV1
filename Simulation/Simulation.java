@@ -4,7 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Simulation {
-    private final int NUMROADS = 10, NUMLIGHTS = 3, NUMCARS = 2, MAXSPEED = 3, ROADLENGTH = 20;
+    private final int NUMROADS = 10, NUMLIGHTS = 3, NUMCARS = 2, MAXSPEED = 3;
     private int currentCars = NUMCARS;
     private int time;
     private ArrayList<RoadStraight> roads = new ArrayList<>();//array storing roads
@@ -25,6 +25,7 @@ public class Simulation {
         }
 
         for (int i = 0; i < NUMROADS; i++) {
+            final int ROADLENGTH = 20;
             RoadStraight roadStraight = new RoadStraight(ROADLENGTH);
             for (int c = 0; c < NUMCARS; c++) { // creates cars
                 if (roads.size() == carsRoads.get(c)) {
