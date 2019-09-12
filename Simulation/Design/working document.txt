@@ -3,6 +3,8 @@ A traffic simulator with the ability to edit and simulate the users chosen desig
 This simulation should return something useful like the average speed of cars throughout the simulation.
 This allows the user to test different designs and discover which is best at promoting traffic flow.
 
+
+
 Problem Decomposition:
 This program is using the following objects: Main, Simulation, RoadStraight, Vehicle, TrafficLight, Car, Bus, Motorbike.
 Main calls Simulation. Simulation uses an array of RoadStraights to store information about each road and update them.
@@ -13,6 +15,8 @@ TrafficLight is called when present on a RoadStraight with a vehicle and returns
 interaction.
 TrafficLights also have methods allowing them to change their status.
 
+
+
 Class Design:
 
 Main:
@@ -20,16 +24,29 @@ Only contains Main() method.
 The main class will be used to switch the program between either simulation mode or editor mode.
 Main will initialise in simulation mode by creating a Simulation() class and calling appropriate methods.
 
+
+
 Simulation:
+Attributes/Variables: private final int (placeholders): NUMROADS, NUMLIGHTS, NUMCARS, MAXSPEED.
+private int: numCars, time. ArrayList roads, ArrayList lightsRoad (used for randomization),
+ArrayList carsRoad (used for randomization).
+Methods/Behaviors: createSimulation, changeRoads, changeRoadsAccelerating, toggleLights, checkForLight, runSimulation.
+
 The Simulation class contains methods pertaining to activities handled by the simulation.
 The Simulation stores all roads in an array allowing for the to interact with each other allowing simulation to have
 vehicles transition between roads.
 Simulation handles interaction between vehicles and traffic lights.
 Simulation checks on a per road basis what needs to be updated and then does so accordingly.
 
+
+
 RoadStraight:
 Note: This is for the moment the base road type, it may be refactored into a Road class if its chosen to be used as a
 basis for all future road types. In future the program will have 3 road types.
+
+Attributes/Variables: private int length, ArrayList vehicles, ArrayList trafficLights.
+Methods/Behaviors: RoadStraight, createVehicle, destroyVehicle, createTrafficLight, countVehicles, countLights, setters and getters.
+
 RoadStraight is creatable with a specified length, defining its endpoint.
 RoadStraight contains all vehicles and traffic lights relevant to its position. This allows for these objects to be
 obtained by Simulation from RoadStraight.
@@ -37,15 +54,38 @@ RoadStraight allows for vehicles to be created or destroyed, this can be used by
 between roads.
 RoadStraight allows for TrafficLights to be created, allowing them to interact with vehicles at a more precise level
 RoadStraight has methods which returns information about what is contained on the road, like the amount of
-vehicles and traffic lights.
+vehicles and traffic lights (Getter Methods).
+
+
 
 Vehicle:
+Attributes/Variables: public int length, breadth
+private int position, speed, acceleration, deceleration, vehicleNum
+Methods/Behaviours: Vehicle, drive, stop, setters/getters.
+
 The vehicle class contains information about each vehicle with relevant methods to update it appropriately.
 Vehicle has a drive method, updating speed and position appropriately.
 Vehicle has a stop method, updating speed and position appropriately.
-Vehicle can also return information about itself.
+Vehicle can also return information about itself (Getter Methods).
+
+Car: (Currently a placeholder)
+Car class inherits everything from vehicle.
+
+Bus: (Currently a placeholder)
+Bus class inherits everything from vehicle.
+
+Motorbike: (Currently a placeholder)
+Motorbike class inherits everything from vehicle.
+
+
 
 TrafficLight:
 Note: At the moment TrafficLight is using a boolean for status to signify red or green, this will be changed to add
 an amber light in a future version.
-TrafficLight
+
+Attributes/Variables: private int position, lightnum. private boolean status.
+Methods/Behaviours: TrafficLight, toggleColour, isStatus, setters/getters
+
+TrafficLight has a toggle colour method which switches the lights status.
+TrafficLight has an isStatus method which returns the current status of the light.
+TrafficLight can also return information about itself (Getter Methods)
