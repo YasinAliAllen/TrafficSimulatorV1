@@ -1,47 +1,74 @@
+import java.util.ArrayList;
+
 public class RoadStraight {
     private int length;
-    private Vehicle vehicle;
-    private TrafficLight trafficLight;
-
-    public RoadStraight() {
-        length = 20;
-    }
+    private ArrayList<Vehicle> vehicles = new ArrayList<>();
+    private ArrayList<TrafficLight> trafficLights = new ArrayList<>();
 
     public RoadStraight(int length) {
         this.length = length;
     }
 
-    public void createVehicle(String type, int position) {
+    void createVehicle(String type,
+                       int position, int vehicleNum, int breadth, int speed, int acceleration, int deceleration) {
         switch (type) {
             case "Car":
-                vehicle = new Car(position);
+                Car car = new Car(position, vehicleNum, breadth, speed, acceleration, deceleration);
+                vehicles.add(car);
                 break;
             case "Motorbike":
-                vehicle = new Motorbike();
+                Motorbike motorbike = new Motorbike(position, vehicleNum, breadth, speed, acceleration, deceleration);
+                vehicles.add(motorbike);
                 break;
             case "Bus":
-                vehicle = new Bus();
+                Bus bus = new Bus(position, vehicleNum, breadth, speed, acceleration, deceleration);
+                vehicles.add(bus);
                 break;
         }
     }
 
-    public void destroyVehicle(int position) {
-        vehicle = null;
+    void destroyVehicle(int vehicleNum) {
+        for (int i = 0; i < vehicles.size(); i++)
+            if (vehicles.get(i).getVehicleNum() == vehicleNum) //removes car with matching number
+                vehicles.remove(i);
     }
 
-    public void createTrafficLight() {
-        trafficLight = new TrafficLight();
+    void createTrafficLight(int trafficLightNum, int position) {
+        TrafficLight trafficLight = new TrafficLight(trafficLightNum, position);
+        trafficLights.add(trafficLight);
     }
 
-    public int getLength() {
+    int getLength() {
         return length;
     }
 
-    public Vehicle getVehicle() {
-        return vehicle;
+    Vehicle getVehicle(int vehicleNum) {
+        if (vehicles.isEmpty())
+            return null;
+        else
+            for (Vehicle value : vehicles) { //cycles through all vehicles
+                if (value.getVehicleNum() == vehicleNum) //gets car with matching number
+                    return value;
+            }
+        return null;
     }
 
-    public TrafficLight getTrafficLight() {
-        return trafficLight;
+    public int countVehicles() {
+        return vehicles.size();
+    }
+
+    int countLights() {
+        return trafficLights.size();
+    }
+
+    public TrafficLight getTrafficLight(int lightNum) {
+        if (trafficLights.isEmpty())
+            return null;
+        else
+            for (TrafficLight value : trafficLights) { //cycles through all vehicles
+                if (value.getLightNumber() == lightNum) //gets car with matching number
+                    return value;
+            }
+        return null;
     }
 }

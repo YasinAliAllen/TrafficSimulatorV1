@@ -1,53 +1,38 @@
 public class Vehicle {
-    private int position, length, breadth, speed, acceleration, deceleration;
+    public int length, breadth; //these will be used in next program
+    private int position, speed, acceleration, deceleration, vehicleNum;
 
-    public Vehicle() {
-        position = 0;
-        breadth = 1;
-        length = 2 * breadth;
-        speed = 0;
-        acceleration = 1;
-        deceleration = 2;
-    }
-
-    public Vehicle(int position, int length, int breadth, int speed, int acceleration, int deceleration) {
+    public Vehicle(int position, int vehicleNum, int breadth, int speed, int acceleration, int deceleration) {
         this.position = position;
-        this.length = length;
         this.breadth = breadth;
+        this.length = 2 * breadth;
         this.speed = speed;
         this.acceleration = acceleration;
         this.deceleration = deceleration;
+        this.vehicleNum = vehicleNum;
     }
 
-    public Vehicle(int position) {
-        this.position = position;
-        breadth = 1;
-        length = 2 * breadth;
-        speed = 0;
-        acceleration = 1;
-        deceleration = 2;
-    }
-
-    public void drive(int maxSpeed) {
-        position += speed;
+    void drive(int maxSpeed) {
         if (speed + acceleration < maxSpeed)
             speed += acceleration;
         else
             speed = maxSpeed;
+        position += speed;
     }
 
-    public void stop() {
+    void stop() {
         if (speed - deceleration > 0)
             speed -= deceleration;
         else
             speed = 0;
+        position += speed;
     }
 
-    public int getPosition() {
+    int getPosition() {
         return position;
     }
 
-    public int getSpeed() {
+    int getSpeed() {
         return speed;
     }
 
@@ -55,7 +40,15 @@ public class Vehicle {
         return deceleration;
     }
 
-    public void setSpeed(int speed) {
+    void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    int getVehicleNum() {
+        return vehicleNum;
+    }
+
+    int getAcceleration() {
+        return acceleration;
     }
 }

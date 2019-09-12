@@ -1,20 +1,26 @@
-public class TrafficLight {
-    int position;
-    boolean status; //true = green | false = red
+class TrafficLight {
+    private int position;
+    private boolean status; //true = green | false = red
+    private int lightNum;
 
-    public void toggleColour() {
+    TrafficLight(int lightNum, int position) {
+        this.position = position;
+        this.lightNum = lightNum;
+    }
+
+    void toggleColour() {
         status = !status;
     }
 
-    public int getPosition() {
+    int getPosition() {
         return position;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    boolean isStatus() {
+        return status;
     }
 
-    public boolean isStatus() {
-        return status;
+    int getLightNumber() {
+        return lightNum;
     }
 }

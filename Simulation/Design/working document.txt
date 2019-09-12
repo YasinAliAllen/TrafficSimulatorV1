@@ -1,0 +1,35 @@
+Program Specification
+A traffic simulator with the ability to edit and simulate the users chosen design.
+This simulation should return something useful like the average speed of cars throughout the simulation.
+This allows the user to test different designs and discover which is best at promoting traffic flow.
+
+Class Breakdown
+
+Main:
+Only contains Main() method.
+The main class will be used to switch the program between either simulation mode or editor mode.
+Main will initialise in simulation mode by creating a Simulation() class and calling appropriate methods.
+
+Simulation:
+The Simulation class contains methods pertaining to activities handled by the simulation.
+The Simulation stores all roads in an array allowing for the to interact with each other allowing simulation to have
+vehicles transition between roads.
+Simulation handles interaction between vehicles and traffic lights.
+Simulation checks on a per road basis what needs to be updated and then does so accordingly.
+
+RoadStraight:
+Note: This is for the moment the base road type, it may be refactored into a Road class if its chosen to be used as a
+basis for all future road types. In future the program will have 3 road types.
+RoadStraight is creatable with a specified length, defining its endpoint.
+RoadStraight contains all vehicles and traffic lights relevant to its position. This allows for these objects to be
+obtained by Simulation from RoadStraight.
+RoadStraight allows for vehicles to be created or destroyed, this can be used by simulation to transfer vehicles
+between roads.
+RoadStraight allows for TrafficLights to be created, allowing them to interact with vehicles at a more precise level
+RoadStraight has methods which returns information about what is contained on the road, like the amount of
+vehicles and traffic lights.
+
+Vehicle:
+The vehicle class contains information about each vehicle with relevant methods to update it appropriately.
+Vehicle will have a drive method, updating speed and position appropriately.
+Vehicle will have a stop method, updating speed and position appropriately.
