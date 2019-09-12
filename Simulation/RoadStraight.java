@@ -5,10 +5,6 @@ public class RoadStraight {
     private ArrayList<Vehicle> vehicles = new ArrayList<>();
     private ArrayList<TrafficLight> trafficLights = new ArrayList<>();
 
-    public RoadStraight() {
-        length = 20;
-    }
-
     public RoadStraight(int length) {
         this.length = length;
     }
