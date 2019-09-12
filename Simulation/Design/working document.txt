@@ -3,7 +3,17 @@ A traffic simulator with the ability to edit and simulate the users chosen desig
 This simulation should return something useful like the average speed of cars throughout the simulation.
 This allows the user to test different designs and discover which is best at promoting traffic flow.
 
-Class Breakdown
+Problem Decomposition:
+This program is using the following objects: Main, Simulation, RoadStraight, Vehicle, TrafficLight, Car, Bus, Motorbike.
+Main calls Simulation. Simulation uses an array of RoadStraights to store information about each road and update them.
+RoadStraight uses arrays of vehicles and lights to create, destroy and store information on them and update them.
+Car, Bus and Motorbike are all subclasses of Vehicle.
+Vehicles have methods allowing them to update their information.
+TrafficLight is called when present on a RoadStraight with a vehicle and returns information allowing for proper
+interaction.
+TrafficLights also have methods allowing them to change their status.
+
+Class Design:
 
 Main:
 Only contains Main() method.
@@ -31,5 +41,11 @@ vehicles and traffic lights.
 
 Vehicle:
 The vehicle class contains information about each vehicle with relevant methods to update it appropriately.
-Vehicle will have a drive method, updating speed and position appropriately.
-Vehicle will have a stop method, updating speed and position appropriately.
+Vehicle has a drive method, updating speed and position appropriately.
+Vehicle has a stop method, updating speed and position appropriately.
+Vehicle can also return information about itself.
+
+TrafficLight:
+Note: At the moment TrafficLight is using a boolean for status to signify red or green, this will be changed to add
+an amber light in a future version.
+TrafficLight
