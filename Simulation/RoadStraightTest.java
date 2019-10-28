@@ -8,15 +8,15 @@ class RoadStraightTest {
     @Test
     void createVehicle() {
         road.createVehicle("Car", 0, 0, 1, 0);
-        assertNotNull(road.getVehicle(0));
+        assertNotNull(road.getVehicle(0, 0));
     }
 
     @Test
     void destroyVehicle() {
         road.createVehicle("Car", 0, 0, 1, 0);
-        assertNotNull(road.getVehicle(0));
-        road.destroyVehicle(0);
-        assertNull(road.getVehicle(0));
+        assertNotNull(road.getVehicle(0, 0));
+        road.destroyVehicle(0, 0);
+        assertNull(road.getVehicle(0, 0));
     }
 
     @Test
@@ -32,16 +32,16 @@ class RoadStraightTest {
 
     @Test
     void getVehicle() {
-        assertNull(road.getVehicle(0));
+        assertNull(road.getVehicle(0, 0));
         road.createVehicle("Car", 0, 0, 1, 0);
-        assertNotNull(road.getVehicle(0));
+        assertNotNull(road.getVehicle(0, 0));
     }
 
     @Test
     void countVehicles() {
         for (int i = 0; i < 3; i++) {
             road.createVehicle("Car", 0, i, 1, 0);
-            assertEquals(i + 1, road.countVehicles());
+            assertEquals(i + 1, road.countVehicles(0));
         }
     }
 

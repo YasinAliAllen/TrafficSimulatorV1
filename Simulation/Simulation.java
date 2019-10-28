@@ -4,7 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Simulation {
-    private final int NUMROADS = 10, NUMLIGHTS = 3, NUMCARS = 2;
+    private final int NUMROADS = 10, NUMLIGHTS = 3, NUMCARS = 2, LANE = 0;
     private int currentCars = NUMCARS;
     private int time;
     private ArrayList<RoadStraight> roads = new ArrayList<>();//array storing roads
@@ -48,37 +48,37 @@ public class Simulation {
     private void changeRoads(int roadNum, int vehicleNum) {
         if (roadNum + 1 == NUMROADS) {
             System.out.println("We have run out of road for vehicle " + vehicleNum);
-            roads.get(roadNum).destroyVehicle(vehicleNum);
+            roads.get(roadNum).destroyVehicle(vehicleNum, LANE);
             currentCars--;
         } else {
             roads.get(roadNum + 1).createVehicle("Car",
-                    (roads.get(roadNum).getVehicle(vehicleNum).getPosition() +
-                            roads.get(roadNum).getVehicle(vehicleNum).getSpeed()) % roads.get(roadNum).getLength(),
-                    roads.get(roadNum).getVehicle(vehicleNum).getVehicleNum(),
-                    1, 3); //Creates car on next road
+                    (roads.get(roadNum).getVehicle(vehicleNum, LANE).getPosition() +
+                            roads.get(roadNum).getVehicle(vehicleNum, LANE).getSpeed()) % roads.get(roadNum).getLength(),
+                    roads.get(roadNum).getVehicle(vehicleNum, LANE).getVehicleNum(),
+                    1, LANE); //Creates car on next road
             roads.get(roadNum + 1)
-                    .getVehicle(vehicleNum).setSpeed(roads.get(roadNum).getVehicle(vehicleNum).getSpeed());
+                    .getVehicle(vehicleNum, LANE).setSpeed(roads.get(roadNum).getVehicle(vehicleNum, LANE).getSpeed());
             //Sets new cars speed
-            roads.get(roadNum).destroyVehicle(vehicleNum); //Removes old car from old road
+            roads.get(roadNum).destroyVehicle(vehicleNum, LANE); //Removes old car from old road
         }
     }
 
     private void changeRoadsAccelerating(int roadNum, int vehicleNum) {
         if (roadNum + 1 == NUMROADS) {
             System.out.println("We have run out of road for vehicle " + vehicleNum);
-            roads.get(roadNum).destroyVehicle(vehicleNum);
+            roads.get(roadNum).destroyVehicle(vehicleNum, LANE);
             currentCars--;
 
         } else {
             roads.get(roadNum + 1).createVehicle("Car",
-                    (roads.get(roadNum).getVehicle(vehicleNum).getPosition() +
-                            roads.get(roadNum).getVehicle(vehicleNum).getSpeed() +
-                            roads.get(roadNum).getVehicle(vehicleNum).getAcceleration()) %
+                    (roads.get(roadNum).getVehicle(vehicleNum, LANE).getPosition() +
+                            roads.get(roadNum).getVehicle(vehicleNum, LANE).getSpeed() +
+                            roads.get(roadNum).getVehicle(vehicleNum, LANE).getAcceleration()) %
                             roads.get(roadNum).getLength(),
-                    roads.get(roadNum).getVehicle(vehicleNum).getVehicleNum(), 1,
-                    roads.get(roadNum).getVehicle(vehicleNum).getSpeed() +
-                            roads.get(roadNum).getVehicle(vehicleNum).getAcceleration()); //Creates car on next road
-            roads.get(roadNum).destroyVehicle(vehicleNum); //Removes old car from road
+                    roads.get(roadNum).getVehicle(vehicleNum, LANE).getVehicleNum(), 1,
+                    roads.get(roadNum).getVehicle(vehicleNum, LANE).getSpeed() +
+                            roads.get(roadNum).getVehicle(vehicleNum, LANE).getAcceleration()); //Creates car on next road
+            roads.get(roadNum).destroyVehicle(vehicleNum, LANE); //Removes old car from road
         }
     }
 
@@ -99,17 +99,17 @@ public class Simulation {
                 if (roads.get(roadNum).getTrafficLight(t) != null)
                     if (roads.get(roadNum).getTrafficLight(t).isStatus())
                         // checks for green light or no light
-                        roads.get(roadNum).getVehicle(vehicleNum).drive();
+                        roads.get(roadNum).getVehicle(vehicleNum, LANE).drive();
                     else {
-                        if ((roads.get(roadNum).getVehicle(vehicleNum).getPosition() <=
+                        if ((roads.get(roadNum).getVehicle(vehicleNum, LANE).getPosition() <=
                                 //checks if car needs to stop before light
                                 roads.get(roadNum).getTrafficLight(t).getPosition()) &&
-                                (roads.get(roadNum).getVehicle(vehicleNum).getPosition() +
-                                        roads.get(roadNum).getVehicle(vehicleNum).getSpeed() >=
+                                (roads.get(roadNum).getVehicle(vehicleNum, LANE).getPosition() +
+                                        roads.get(roadNum).getVehicle(vehicleNum, LANE).getSpeed() >=
                                         roads.get(roadNum).getTrafficLight(t).getPosition())) {
-                            roads.get(roadNum).getVehicle(vehicleNum).stop();
+                            roads.get(roadNum).getVehicle(vehicleNum, LANE).stop();
                         } else
-                            roads.get(roadNum).getVehicle(vehicleNum).drive();
+                            roads.get(roadNum).getVehicle(vehicleNum, LANE).drive();
                     }
             }
         }
@@ -122,33 +122,33 @@ public class Simulation {
             public void run() {
                 for (int roadNum = 0; roadNum < roads.size(); roadNum++) { //updates all roads
                     for (int vehicleNum = 0; vehicleNum < NUMCARS; vehicleNum++) {
-                        if (roads.get(roadNum).getVehicle(vehicleNum) != null) { //checks for vehicles
+                        if (roads.get(roadNum).getVehicle(vehicleNum, LANE) != null) { //checks for vehicles
                             System.out.printf("Vehicle: %d | Road: %d | Position: %d\n",
-                                    roads.get(roadNum).getVehicle(vehicleNum).getVehicleNum(), roadNum,
-                                    roads.get(roadNum).getVehicle(vehicleNum).getPosition());
-                            if (roads.get(roadNum).getVehicle(vehicleNum).getSpeed() ==
-                                    roads.get(roadNum).getVehicle(vehicleNum).getMAXSPEED())
+                                    roads.get(roadNum).getVehicle(vehicleNum, LANE).getVehicleNum(), roadNum,
+                                    roads.get(roadNum).getVehicle(vehicleNum, LANE).getPosition());
+                            if (roads.get(roadNum).getVehicle(vehicleNum, LANE).getSpeed() ==
+                                    roads.get(roadNum).getVehicle(vehicleNum, LANE).getMAXSPEED())
                             //checks if car needs to accelerate
                             {
-                                if (roads.get(roadNum).getVehicle(vehicleNum).getPosition() +
-                                        roads.get(roadNum).getVehicle(vehicleNum).getSpeed()
+                                if (roads.get(roadNum).getVehicle(vehicleNum, LANE).getPosition() +
+                                        roads.get(roadNum).getVehicle(vehicleNum, LANE).getSpeed()
                                         > roads.get(roadNum).getLength()) //checks if car needs to swap roads
                                     changeRoads(roadNum, vehicleNum);
                             } else {
-                                if (roads.get(roadNum).getVehicle(vehicleNum).getPosition() +
-                                        roads.get(roadNum).getVehicle(vehicleNum).getSpeed() +
-                                        roads.get(roadNum).getVehicle(vehicleNum).getAcceleration()
+                                if (roads.get(roadNum).getVehicle(vehicleNum, LANE).getPosition() +
+                                        roads.get(roadNum).getVehicle(vehicleNum, LANE).getSpeed() +
+                                        roads.get(roadNum).getVehicle(vehicleNum, LANE).getAcceleration()
                                         > roads.get(roadNum).getLength())
                                     //checks if car needs to swap roads + accelerate
                                     changeRoadsAccelerating(roadNum, vehicleNum);
                             }
                         }
-                        if (roads.get(roadNum).getVehicle(vehicleNum) != null) {
+                        if (roads.get(roadNum).getVehicle(vehicleNum, LANE) != null) {
                             //checks for vehicle as one may have been removed
                             if (roads.get(roadNum).countLights() != 0)
                                 checkForLight(roadNum, vehicleNum);
                             else
-                                roads.get(roadNum).getVehicle(vehicleNum).drive();
+                                roads.get(roadNum).getVehicle(vehicleNum, LANE).drive();
                         }
                     }
                     if (time % 25 == 0)
