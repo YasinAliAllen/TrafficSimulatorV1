@@ -39,7 +39,7 @@ This file was generated with Violet UML Editor 2.1.0.
       </borderColor>
       <textColor reference="8"/>
       <name id="9" justification="1" size="3" underlined="false">
-        <text>Main</text>
+        <text>Controller.Main</text>
       </name>
       <attributes id="10" justification="0" size="4" underlined="false">
         <text></text>
@@ -57,7 +57,7 @@ This file was generated with Violet UML Editor 2.1.0.
       <borderColor reference="8"/>
       <textColor reference="8"/>
       <name id="16" justification="1" size="3" underlined="false">
-        <text>Simulation</text>
+        <text>Controller.Simulation</text>
       </name>
       <attributes id="17" justification="0" size="4" underlined="false">
         <text>- NUMROADS : final int
@@ -66,7 +66,7 @@ This file was generated with Violet UML Editor 2.1.0.
 - MAXSPEED : final int
 - currentCars : int
 - time : int
-- roads :  ArrayList&lt;RoadStraight&gt;
+- roads :  ArrayList&lt;Model.RoadStraight&gt;
 - lightsRoads : ArrayList&lt;Integer&gt;
 - carsRoads : ArrayList&lt;Integer&gt;
 - random : Random</text>
@@ -100,7 +100,7 @@ This file was generated with Violet UML Editor 2.1.0.
       </borderColor>
       <textColor reference="24"/>
       <name id="25" justification="1" size="3" underlined="false">
-        <text>Vehicle</text>
+        <text>Model.Vehicle</text>
       </name>
       <attributes id="26" justification="0" size="4" underlined="false">
         <text>- position : int
@@ -112,7 +112,7 @@ This file was generated with Violet UML Editor 2.1.0.
 - breadth : int</text>
       </attributes>
       <methods id="27" justification="0" size="4" underlined="false">
-        <text>+ Vehicle(position, vehicleNum, breadth, speed, acceleration, deceleration)
+        <text>+ Model.Vehicle(position, vehicleNum, breadth, speed, acceleration, deceleration)
 + stop() : void
 </text>
       </methods>
@@ -147,13 +147,13 @@ This file was generated with Violet UML Editor 2.1.0.
       <borderColor reference="24"/>
       <textColor reference="24"/>
       <name id="39" justification="1" size="3" underlined="false">
-        <text>Car</text>
+        <text>Model.Car</text>
       </name>
       <attributes id="40" justification="0" size="4" underlined="false">
         <text></text>
       </attributes>
       <methods id="41" justification="0" size="4" underlined="false">
-        <text>+ Car(position, vehicleNum, breadth, speed, acceleration, deceleration)</text>
+        <text>+ Model.Car(position, vehicleNum, breadth, speed, acceleration, deceleration)</text>
       </methods>
     </ClassNode>
     <ClassNode id="42">
@@ -165,13 +165,13 @@ This file was generated with Violet UML Editor 2.1.0.
       <borderColor reference="24"/>
       <textColor reference="24"/>
       <name id="46" justification="1" size="3" underlined="false">
-        <text>Motorbike</text>
+        <text>Model.Motorbike</text>
       </name>
       <attributes id="47" justification="0" size="4" underlined="false">
         <text></text>
       </attributes>
       <methods id="48" justification="0" size="4" underlined="false">
-        <text>+ Motorbike(position, vehicleNum, breadth, speed, acceleration, deceleration)</text>
+        <text>+ Model.Motorbike(position, vehicleNum, breadth, speed, acceleration, deceleration)</text>
       </methods>
     </ClassNode>
     <ClassNode id="49">
@@ -183,13 +183,13 @@ This file was generated with Violet UML Editor 2.1.0.
       <borderColor reference="24"/>
       <textColor reference="24"/>
       <name id="53" justification="1" size="3" underlined="false">
-        <text>Bus</text>
+        <text>Model.Bus</text>
       </name>
       <attributes id="54" justification="0" size="4" underlined="false">
         <text></text>
       </attributes>
       <methods id="55" justification="0" size="4" underlined="false">
-        <text>+ Bus(position, vehicleNum, breadth, speed, acceleration, deceleration)</text>
+        <text>+ Model.Bus(position, vehicleNum, breadth, speed, acceleration, deceleration)</text>
       </methods>
     </ClassNode>
     <ClassNode id="56">
@@ -201,15 +201,15 @@ This file was generated with Violet UML Editor 2.1.0.
       <borderColor reference="24"/>
       <textColor reference="24"/>
       <name id="60" justification="1" size="3" underlined="false">
-        <text>RoadStraight</text>
+        <text>Model.RoadStraight</text>
       </name>
       <attributes id="61" justification="0" size="4" underlined="false">
         <text>- length : int
-- vehicles : ArrayList&lt;Vehicle&gt;
-- trafficLights : ArrayList&lt;TrafficLight&gt;</text>
+- vehicles : ArrayList&lt;Model.Vehicle&gt;
+- trafficLights : ArrayList&lt;Model.TrafficLight&gt;</text>
       </attributes>
       <methods id="62" justification="0" size="4" underlined="false">
-        <text>+ RoadStraight(length)
+        <text>+ Model.RoadStraight(length)
 + createVehicle(type, position, vehicleNum, breadth, speed, acceleration, deceleration) : void
 + destroyVehicle(vehicleNum) : void
 + createTrafficLight(trafficLightNum, position) : void

@@ -1,13 +1,15 @@
-public class Motorbike extends Vehicle {
-    private final int MAXSPEED = 8, ACCELERATION = 4, DECELERATION = 4;
-    private int length = carBreadth;
+package Model;
 
-    public Motorbike(int position, int vehicleNum, int speed) {
+public class Bus extends Vehicle {
+    private final int MAXSPEED = 4, ACCELERATION = 1, DECELERATION = 2;
+    private int length = 6 * carBreadth;
+
+    public Bus(int position, int vehicleNum, int speed) {
         super(position, vehicleNum, speed);
     }
 
     @Override
-    void drive() {
+    public void drive() {
         if (speed + ACCELERATION < MAXSPEED)
             speed += ACCELERATION;
         else
@@ -16,7 +18,7 @@ public class Motorbike extends Vehicle {
     }
 
     @Override
-    void stop() {
+    public void stop() {
         if (speed - DECELERATION > 0)
             speed -= DECELERATION;
         else
@@ -25,7 +27,7 @@ public class Motorbike extends Vehicle {
     }
 
     @Override
-    int getMAXSPEED() {
+    public int getMAXSPEED() {
         return MAXSPEED;
     }
 
@@ -40,7 +42,7 @@ public class Motorbike extends Vehicle {
     }
 
     @Override
-    int getAcceleration() {
+    public int getAcceleration() {
         return ACCELERATION;
     }
 }

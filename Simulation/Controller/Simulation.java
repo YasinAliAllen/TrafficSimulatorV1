@@ -1,3 +1,7 @@
+package Controller;
+
+import Model.RoadStraight;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -30,8 +34,8 @@ public class Simulation {
             for (int c = 0; c < NUMCARS; c++) { // creates cars
                 if (roads.size() == carsRoads.get(c)) {
                     int carPosition = random.nextInt(roadStraight.getLength());
-                    roadStraight.createVehicle("Car", carPosition, c, 1, 0);
-                    System.out.printf("Car %d created on road %d at position %d.\n", c, i, carPosition);
+                    roadStraight.createVehicle("Model.Motorbike", carPosition, c, 1, 0);
+                    System.out.printf("Model.Car %d created on road %d at position %d.\n", c, i, carPosition);
                 }
             }
             for (int j = 0; j < NUMLIGHTS; j++) { // creates a traffic light on a road
@@ -51,7 +55,7 @@ public class Simulation {
             roads.get(roadNum).destroyVehicle(vehicleNum, LANE);
             currentCars--;
         } else {
-            roads.get(roadNum + 1).createVehicle("Car",
+            roads.get(roadNum + 1).createVehicle("Model.Car",
                     (roads.get(roadNum).getVehicle(vehicleNum, LANE).getPosition() +
                             roads.get(roadNum).getVehicle(vehicleNum, LANE).getSpeed()) % roads.get(roadNum).getLength(),
                     roads.get(roadNum).getVehicle(vehicleNum, LANE).getVehicleNum(),
@@ -70,7 +74,7 @@ public class Simulation {
             currentCars--;
 
         } else {
-            roads.get(roadNum + 1).createVehicle("Car",
+            roads.get(roadNum + 1).createVehicle("Model.Car",
                     (roads.get(roadNum).getVehicle(vehicleNum, LANE).getPosition() +
                             roads.get(roadNum).getVehicle(vehicleNum, LANE).getSpeed() +
                             roads.get(roadNum).getVehicle(vehicleNum, LANE).getAcceleration()) %
@@ -123,7 +127,7 @@ public class Simulation {
                 for (int roadNum = 0; roadNum < roads.size(); roadNum++) { //updates all roads
                     for (int vehicleNum = 0; vehicleNum < NUMCARS; vehicleNum++) {
                         if (roads.get(roadNum).getVehicle(vehicleNum, LANE) != null) { //checks for vehicles
-                            System.out.printf("Vehicle: %d | Road: %d | Position: %d\n",
+                            System.out.printf("Model.Vehicle: %d | Road: %d | Position: %d\n",
                                     roads.get(roadNum).getVehicle(vehicleNum, LANE).getVehicleNum(), roadNum,
                                     roads.get(roadNum).getVehicle(vehicleNum, LANE).getPosition());
                             if (roads.get(roadNum).getVehicle(vehicleNum, LANE).getSpeed() ==

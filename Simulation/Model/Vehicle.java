@@ -1,3 +1,5 @@
+package Model;
+
 public abstract class Vehicle {
     public int position, speed, vehicleNum, carBreadth = 1;
 
@@ -7,31 +9,31 @@ public abstract class Vehicle {
         this.vehicleNum = vehicleNum;
     }
 
-    abstract void drive();
+    public abstract void drive();
 
-    abstract void stop();
+    public abstract void stop();
 
-    abstract int getMAXSPEED();
+    public abstract int getMAXSPEED();
 
     abstract int getLength();
 
-    int getPosition() {
+    public int getPosition() {
         return position;
     }
 
-    int getSpeed() {
+    public int getSpeed() {
         return speed;
     }
 
     abstract int getDeceleration();
 
-    void setSpeed(int speed) {
+    public void setSpeed(int speed) {
         this.speed = speed;
     }
 
-    int getVehicleNum() {
+    public int getVehicleNum() {
         return vehicleNum;
     }
 
-    abstract int getAcceleration();
+    public abstract int getAcceleration();
 }
