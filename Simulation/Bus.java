@@ -1,5 +1,46 @@
 public class Bus extends Vehicle {
-    public Bus(int position, int vehicleNum, int breadth, int speed, int acceleration, int deceleration) {
-        super(position, vehicleNum, breadth, speed, acceleration, deceleration);
+    private final int MAXSPEED = 4, ACCELERATION = 1, DECELERATION = 2;
+    private int length = 6 * carBreadth;
+
+    public Bus(int position, int vehicleNum, int speed) {
+        super(position, vehicleNum, speed);
+    }
+
+    @Override
+    void drive() {
+        if (speed + ACCELERATION < MAXSPEED)
+            speed += ACCELERATION;
+        else
+            speed = MAXSPEED;
+        position += speed;
+    }
+
+    @Override
+    void stop() {
+        if (speed - DECELERATION > 0)
+            speed -= DECELERATION;
+        else
+            speed = 0;
+        position += speed;
+    }
+
+    @Override
+    int getMAXSPEED() {
+        return MAXSPEED;
+    }
+
+    @Override
+    int getLength() {
+        return length;
+    }
+
+    @Override
+    int getDeceleration() {
+        return DECELERATION;
+    }
+
+    @Override
+    int getAcceleration() {
+        return ACCELERATION;
     }
 }

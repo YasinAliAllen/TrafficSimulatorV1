@@ -1,32 +1,19 @@
-public class Vehicle {
-    public int length, breadth; //these will be used in next program
-    private int position, speed, acceleration, deceleration, vehicleNum;
+public abstract class Vehicle {
+    public int position, speed, vehicleNum, carBreadth = 1;
 
-    public Vehicle(int position, int vehicleNum, int breadth, int speed, int acceleration, int deceleration) {
+    public Vehicle(int position, int vehicleNum, int speed) {
         this.position = position;
-        this.breadth = breadth;
-        this.length = 2 * breadth;
         this.speed = speed;
-        this.acceleration = acceleration;
-        this.deceleration = deceleration;
         this.vehicleNum = vehicleNum;
     }
 
-    void drive(int maxSpeed) {
-        if (speed + acceleration < maxSpeed)
-            speed += acceleration;
-        else
-            speed = maxSpeed;
-        position += speed;
-    }
+    abstract void drive();
 
-    void stop() {
-        if (speed - deceleration > 0)
-            speed -= deceleration;
-        else
-            speed = 0;
-        position += speed;
-    }
+    abstract void stop();
+
+    abstract int getMAXSPEED();
+
+    abstract int getLength();
 
     int getPosition() {
         return position;
@@ -36,9 +23,7 @@ public class Vehicle {
         return speed;
     }
 
-    public int getDeceleration() {
-        return deceleration;
-    }
+    abstract int getDeceleration();
 
     void setSpeed(int speed) {
         this.speed = speed;
@@ -48,7 +33,5 @@ public class Vehicle {
         return vehicleNum;
     }
 
-    int getAcceleration() {
-        return acceleration;
-    }
+    abstract int getAcceleration();
 }

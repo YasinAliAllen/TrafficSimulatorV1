@@ -10,18 +10,18 @@ public class RoadStraight {
     }
 
     void createVehicle(String type,
-                       int position, int vehicleNum, int breadth, int speed, int acceleration, int deceleration) {
+                       int position, int vehicleNum, int breadth, int speed) {
         switch (type) {
             case "Car":
-                Car car = new Car(position, vehicleNum, breadth, speed, acceleration, deceleration);
+                Vehicle car = new Car(position, vehicleNum, speed);
                 vehicles.add(car);
                 break;
             case "Motorbike":
-                Motorbike motorbike = new Motorbike(position, vehicleNum, breadth, speed, acceleration, deceleration);
+                Vehicle motorbike = new Motorbike(position, vehicleNum, speed);
                 vehicles.add(motorbike);
                 break;
             case "Bus":
-                Bus bus = new Bus(position, vehicleNum, breadth, speed, acceleration, deceleration);
+                Vehicle bus = new Bus(position, vehicleNum, speed);
                 vehicles.add(bus);
                 break;
         }
