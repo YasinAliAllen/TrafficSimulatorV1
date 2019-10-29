@@ -13,12 +13,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class TrafficSimGUI extends JFrame implements ActionListener {
+    int rotations = 0;
     final int ROWS = 16, COLUMNS = 32;
     JLabel label = new JLabel("Status: Editor...");
     private ArrayList<ArrayList<ItemPanel>> itemPanelsArray = new ArrayList<>();//array storing itemPanels
-
     BufferedImage roadImage;
     private ArrayList<ItemPanel> itemPanelsRow = new ArrayList<>();
+
     JMenuBar menuBar = new JMenuBar();
     JMenu file = new JMenu("File");
     JMenuItem save = new JMenuItem("Save");
@@ -33,7 +34,7 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
 
     public TrafficSimGUI() {
 
-        loadImage();
+        loadImage(".\\Simulation\\View\\Images\\HorizontalRoad.jpg");
         setTitle("Traffic Simulator V2.0");
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -99,9 +100,9 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
     }
 
 
-    private void loadImage() {
+    private void loadImage(String path) {
         try {
-            roadImage = ImageIO.read(new File(".\\Simulation\\View\\Images\\yeet.jpg"));
+            roadImage = ImageIO.read(new File(path));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -135,8 +136,26 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                                 panel.repaint();
                             }
                             break;
-                        case 2:
-                            break; //rotate road
+                        case 2: //rotate road
+                            System.out.println("Item Rotated");
+                            if (rotations == 0) {
+                                loadImage(".\\Simulation\\View\\Images\\VerticalRoad.jpg");
+                                ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
+                                        panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
+                                label.setIcon(image);
+                                panel.repaint();
+                                rotations++;
+                            } else {
+                                if (rotations == 1) {
+                                    loadImage(".\\Simulation\\View\\Images\\HorizontalRoad.jpg");
+                                    ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
+                                            panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
+                                    label.setIcon(image);
+                                    panel.repaint();
+                                    rotations = 0;
+                                }
+                            }
+                            break;
                     }
                 }
 

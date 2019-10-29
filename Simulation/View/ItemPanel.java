@@ -4,6 +4,7 @@ package View;
 import javax.swing.*;
 
 public class ItemPanel extends JPanel {
+    private String rotation = "";
     private String roadType = "";
     private boolean hasRoad = false;
     private boolean hasLights = false;
@@ -34,5 +35,13 @@ public class ItemPanel extends JPanel {
 
     public void setRoadType(String roadType) {
         this.roadType = roadType;
+    }
+
+    public String getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(String rotation) {
+        this.rotation = rotation;
     }
 }
