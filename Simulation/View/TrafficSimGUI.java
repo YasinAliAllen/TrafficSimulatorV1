@@ -37,6 +37,7 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         final int ROWS = 16, COLUMNS = 32;
         setJMenuBar(menuBar);
         setLayout(new GridLayout(ROWS, COLUMNS));
+
         for (int i = 0; i < ROWS * COLUMNS; i++) {
             ItemPanel panel = new ItemPanel();
             JLabel label = new JLabel();
@@ -48,30 +49,48 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                 public void mouseClicked(MouseEvent e) {
                     super.mouseClicked(e);
                     switch (e.getButton()) {
-                        case 0:
+                        case 1: //place or remove road
+                            if (panel.hasRoad()) {
+                                panel.setHasRoad(false);
+                                System.out.println("Road Removed!");
+                                label.setIcon(null);
+                                panel.repaint();
+                            } else {
+                                System.out.println("Road Placed!");
+                                panel.setHasRoad(true);
+                                ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
+                                        panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
+                                label.setIcon(image);
+                                panel.repaint();
+                            }
                             break;
+                        case 2:
+                            break; //rotate road
                     }
                 }
-
                 @Override
-                public void mouseEntered(MouseEvent e) {
-                    super.mouseEntered(e);
-                    ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
-                            panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
-                    label.setIcon(image);
-                    panel.repaint();
+                public void mouseEntered(MouseEvent e) { //show a preview of the item being placed
+                    if (!panel.hasRoad()) {
+                        super.mouseEntered(e);
+                        ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
+                                panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
+                        label.setIcon(image);
+                        panel.repaint();
+                    }
                 }
-
                 @Override
-                public void mouseExited(MouseEvent e) {
-                    super.mouseExited(e);
-                    label.setIcon(null);
-                    panel.repaint();
+                public void mouseExited(MouseEvent e) { //remove the preview of the item being placed
+                    if (!panel.hasRoad()) {
+                        super.mouseExited(e);
+                        label.setIcon(null);
+                        panel.repaint();
+                    }
                 }
             });
             repaint();
             add(panel);
         }
+
         menuBar.add(file);
         menuBar.add(settings);
         menuBar.add(help);
