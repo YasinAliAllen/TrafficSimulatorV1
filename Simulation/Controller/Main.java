@@ -74,7 +74,7 @@ public class Main {
 
                 for (int j = 0; j < items.get(i).size(); j++) {
                     simulationData.get(i).add(items.get(i).get(j).getRoadType() + ", " +
-                            items.get(i).get(j).getRotations() + ". ");
+                            items.get(i).get(j).getRotations() + ", " + items.get(i).get(j).isSpawner());
                 }
                 System.out.println(simulationData.get(i));
             }
@@ -87,7 +87,7 @@ public class Main {
             }
         });
         trafficSimGUI.addRunActionListener(actionEvent -> {
-            simulation.runSimulation();
+            /*            simulation.runSimulation();*/
             trafficSimGUI.updateStatus("Running...");
         });
     }

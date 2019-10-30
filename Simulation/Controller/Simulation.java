@@ -1,24 +1,52 @@
 package Controller;
 
+import Model.Road;
+import Model.RoadFourWay;
 import Model.RoadStraight;
+import Model.RoadThreeWay;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Simulation {
-    private final int NUMROADS = 10, NUMLIGHTS = 3, NUMCARS = 2, LANE = 0;
-    private int currentCars = NUMCARS;
+    final int LENGTH = 20;
+    private int currentCars = 10;
     private int time;
-    private ArrayList<RoadStraight> roads = new ArrayList<>();//array storing roads
+    private ArrayList<ArrayList<Road>> roads = new ArrayList<>();//array storing roads
     private ArrayList<Integer> lightsRoads = new ArrayList<>();//array with random values to assign roads for lights to
     // be on
     private ArrayList<Integer> carsRoads = new ArrayList<>();//array with random values to assign roads for cars to
     // be on
     private Random random = new Random();
 
+    private Road roadBuilder(String roadType, int rotations, boolean isSpawner) {
+        switch (roadType) {
+            case "Road Straight":
+                return new RoadStraight(LENGTH, rotations, isSpawner);
+            case "Road Three Way":
+                return new RoadThreeWay(LENGTH, rotations);
+            case "Road Four Way":
+                return new RoadFourWay(LENGTH);
+            default:
+                return null;
+        }
+    }
+
     void createSimulation(ArrayList<ArrayList<String>> data, int cars, int motorbikes, int busses) {
+        for (int i = 0; i < data.size(); i++) {
+            roads.add(new ArrayList<Road>());
+            for (int j = 0; j < data.get(i).size(); j++) {
+                String roadType = data.get(i).get(j).split(",")[0];
+                int rotation = Integer.parseInt(data.get(i).get(j).split(",")[1]);
+                boolean isSpawner = Boolean.parseBoolean(data.get(i).get(j).split(",")[2]);
+                roads.get(i).add(roadBuilder(roadType, rotation, isSpawner));
+            }
+        }
+    }
+
+
+        /*
+
 
         for (int i = 0; i < NUMLIGHTS; i++) { //randomly selects light road
             int lightsRoad = random.nextInt(NUMROADS);
@@ -169,4 +197,5 @@ public class Simulation {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(timerTask, 0, 1000);
     }
+}*/
 }

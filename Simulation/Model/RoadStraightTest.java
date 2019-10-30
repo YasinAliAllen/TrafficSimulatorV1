@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RoadStraightTest {
-    private RoadStraight road = new RoadStraight(100);
+    private RoadStraight road = new RoadStraight(100, 0, true);
 
     @Test
     void createVehicle() {

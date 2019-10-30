@@ -2,56 +2,55 @@ package Model;
 
 import java.util.ArrayList;
 
-public class RoadStraight {
+public class RoadStraight extends Road {
+
+    private boolean spawner = false;
+    private boolean northConnection = false;
+    private boolean eastConnection = false;
+    private boolean southConnection = false;
+    private boolean westConnection = false;
     private int length;
-    private ArrayList<Vehicle> vehiclesLane0 = new ArrayList<>();
-    private ArrayList<Vehicle> vehiclesLane1 = new ArrayList<>();
+    private ArrayList<ArrayList<Vehicle>> vehiclesLanes = new ArrayList<>();
     private ArrayList<TrafficLight> trafficLights = new ArrayList<>();
 
-    public RoadStraight(int length) {
+    public RoadStraight(int length, int rotations, boolean isSpawner) {
         this.length = length;
+        this.spawner = isSpawner;
+        if (rotations == 0) {
+            eastConnection = true;
+            westConnection = true;
+        } else {
+            northConnection = true;
+            southConnection = true;
+        }
+        vehiclesLanes.add(new ArrayList<Vehicle>());
+        vehiclesLanes.add(new ArrayList<Vehicle>());
     }
 
+    @Override
     public void createVehicle(String type,
                               int position, int vehicleNum, int speed, int lane) {
         switch (type) {
-            case "Model.Car":
+            case "Car":
                 Vehicle car = new Car(position, vehicleNum, speed);
-                if (lane == 0) {
-                    vehiclesLane0.add(car);
-                } else {
-                    vehiclesLane1.add(car);
-                }
+                vehiclesLanes.get(lane).add(car);
                 break;
-            case "Model.Motorbike":
+            case "Motorbike":
                 Vehicle motorbike = new Motorbike(position, vehicleNum, speed);
-                if (lane == 0) {
-                    vehiclesLane0.add(motorbike);
-                } else {
-                    vehiclesLane1.add(motorbike);
-                }
+                vehiclesLanes.get(lane).add(motorbike);
                 break;
-            case "Model.Bus":
+            case "Bus":
                 Vehicle bus = new Bus(position, vehicleNum, speed);
-                if (lane == 0) {
-                    vehiclesLane0.add(bus);
-                } else {
-                    vehiclesLane1.add(bus);
-                }
+                vehiclesLanes.get(lane).add(bus);
                 break;
         }
     }
 
+    @Override
     public void destroyVehicle(int vehicleNum, int lane) {
-        if (lane == 0) {
-            for (int i = 0; i < vehiclesLane0.size(); i++)
-                if (vehiclesLane0.get(i).getVehicleNum() == vehicleNum) //removes car with matching number
-                    vehiclesLane0.remove(i);
-        } else {
-            for (int i = 0; i < vehiclesLane1.size(); i++)
-                if (vehiclesLane1.get(i).getVehicleNum() == vehicleNum) //removes car with matching number
-                    vehiclesLane1.remove(i);
-        }
+        for (int i = 0; i < vehiclesLanes.get(lane).size(); i++)
+            if (vehiclesLanes.get(lane).get(i).getVehicleNum() == vehicleNum) //removes car with matching number
+                vehiclesLanes.get(lane).remove(i);
     }
 
     public void createTrafficLight(int trafficLightNum, int position) {
@@ -63,33 +62,20 @@ public class RoadStraight {
         return length;
     }
 
+    @Override
     public Vehicle getVehicle(int vehicleNum, int lane) {
-        if (lane == 0) {
-            if (vehiclesLane0.isEmpty())
-                return null;
-            else
-                for (Vehicle value : vehiclesLane0) { //cycles through all vehicles
-                    if (value.getVehicleNum() == vehicleNum) //gets car with matching number
-                        return value;
-                }
-        } else {
-            if (vehiclesLane1.isEmpty())
-                return null;
-            else
-                for (Vehicle value : vehiclesLane1) { //cycles through all vehicles
-                    if (value.getVehicleNum() == vehicleNum) //gets car with matching number
-                        return value;
-                }
-        }
+        if (vehiclesLanes.get(lane).isEmpty())
+            return null;
+        else
+            for (Vehicle value : vehiclesLanes.get(lane)) { //cycles through all vehicles
+                if (value.getVehicleNum() == vehicleNum) //gets car with matching number
+                    return value;
+            }
         return null;
     }
 
     public int countVehicles(int lane) {
-        if (lane == 0) {
-            return vehiclesLane0.size();
-        } else {
-            return vehiclesLane1.size();
-        }
+        return vehiclesLanes.get(lane).size();
     }
 
     public int countLights() {
@@ -105,5 +91,21 @@ public class RoadStraight {
                     return value;
             }
         return null;
+    }
+
+    public boolean hasNorthConnection() {
+        return northConnection;
+    }
+
+    public boolean hasEastConnection() {
+        return eastConnection;
+    }
+
+    public boolean hasSouthConnection() {
+        return southConnection;
+    }
+
+    public boolean hasWestConnection() {
+        return westConnection;
     }
 }

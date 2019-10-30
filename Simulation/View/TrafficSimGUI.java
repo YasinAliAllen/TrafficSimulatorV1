@@ -162,20 +162,20 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                             switch (comboBox.getSelectedItem().toString()) {
                                 case "Road Straight":
                                     if (rotations == 0) {
+                                        rotations++;
                                         loadImage(".\\Simulation\\View\\Images\\VerticalRoad.jpg");
                                         ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
                                                 button.getWidth(), button.getHeight(), Image.SCALE_FAST));
                                         button.setIcon(image);
                                         button.repaint();
-                                        rotations++;
                                     } else {
                                         if (rotations == 1) {
+                                            rotations = 0;
                                             loadImage(".\\Simulation\\View\\Images\\HorizontalRoad.jpg");
                                             ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
                                                     button.getWidth(), button.getHeight(), Image.SCALE_FAST));
                                             button.setIcon(image);
                                             button.repaint();
-                                            rotations = 0;
                                         }
                                     }
                                     break;
