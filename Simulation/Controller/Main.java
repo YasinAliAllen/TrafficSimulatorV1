@@ -70,9 +70,11 @@ public class Main {
                         spawners++;
                         items.get(i).get(j).setSpawner(true);
                     }
+                }
+
+                for (int j = 0; j < items.get(i).size(); j++) {
                     simulationData.get(i).add(items.get(i).get(j).getRoadType() + ", " +
                             items.get(i).get(j).getRotations() + ". ");
-
                 }
                 System.out.println(simulationData.get(i));
             }
