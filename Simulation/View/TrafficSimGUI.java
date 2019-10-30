@@ -49,6 +49,7 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         menuBar.add(label);
 
         comboBox.addActionListener(actionEvent -> {
+            rotations = 0;
             switch (comboBox.getSelectedItem().toString()) {
                 case "Road Straight":
                     loadImage(".\\Simulation\\View\\Images\\HorizontalRoad.jpg");
@@ -146,7 +147,8 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                             } else {
                                 System.out.println("Road Placed!");
                                 panel.setHasRoad(true);
-                                panel.setRoadType(comboBox.getSelectedItem().toString());
+                                panel.setRoadType(comboBox.getSelectedItem().toString(), rotations);
+
                                 ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
                                         panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
                                 label.setIcon(image);
