@@ -141,6 +141,7 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                         case 1: //place or remove road
                             if (panel.hasRoad()) {
                                 panel.setHasRoad(false);
+                                panel.setRoadType("", 0);
                                 panel.setNorthConnection(false);
                                 panel.setEastConnection(false);
                                 panel.setSouthConnection(false);

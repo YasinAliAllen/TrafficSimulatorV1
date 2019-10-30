@@ -126,4 +126,8 @@ public class ItemPanel extends JPanel {
     public void setSpawner(boolean spawner) {
         this.spawner = spawner;
     }
+
+    public int getRotations() {
+        return rotations;
+    }
 }
