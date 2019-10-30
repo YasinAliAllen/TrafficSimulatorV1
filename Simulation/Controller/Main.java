@@ -15,16 +15,35 @@ public class Main {
         trafficSimGUI.addSimulationActionListener(actionEvent -> {
             trafficSimGUI.updateStatus("Building...");
             int spawners = 0;
-            boolean roadConnected = false;
+            boolean roadsConnected = true;
             ArrayList<ArrayList<ItemPanel>> items = trafficSimGUI.getItems();
             for (int i = 0; i < items.size(); i++) {
                 for (int j = 0; j < items.get(i).size(); j++) {
-                    if (i != 0 && items.get(i).get(j).hasNorthConnection()) {
-                        if (items.get(i - 1).get(j).hasSouthConnection()) {
-                            roadConnected = true;
+                    if (i != 0 && items.get(i).get(j).hasRoad() && items.get(i).get(j).hasNorthConnection()) { //checks north to south connections
+                        System.out.println("North to south");
+                        if (!items.get(i - 1).get(j).hasSouthConnection()) {
+                            roadsConnected = false;
+                            break;
                         }
-                    } else if ( int )
-
+                    }
+                    if (j != 0 && items.get(i).get(j).hasRoad() && items.get(i).get(j).hasWestConnection()) { //checks west to east connection
+                        if (!items.get(i).get(j - 1).hasEastConnection()) {
+                            roadsConnected = false;
+                            break;
+                        }
+                    }
+                    if ((i != items.size() - 1) && items.get(i).get(j).hasRoad() && items.get(i).get(j).hasSouthConnection()) {
+                        if (!items.get(i + 1).get(j).hasNorthConnection()) {
+                            roadsConnected = false;
+                            break;
+                        }
+                    }
+                    if ((j != items.get(i).size() - 1) &&
+                            items.get(i).get(j).hasEastConnection()) {
+                        if (!items.get(i).get(j + 1).hasWestConnection()) {
+                            roadsConnected = false;
+                        }
+                    }
 
                     //set spawner logic, this can be turned into and ors.
                     if (i == 0 && items.get(i).get(j).isEndPiece() && items.get(i).get(j).hasRoad() &&
@@ -47,11 +66,11 @@ public class Main {
                 }
             }
 
-            if (spawners > 1) {
+            if (spawners > 1 && roadsConnected) {
                 simulation.createSimulation(2, 2, 2);
                 trafficSimGUI.updateStatus("Ready to Run!");
             } else {
-                trafficSimGUI.updateStatus("You need atleast 2 edge pieces!");
+                trafficSimGUI.updateStatus("Ensure all Roads are Connected");
             }
         });
         trafficSimGUI.addRunActionListener(actionEvent -> {

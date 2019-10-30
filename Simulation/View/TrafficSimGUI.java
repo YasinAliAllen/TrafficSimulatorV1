@@ -141,6 +141,10 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                         case 1: //place or remove road
                             if (panel.hasRoad()) {
                                 panel.setHasRoad(false);
+                                panel.setNorthConnection(false);
+                                panel.setEastConnection(false);
+                                panel.setSouthConnection(false);
+                                panel.setWestConnection(false);
                                 System.out.println("Road Removed!");
                                 label.setIcon(null);
                                 panel.repaint();
@@ -179,33 +183,33 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                                     break;
                                 case "Road Three Way":
                                     if (rotations == 0) {
-                                        loadImage(".\\Simulation\\View\\Images\\RoadThreeWayR0.jpg");
-                                        ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
-                                                panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
-                                        label.setIcon(image);
-                                        panel.repaint();
                                         rotations++;
-                                    } else if (rotations == 1) {
                                         loadImage(".\\Simulation\\View\\Images\\RoadThreeWayR1.jpg");
                                         ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
                                                 panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
                                         label.setIcon(image);
                                         panel.repaint();
+                                    } else if (rotations == 1) {
                                         rotations++;
-                                    } else if (rotations == 2) {
                                         loadImage(".\\Simulation\\View\\Images\\RoadThreeWayR2.jpg");
                                         ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
                                                 panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
                                         label.setIcon(image);
                                         panel.repaint();
+                                    } else if (rotations == 2) {
                                         rotations++;
-                                    } else if (rotations == 3) {
                                         loadImage(".\\Simulation\\View\\Images\\RoadThreeWayR3.jpg");
                                         ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
                                                 panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
                                         label.setIcon(image);
                                         panel.repaint();
+                                    } else if (rotations == 3) {
                                         rotations = 0;
+                                        loadImage(".\\Simulation\\View\\Images\\RoadThreeWayR0.jpg");
+                                        ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
+                                                panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
+                                        label.setIcon(image);
+                                        panel.repaint();
                                     }
                                     break;
                             }
