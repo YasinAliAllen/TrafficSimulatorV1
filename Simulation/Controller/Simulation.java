@@ -18,7 +18,8 @@ public class Simulation {
     // be on
     private Random random = new Random();
 
-    void createSimulation(int cars, int motorbikes, int busses) {
+    void createSimulation(ArrayList<ArrayList<String>> data, int cars, int motorbikes, int busses) {
+
         for (int i = 0; i < NUMLIGHTS; i++) { //randomly selects light road
             int lightsRoad = random.nextInt(NUMROADS);
             lightsRoads.add(lightsRoad);

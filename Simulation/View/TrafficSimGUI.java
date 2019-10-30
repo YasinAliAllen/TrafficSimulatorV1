@@ -17,9 +17,9 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
     String[] roadTypes = {"Road Straight", "Road Three Way", "Road Four Way"};
     final int ROWS = 16, COLUMNS = 32;
     JLabel label = new JLabel("Status: Editor...");
-    private ArrayList<ArrayList<ItemPanel>> itemPanelsArray = new ArrayList<>();//array storing itemPanels
+    private ArrayList<ArrayList<ItemButton>> itemButtonsArray = new ArrayList<ArrayList<ItemButton>>();//array storing itemPanels
     BufferedImage roadImage;
-    private ArrayList<ItemPanel> itemPanelsRow = new ArrayList<>();
+    private ArrayList<ItemButton> itemButtonRow = new ArrayList<ItemButton>();
     JComboBox comboBox = new JComboBox(roadTypes);
     JMenuBar menuBar = new JMenuBar();
     JMenu file = new JMenu("File");
@@ -80,7 +80,7 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         help.addActionListener(this);
         help.add(about);
 
-        createPanels();
+        createButtons();
     }
 
     public void addSaveActionListener(ActionListener actionListener) {
@@ -125,39 +125,36 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         }
     }
 
-    private void createPanels() {
+    private void createButtons() {
         int rowEndPos = COLUMNS;
         for (int i = 0; i < ROWS * COLUMNS; i++) {
-            ItemPanel panel = new ItemPanel();
-            JLabel label = new JLabel();
-            label.setVisible(true);
-            panel.add(label);
-            panel.setBackground(Color.GREEN);
-            panel.addMouseListener(new MouseAdapter() {
+            ItemButton button = new ItemButton();
+
+            button.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     super.mouseClicked(e);
                     switch (e.getButton()) {
                         case 1: //place or remove road
-                            if (panel.hasRoad()) {
-                                panel.setHasRoad(false);
-                                panel.setRoadType("", 0);
-                                panel.setNorthConnection(false);
-                                panel.setEastConnection(false);
-                                panel.setSouthConnection(false);
-                                panel.setWestConnection(false);
+                            if (button.hasRoad()) {
+                                button.setHasRoad(false);
+                                button.setRoadType("", 0);
+                                button.setNorthConnection(false);
+                                button.setEastConnection(false);
+                                button.setSouthConnection(false);
+                                button.setWestConnection(false);
                                 System.out.println("Road Removed!");
-                                label.setIcon(null);
-                                panel.repaint();
+                                button.setIcon(null);
+                                button.repaint();
                             } else {
                                 System.out.println("Road Placed!");
-                                panel.setHasRoad(true);
-                                panel.setRoadType(comboBox.getSelectedItem().toString(), rotations);
+                                button.setHasRoad(true);
+                                button.setRoadType(comboBox.getSelectedItem().toString(), rotations);
 
                                 ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
-                                        panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
-                                label.setIcon(image);
-                                panel.repaint();
+                                        button.getWidth(), button.getHeight(), Image.SCALE_FAST));
+                                button.setIcon(image);
+                                button.repaint();
                             }
                             break;
                         case 2: //rotate road
@@ -167,17 +164,17 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                                     if (rotations == 0) {
                                         loadImage(".\\Simulation\\View\\Images\\VerticalRoad.jpg");
                                         ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
-                                                panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
-                                        label.setIcon(image);
-                                        panel.repaint();
+                                                button.getWidth(), button.getHeight(), Image.SCALE_FAST));
+                                        button.setIcon(image);
+                                        button.repaint();
                                         rotations++;
                                     } else {
                                         if (rotations == 1) {
                                             loadImage(".\\Simulation\\View\\Images\\HorizontalRoad.jpg");
                                             ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
-                                                    panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
-                                            label.setIcon(image);
-                                            panel.repaint();
+                                                    button.getWidth(), button.getHeight(), Image.SCALE_FAST));
+                                            button.setIcon(image);
+                                            button.repaint();
                                             rotations = 0;
                                         }
                                     }
@@ -187,30 +184,30 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                                         rotations++;
                                         loadImage(".\\Simulation\\View\\Images\\RoadThreeWayR1.jpg");
                                         ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
-                                                panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
-                                        label.setIcon(image);
-                                        panel.repaint();
+                                                button.getWidth(), button.getHeight(), Image.SCALE_FAST));
+                                        button.setIcon(image);
+                                        button.repaint();
                                     } else if (rotations == 1) {
                                         rotations++;
                                         loadImage(".\\Simulation\\View\\Images\\RoadThreeWayR2.jpg");
                                         ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
-                                                panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
-                                        label.setIcon(image);
-                                        panel.repaint();
+                                                button.getWidth(), button.getHeight(), Image.SCALE_FAST));
+                                        button.setIcon(image);
+                                        button.repaint();
                                     } else if (rotations == 2) {
                                         rotations++;
                                         loadImage(".\\Simulation\\View\\Images\\RoadThreeWayR3.jpg");
                                         ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
-                                                panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
-                                        label.setIcon(image);
-                                        panel.repaint();
+                                                button.getWidth(), button.getHeight(), Image.SCALE_FAST));
+                                        button.setIcon(image);
+                                        button.repaint();
                                     } else if (rotations == 3) {
                                         rotations = 0;
                                         loadImage(".\\Simulation\\View\\Images\\RoadThreeWayR0.jpg");
                                         ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
-                                                panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
-                                        label.setIcon(image);
-                                        panel.repaint();
+                                                button.getWidth(), button.getHeight(), Image.SCALE_FAST));
+                                        button.setIcon(image);
+                                        button.repaint();
                                     }
                                     break;
                             }
@@ -220,35 +217,35 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
 
                 @Override
                 public void mouseEntered(MouseEvent e) { //show a preview of the item being placed
-                    if (!panel.hasRoad()) {
+                    if (!button.hasRoad()) {
                         super.mouseEntered(e);
                         ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
-                                panel.getWidth(), panel.getHeight(), Image.SCALE_FAST));
-                        label.setIcon(image);
-                        panel.repaint();
+                                button.getWidth(), button.getHeight(), Image.SCALE_FAST));
+                        button.setIcon(image);
+                        button.repaint();
                     }
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) { //remove the preview of the item being placed
-                    if (!panel.hasRoad()) {
+                    if (!button.hasRoad()) {
                         super.mouseExited(e);
-                        label.setIcon(null);
-                        panel.repaint();
+                        button.setIcon(null);
+                        button.repaint();
                     }
                 }
             });
-            if (i < COLUMNS || itemPanelsRow.isEmpty() || i == rowEndPos - 1 || i > ROWS * COLUMNS - COLUMNS) {
+            if (i < COLUMNS || itemButtonRow.isEmpty() || i == rowEndPos - 1 || i > ROWS * COLUMNS - COLUMNS) {
                 //sets edge pieces
-                panel.setIsEndPiece(true);
+                button.setIsEndPiece(true);
             }
-            itemPanelsRow.add(panel);
+            itemButtonRow.add(button);
             if (i == rowEndPos - 1) {
-                itemPanelsArray.add(itemPanelsRow);
-                itemPanelsRow = new ArrayList<>();
+                itemButtonsArray.add(itemButtonRow);
+                itemButtonRow = new ArrayList<ItemButton>();
                 rowEndPos += COLUMNS;
             }
-            add(panel);
+            add(button);
             repaint();
         }
     }
@@ -257,7 +254,7 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         label.setText("Status: " + status);
     }
 
-    public ArrayList<ArrayList<ItemPanel>> getItems() {
-        return itemPanelsArray;
+    public ArrayList<ArrayList<ItemButton>> getItems() {
+        return itemButtonsArray;
     }
 }

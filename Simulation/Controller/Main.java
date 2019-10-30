@@ -1,6 +1,6 @@
 package Controller;
 
-import View.ItemPanel;
+import View.ItemButton;
 import View.TrafficSimGUI;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class Main {
             trafficSimGUI.updateStatus("Building...");
             int spawners = 0;
             boolean roadsConnected = true;
-            ArrayList<ArrayList<ItemPanel>> items = trafficSimGUI.getItems();
+            ArrayList<ArrayList<ItemButton>> items = trafficSimGUI.getItems();
             for (int i = 0; i < items.size(); i++) {
                 simulationData.add(new ArrayList<String>());
                 for (int j = 0; j < items.get(i).size(); j++) {
@@ -80,7 +80,7 @@ public class Main {
             }
 
             if (spawners > 1 && roadsConnected) {
-                simulation.createSimulation(2, 2, 2);
+                simulation.createSimulation(simulationData, 2, 2, 2);
                 trafficSimGUI.updateStatus("Ready to Run!");
             } else {
                 trafficSimGUI.updateStatus("Ensure all Roads are Connected");
