@@ -87,8 +87,8 @@ public class Main {
             }
         });
         trafficSimGUI.addRunActionListener(actionEvent -> {
-            /*            simulation.runSimulation();*/
             trafficSimGUI.updateStatus("Running...");
+            simulation.runSimulation();
         });
     }
 }

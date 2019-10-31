@@ -48,18 +48,52 @@ public class RoadFourWay extends Road {
         return null;
     }
 
+    @Override
+    public ArrayList<ArrayList<Vehicle>> getLanes() {
+        return null;
+    }
+
+    @Override
+    public int getLength() {
+        return 0;
+    }
+
+    @Override
+    public int countLights() {
+        return 0;
+    }
+
+    @Override
+    public TrafficLight getTrafficLight(int t) {
+        return null;
+    }
+
+    @Override
+    public boolean isSpawner() {
+        return false;
+    }
+
+    @Override
+    public int getSpeed(int laneNum, int vehicleNum) {
+        return vehiclesLanes.get(laneNum).get(vehicleNum).getSpeed();
+    }
+
+    @Override
     public boolean hasNorthConnection() {
         return northConnection;
     }
 
+    @Override
     public boolean hasEastConnection() {
         return eastConnection;
     }
 
+    @Override
     public boolean hasSouthConnection() {
         return southConnection;
     }
 
+    @Override
     public boolean hasWestConnection() {
         return westConnection;
     }
