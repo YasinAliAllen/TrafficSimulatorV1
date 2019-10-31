@@ -69,7 +69,7 @@ public class Simulation {
                 case 0:
                     if (rowNum == 0) { //despawn vehicle
                         System.out.println("We have run out of road for vehicle " + vehicleNum);
-                        roads.get(rowNum).get(vehicleNum).destroyVehicle(vehicleNum, laneNum);
+                        roads.get(rowNum).get(roadNum).destroyVehicle(vehicleNum, laneNum);
                         currentCars--;
                     } else {
                         roads.get(rowNum - 1).get(roadNum).createVehicle("Model.Car",
@@ -175,70 +175,71 @@ public class Simulation {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
+                currentSpawner = 0;
                 for (int rowNum = 0; rowNum < roads.size(); rowNum++) { //updates all roads
                     for (int roadNum = 0; roadNum < roads.get(rowNum).size(); roadNum++) {
                         if (roads.get(rowNum).get(roadNum) != null) {
-                            if (currentCars != numCars) {
                                 for (int i = 0; i < numCars - currentCars; i++) {
-                                    if (roads.get(rowNum).get(roadNum).isSpawner()) {
-                                        if (currentSpawner == chosenSpawner) {
-                                            roads.get(rowNum).get(roadNum).createVehicle("Car",
-                                                    0, currentCars, 0, 0);
+                                    if (currentCars != numCars) {
+                                        if (roads.get(rowNum).get(roadNum).isSpawner()) {
+                                            if (currentSpawner == chosenSpawner) {
+                                                roads.get(rowNum).get(roadNum).createVehicle("Car",
+                                                        0, currentCars, 0, 0);
 
-                                            currentCars++;
-                                            chosenSpawner = random.nextInt(numSpawners);
+                                                currentCars++;
+                                                chosenSpawner = random.nextInt(numSpawners);
+                                            }
+                                            currentSpawner++;
                                         }
-                                        currentSpawner++;
-                                    }
+                                    } else if (roads.get(rowNum).get(roadNum).getLanes() != null)
+                                        for (int laneNum = 0; laneNum < roads.get(rowNum).get(roadNum).getLanes().size(); laneNum++) {
+                                            for (int vehicleNum = 0; vehicleNum < numVehicles; vehicleNum++) {
+                                                if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum) != null) { //checks for vehicles
+                                                    System.out.printf("Model.Vehicle: %d | Road: %d | Position: %d\n",
+                                                            roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getVehicleNum(), rowNum,
+                                                            roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getPosition());
+                                                    if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getSpeed() ==
+                                                            roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getMAXSPEED())
+                                                    //checks if car needs to accelerate
+                                                    {
+                                                        if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getPosition() +
+                                                                roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getSpeed()
+                                                                > roads.get(rowNum).get(roadNum).getLength()) //checks if car needs to swap roads
+                                                            changeRoadStraight(rowNum, roadNum, laneNum, vehicleNum);
+                                                    } else {
+                                                        if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getPosition() +
+                                                                roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getSpeed() +
+                                                                roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getAcceleration()
+                                                                > roads.get(rowNum).get(roadNum).getLength())
+                                                            //checks if car needs to swap roads + accelerate
+                                                            changeRoadsAccelerating(rowNum, roadNum, laneNum, vehicleNum);
+                                                    }
+                                                }
+                                                if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum) != null) {
+                                                    //checks for vehicle as one may have been removed
+                                                    if (roads.get(rowNum).get(roadNum).countLights() != 0)
+                                                        checkForLight(rowNum, roadNum, vehicleNum, laneNum);
+                                                    else
+                                                        roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).drive();
+                                                }
+                                            }
+                                        }
 
+
+                                    if (time % 25 == 0)
+                                        toggleLights(rowNum, roadNum);
                                 }
-                            } else {
-                            for (int laneNum = 0; laneNum < roads.get(rowNum).get(roadNum).getLanes().size(); laneNum++) {
-                                for (int vehicleNum = 0; vehicleNum < numVehicles; vehicleNum++) {
-                                    if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum) != null) { //checks for vehicles
-                                        System.out.printf("Model.Vehicle: %d | Road: %d | Position: %d\n",
-                                                roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getVehicleNum(), rowNum,
-                                                roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getPosition());
-                                        if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getSpeed() ==
-                                                roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getMAXSPEED())
-                                        //checks if car needs to accelerate
-                                        {
-                                            if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getPosition() +
-                                                    roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getSpeed()
-                                                    > roads.get(rowNum).get(roadNum).getLength()) //checks if car needs to swap roads
-                                                changeRoadStraight(rowNum, roadNum, laneNum, vehicleNum);
-                                        } else {
-                                            if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getPosition() +
-                                                    roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getSpeed() +
-                                                    roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getAcceleration()
-                                                    > roads.get(rowNum).get(roadNum).getLength())
-                                                //checks if car needs to swap roads + accelerate
-                                                changeRoadsAccelerating(rowNum, roadNum, laneNum, vehicleNum);
-                                        }
-                                    }
-                                    if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum) != null) {
-                                        //checks for vehicle as one may have been removed
-                                        if (roads.get(rowNum).get(roadNum).countLights() != 0)
-                                            checkForLight(rowNum, roadNum, vehicleNum, laneNum);
-                                        else
-                                            roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).drive();
-                                    }
-                                }
-                            }
-                            }
                         }
-                        if (time % 25 == 0)
-                            toggleLights(rowNum, roadNum);
                     }
-                }
-                time++; //updates timer after all cars are moved
-                if (numCars == 0) {
-                    System.out.println("We have run out of vehicles!");
-                    System.exit(0);
+                    time++; //updates timer after all cars are moved
+                    if (numCars == 0) {
+                        System.out.println("We have run out of vehicles!");
+                        System.exit(0);
+                    }
                 }
             }
         };
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(timerTask, 0, 1000);
+        timer.scheduleAtFixedRate(timerTask, 0, 10);
     }
 }
