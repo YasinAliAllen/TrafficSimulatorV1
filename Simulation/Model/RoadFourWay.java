@@ -6,14 +6,16 @@ public class RoadFourWay extends Road {
 
     final int NUMLANES = 8;
     int length;
+    private boolean spawner = false;
     boolean northConnection = true;
     boolean eastConnection = true;
     boolean southConnection = true;
     boolean westConnection = true;
     private ArrayList<ArrayList<Vehicle>> vehiclesLanes = new ArrayList<>();
 
-    public RoadFourWay(int length) {
+    public RoadFourWay(int length, boolean isSpawner) {
         this.length = length;
+        this.spawner = isSpawner;
         for (int i = 0; i < NUMLANES; i++) {
             vehiclesLanes.add(new ArrayList<Vehicle>());
         }
@@ -44,5 +46,21 @@ public class RoadFourWay extends Road {
                     return value;
             }
         return null;
+    }
+
+    public boolean hasNorthConnection() {
+        return northConnection;
+    }
+
+    public boolean hasEastConnection() {
+        return eastConnection;
+    }
+
+    public boolean hasSouthConnection() {
+        return southConnection;
+    }
+
+    public boolean hasWestConnection() {
+        return westConnection;
     }
 }

@@ -11,8 +11,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TrafficSimGUI extends JFrame implements ActionListener {
+    Map<String, String> imagesStraight = new HashMap<>();
+    Map<String, String> imagesThreeWay = new HashMap<>();
     int rotations = 0;
     String[] roadTypes = {"Road Straight", "Road Three Way", "Road Four Way"};
     final int ROWS = 16, COLUMNS = 32;
@@ -34,6 +38,8 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
     JMenuItem about = new JMenuItem("About");
 
     public TrafficSimGUI() {
+        imagesStraight.put("Road Straight0", ".\\Simulation\\View\\Images\\HorizontalRoad.jpg");
+        imagesStraight.put("RoadStraight1", ".\\Simulation\\View\\Images\\VerticalRoad.jpg");
 
         loadImage(".\\Simulation\\View\\Images\\HorizontalRoad.jpg");
         setTitle("Traffic Simulator V2.0");

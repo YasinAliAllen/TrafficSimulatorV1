@@ -6,13 +6,15 @@ public class RoadThreeWay extends Road {
     final int NUMLANES = 6;
     int length;
     private ArrayList<ArrayList<Vehicle>> vehiclesLanes = new ArrayList<>();
+    private boolean spawner = false;
     private boolean northConnection = true;
     private boolean eastConnection = true;
     private boolean southConnection = true;
     private boolean westConnection = true;
 
-    public RoadThreeWay(int length, int rotations) {
+    public RoadThreeWay(int length, int rotations, boolean isSpawner) {
         this.length = length;
+        this.spawner = isSpawner;
         for (int i = 0; i < NUMLANES; i++) {
             vehiclesLanes.add(new ArrayList<Vehicle>());
         }
@@ -58,5 +60,21 @@ public class RoadThreeWay extends Road {
                     return value;
             }
         return null;
+    }
+
+    public boolean hasNorthConnection() {
+        return northConnection;
+    }
+
+    public boolean hasEastConnection() {
+        return eastConnection;
+    }
+
+    public boolean hasSouthConnection() {
+        return southConnection;
+    }
+
+    public boolean hasWestConnection() {
+        return westConnection;
     }
 }
