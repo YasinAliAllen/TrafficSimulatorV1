@@ -15,8 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TrafficSimGUI extends JFrame implements ActionListener {
-    Map<String, String> imagesStraight = new HashMap<>();
-    Map<String, String> imagesThreeWay = new HashMap<>();
+    Map<String, String> imagesMap = new HashMap<>();
     int rotations = 0;
     String[] roadTypes = {"Road Straight", "Road Three Way", "Road Four Way"};
     final int ROWS = 16, COLUMNS = 32;
@@ -38,10 +37,14 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
     JMenuItem about = new JMenuItem("About");
 
     public TrafficSimGUI() {
-        imagesStraight.put("Road Straight0", ".\\Simulation\\View\\Images\\HorizontalRoad.jpg");
-        imagesStraight.put("RoadStraight1", ".\\Simulation\\View\\Images\\VerticalRoad.jpg");
-
-        loadImage(".\\Simulation\\View\\Images\\HorizontalRoad.jpg");
+        imagesMap.put("Road Straight0", ".\\Simulation\\View\\Images\\HorizontalRoad.jpg");
+        imagesMap.put("Road Straight1", ".\\Simulation\\View\\Images\\VerticalRoad.jpg");
+        imagesMap.put("Road Three Way0", ".\\Simulation\\View\\Images\\RoadThreeWayR0.jpg");
+        imagesMap.put("Road Three Way1", ".\\Simulation\\View\\Images\\RoadThreeWayR1.jpg");
+        imagesMap.put("Road Three Way2", ".\\Simulation\\View\\Images\\RoadThreeWayR2.jpg");
+        imagesMap.put("Road Three Way3", ".\\Simulation\\View\\Images\\RoadThreeWayR3.jpg");
+        imagesMap.put("Road Four Way", ".\\Simulation\\View\\Images\\RoadFourWay.jpg");
+        loadImage(imagesMap.get("Road Straight" + rotations));
         setTitle("Traffic Simulator V2.0");
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -58,13 +61,13 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
             rotations = 0;
             switch (comboBox.getSelectedItem().toString()) {
                 case "Road Straight":
-                    loadImage(".\\Simulation\\View\\Images\\HorizontalRoad.jpg");
+                    loadImage(imagesMap.get("Road Straight" + rotations));
                     break;
                 case "Road Three Way":
-                    loadImage(".\\Simulation\\View\\Images\\RoadThreeWayR0.jpg");
+                    loadImage(imagesMap.get("Road Three Way" + rotations));
                     break;
                 case "Road Four Way":
-                    loadImage(".\\Simulation\\View\\Images\\RoadFourWay.jpg");
+                    loadImage(imagesMap.get("Road Four Way"));
                     break;
             }
         });
@@ -165,58 +168,20 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                             break;
                         case 2: //rotate road
                             System.out.println("Item Rotated");
-                            switch (comboBox.getSelectedItem().toString()) {
-                                case "Road Straight":
-                                    if (rotations == 0) {
-                                        rotations++;
-                                        loadImage(".\\Simulation\\View\\Images\\VerticalRoad.jpg");
-                                        ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
-                                                button.getWidth(), button.getHeight(), Image.SCALE_FAST));
-                                        button.setIcon(image);
-                                        button.repaint();
-                                    } else {
-                                        if (rotations == 1) {
-                                            rotations = 0;
-                                            loadImage(".\\Simulation\\View\\Images\\HorizontalRoad.jpg");
-                                            ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
-                                                    button.getWidth(), button.getHeight(), Image.SCALE_FAST));
-                                            button.setIcon(image);
-                                            button.repaint();
-                                        }
-                                    }
-                                    break;
-                                case "Road Three Way":
-                                    if (rotations == 0) {
-                                        rotations++;
-                                        loadImage(".\\Simulation\\View\\Images\\RoadThreeWayR1.jpg");
-                                        ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
-                                                button.getWidth(), button.getHeight(), Image.SCALE_FAST));
-                                        button.setIcon(image);
-                                        button.repaint();
-                                    } else if (rotations == 1) {
-                                        rotations++;
-                                        loadImage(".\\Simulation\\View\\Images\\RoadThreeWayR2.jpg");
-                                        ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
-                                                button.getWidth(), button.getHeight(), Image.SCALE_FAST));
-                                        button.setIcon(image);
-                                        button.repaint();
-                                    } else if (rotations == 2) {
-                                        rotations++;
-                                        loadImage(".\\Simulation\\View\\Images\\RoadThreeWayR3.jpg");
-                                        ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
-                                                button.getWidth(), button.getHeight(), Image.SCALE_FAST));
-                                        button.setIcon(image);
-                                        button.repaint();
-                                    } else if (rotations == 3) {
-                                        rotations = 0;
-                                        loadImage(".\\Simulation\\View\\Images\\RoadThreeWayR0.jpg");
-                                        ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
-                                                button.getWidth(), button.getHeight(), Image.SCALE_FAST));
-                                        button.setIcon(image);
-                                        button.repaint();
-                                    }
-                                    break;
+                            if (!(comboBox.getSelectedItem().toString().equals("Four Four Way"))) {
+                                if ((rotations == 1 && comboBox.getSelectedItem().toString().equals("Road Straight"))
+                                        || (rotations == 3 &&
+                                        comboBox.getSelectedItem().toString().equals("Road Three Way"))) {
+                                    rotations = 0;
+                                } else {
+                                    rotations++;
+                                }
                             }
+                            loadImage(imagesMap.get(comboBox.getSelectedItem().toString() + rotations));
+                            ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
+                                    button.getWidth(), button.getHeight(), Image.SCALE_FAST));
+                            button.setIcon(image);
+                            button.repaint();
                             break;
                     }
                 }
