@@ -108,4 +108,8 @@ public class RoadStraight extends Road {
     public boolean hasWestConnection() {
         return westConnection;
     }
+
+    public ArrayList<ArrayList<Vehicle>> getNumLanes() {
+        return vehiclesLanes;
+    }
 }
