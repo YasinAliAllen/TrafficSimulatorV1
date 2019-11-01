@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class TrafficSimGUI extends JFrame implements ActionListener {
+
     private final int ROWS = 16, COLUMNS = 32;
     private Map<String, String> imagesMap = new HashMap<>();
     private int rotations = 0;
@@ -29,8 +30,13 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
     private JMenuItem load = new JMenuItem("Load");
     private JMenuItem exit = new JMenuItem("Exit");
     private JMenuItem run = new JMenuItem("Run");
-    private JMenuItem simulation = new JMenuItem("Simulation");
-    private JMenuItem editor = new JMenuItem("Editor");
+    private JMenuItem build = new JMenuItem("Build");
+    private JMenuItem about = new JMenuItem("About");
+    private JTextField cars = new JTextField();
+    private JTextField motorbikes = new JTextField();
+    private JTextField busses = new JTextField();
+
+
 
     public TrafficSimGUI() {
         imagesMap.put("Road Straight0", ".\\Simulation\\View\\Images\\HorizontalRoad.jpg");
@@ -57,6 +63,17 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         menuBar.add(help);
         menuBar.add(label);
 
+
+        JLabel carsLabel = new JLabel("Cars");
+        menuBar.add(carsLabel);
+        menuBar.add(cars);
+        JLabel motorbikesLabel = new JLabel("Motorbikes");
+        menuBar.add(motorbikesLabel);
+        menuBar.add(motorbikes);
+        JLabel bussesLabel = new JLabel("Busses");
+        menuBar.add(bussesLabel);
+        menuBar.add(busses);
+
         comboBox.addActionListener(actionEvent -> {
             rotations = 0;
             switch (Objects.requireNonNull(comboBox.getSelectedItem()).toString()) {
@@ -82,13 +99,15 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         file.add(exit);
         run.addActionListener(this);
         settings.add(run);
-        simulation.addActionListener(this);
-        settings.add(simulation);
+        build.addActionListener(this);
+        settings.add(build);
+        JMenuItem editor = new JMenuItem("Editor");
         editor.addActionListener(this);
         settings.add(editor);
         help.addActionListener(this);
-        JMenuItem about = new JMenuItem("About");
+
         help.add(about);
+        about.addActionListener(this);
 
         createButtons();
     }
@@ -109,16 +128,16 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         run.addActionListener(actionListener);
     }
 
-    public void addSimulationActionListener(ActionListener actionListener) {
-        simulation.addActionListener(actionListener);
+    public void addBuildActionListener(ActionListener actionListener) {
+        build.addActionListener(actionListener);
     }
 
-    public void addEditorActionListener(ActionListener actionListener) {
+    /*public void addEditorActionListener(ActionListener actionListener) {
         editor.addActionListener(actionListener);
-    }
+    }*/
 
     public void addAboutActionListener(ActionListener actionListener) {
-        load.addActionListener(actionListener);
+        about.addActionListener(actionListener);
     }
 
     @Override
@@ -149,17 +168,18 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                             if (button.hasRoad()) {
                                 button.setHasRoad(false);
                                 button.setRoadType("", 0);
-                                button.setNorthConnection(false);
-                                button.setEastConnection(false);
-                                button.setSouthConnection(false);
-                                button.setWestConnection(false);
+                                button.setNorthConnection();
+                                button.setEastConnection();
+                                button.setSouthConnection();
+                                button.setWestConnection();
                                 System.out.println("Road Removed!");
                                 button.setIcon(null);
                                 button.repaint();
                             } else {
                                 System.out.println("Road Placed!");
                                 button.setHasRoad(true);
-                                button.setRoadType(Objects.requireNonNull(comboBox.getSelectedItem()).toString(), rotations);
+                                button.setRoadType(Objects.requireNonNull(comboBox.getSelectedItem()).toString(),
+                                        rotations);
 
                                 ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
                                         button.getWidth(), button.getHeight(), Image.SCALE_FAST));
@@ -169,7 +189,8 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                             break;
                         case 2: //rotate road
                             System.out.println("Item Rotated");
-                            if (!(Objects.requireNonNull(comboBox.getSelectedItem()).toString().equals("Four Four Way"))) {
+                            if (!(Objects.requireNonNull(comboBox.getSelectedItem()).toString()
+                                    .equals("Four Four Way"))) {
                                 if ((rotations == 1 && comboBox.getSelectedItem().toString().equals("Road Straight"))
                                         || (rotations == 3 &&
                                         comboBox.getSelectedItem().toString().equals("Road Three Way"))) {
@@ -209,7 +230,7 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
             });
             if (i < COLUMNS || itemButtonRow.isEmpty() || i == rowEndPos - 1 || i > ROWS * COLUMNS - COLUMNS) {
                 //sets edge pieces
-                button.setIsEndPiece(true);
+                button.setIsEndPiece();
             }
             itemButtonRow.add(button);
             if (i == rowEndPos - 1) {
@@ -228,5 +249,18 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
 
     public ArrayList<ArrayList<ItemButton>> getItems() {
         return itemButtonsArray;
+    }
+
+    public int[] getVehicles() {
+        try {
+            return new int[]{Integer.parseInt(cars.getText()), Integer.parseInt(motorbikes.getText()),
+                    Integer.parseInt(busses.getText())};
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    public String getStatus() {
+        return label.getText();
     }
 }

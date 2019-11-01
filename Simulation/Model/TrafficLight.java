@@ -22,7 +22,7 @@ public class TrafficLight {
         return status;
     }
 
-    public int getLightNumber() {
+    int getLightNumber() {
         return lightNum;
     }
 }

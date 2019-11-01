@@ -3,8 +3,8 @@ package Model;
 import java.util.ArrayList;
 
 public class RoadThreeWay extends Road {
-    final int NUMLANES = 6;
-    int length;
+    private final int NUMLANES = 6;
+    private int length;
     private ArrayList<ArrayList<Vehicle>> vehiclesLanes = new ArrayList<>();
     private boolean spawner = false;
     private boolean northConnection = true;
@@ -110,5 +110,15 @@ public class RoadThreeWay extends Road {
     @Override
     public boolean hasWestConnection() {
         return westConnection;
+    }
+
+    @Override
+    public void createTrafficLight(int trafficLightNum, int position) {
+
+    }
+
+    @Override
+    public int countVehicles(int laneNum) {
+        return 0;
     }
 }

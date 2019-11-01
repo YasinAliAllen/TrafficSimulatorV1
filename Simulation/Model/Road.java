@@ -4,14 +4,15 @@ import java.util.ArrayList;
 
 public abstract class Road {
 
-    public ArrayList<ArrayList<Vehicle>> vehiclesLanes = new ArrayList<>();
+    ArrayList<ArrayList<Vehicle>> vehiclesLanes = new ArrayList<>();
     public int length;
-    public boolean spawner = false;
-    public boolean northConnection = false;
-    public boolean eastConnection = false;
-    public boolean southConnection = false;
-    public boolean westConnection = false;
+    boolean spawner = false;
+    boolean northConnection = false;
+    boolean eastConnection = false;
+    boolean southConnection = false;
+    boolean westConnection = false;
 
+    //creates a vehicle in a lane
     public void createVehicle(String type,
                               int position, int vehicleNum, int speed, int laneNum) {
         switch (type) {
@@ -30,12 +31,14 @@ public abstract class Road {
         }
     }
 
+    //destroys a specified vehicle
     public void destroyVehicle(int vehicleNum, int laneNum) {
         for (int i = 0; i < vehiclesLanes.get(laneNum).size(); i++)
             if (vehiclesLanes.get(laneNum).get(i).getVehicleNum() == vehicleNum) //removes car with matching number
                 vehiclesLanes.get(laneNum).remove(i);
     }
 
+    //returns a specified vehicle
     public Vehicle getVehicle(int vehicleNum, int laneNum) {
         if (vehiclesLanes.get(laneNum).isEmpty())
             return null;
@@ -61,6 +64,7 @@ public abstract class Road {
         return spawner;
     }
 
+    //returns the speed of a specified vehicle
     public int getSpeed(int vehicleNum, int laneNum) {
         int vehicleIndex = 0;
         for (int numVehicles = 0; numVehicles < vehiclesLanes.get(laneNum).size(); numVehicles++) {
@@ -87,5 +91,8 @@ public abstract class Road {
         return westConnection;
     }
 
+    public abstract void createTrafficLight(int trafficLightNum, int position);
+
+    public abstract int countVehicles(int laneNum);
 }
 

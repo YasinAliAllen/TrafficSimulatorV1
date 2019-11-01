@@ -1,0 +1,157 @@
+Note, can currently handle the entire process for vertical straight roads, test this by building columns then building and
+running the program and viewing console output! :)
+
+Program Specification
+A traffic simulator with the ability to edit and simulate the users chosen design.
+This simulation should return something useful like the average speed of cars throughout the simulation.
+This allows the user to test different designs and discover which is best at promoting traffic flow.
+
+
+
+Problem Decomposition:
+This program is using the following objects: Main, Simulation, Road, Vehicle, TrafficLight, Car, Bus, Motorbike,
+RoadStraight, RoadThreeWay, RoadFourWay, ItemButton, TrafficSimGUI.
+Main calls TrafficSimGUI which calls ItemButtons to create an interactive road builder which can the be used to build a
+simulation. Main calls Simulation. Simulation uses an array of Roads, to store information about each road and update them.
+Each Road type uses a different number of arrays of lanes which hold a vehicles and lights to create,
+destroy and store information on them and update them.
+RoadStraight, RoadThreeWay and RoadFourWay are all subclasses of Road.
+Roads hold information relevant to their position in the simulation and determine their properties from this by looking
+at their surroundings, for example, a road on the top edge with a northConnection can be a spawner.
+Car, Bus and Motorbike are all subclasses of Vehicle.
+Vehicles have methods allowing them to update their information.
+TrafficLight is called when present on a Road with a vehicle and returns information allowing for proper
+interaction.
+TrafficLights also have methods allowing them to change their status.
+
+
+
+Class Design:
+
+[Controller Package]
+Main:
+Only contains Main() method.
+The main class will be used to switch the program between either simulation mode or editor mode.
+Main will initialise in editor mode by creating a TrafficSimGUI class and calling appropriate methods.
+
+
+
+Simulation:
+Attributes/Variables: private int : totalVehicles, currentVehicle, numSpawners, chosenSpawner, time
+private Map<String, Integer> : currentVehicles, numVehicles (stores information on vehicles for spawning)
+private Random : random (used for randomising spawns)
+ArrayList carsRoad (used for randomization).
+Methods/Behaviors: createSimulation, changeRoadsStraight (There will also be change road methods for the other road types),
+changeRoadsAccelerating (there would need to be a method for each road type here also), toggleLights, checkForLight, runSimulation,
+roadBuilder, spawnVehicles.
+
+The Simulation class contains methods pertaining to activities handled by the simulation.
+The Simulation stores all roads in an array of arrays allowing for the to interact with each other allowing simulation to have
+vehicles transition between roads with a grid of rows and columns.
+Simulation handles interaction between vehicles and traffic lights.
+Simulation checks on a per road basis what needs to be updated and then does so accordingly.
+Simulation handles spawning and despawning of vehicles.
+Simulation gets data passed from Main and creates the roads and conditions for spawning from this.
+
+
+[Method Package]
+Road:
+Attributes/Variables: private int length, ArrayList<ArrayList<Vehicles>> vehiclesLanes, ArrayList trafficLights, boolean spawner,
+boolean, northConnection, eastConnection, southConnection, westConnection.
+Methods/Behaviors: Road, createVehicle, destroyVehicle, getSpeed, createTrafficLight, countVehicles, countLights, setters and getters.
+
+Road is creatable with a specified length, defining its endpoint.
+Road contains all vehicles and traffic lights relevant to its position in an amount of lanes relevant to the road type.
+This allows for these objects to be obtained by Simulation from Road.
+Road allows for vehicles to be created or destroyed, this can be used by simulation to transfer vehicles
+between roads.
+Road allows for TrafficLights to be created, allowing them to interact with vehicles at a more precise level
+Road has methods which returns information about what is contained on the road, like the amount of
+vehicles and traffic lights (Getter Methods).
+Road has methods which returns information about the road allowing for simulation to understand how it interacts with other
+nearby roads.
+
+
+
+Vehicle:
+Attributes/Variables: public int position, speed, vehicleNum, carBreadth, String vehicleType
+Methods/Behaviours: drive, stop, setters/getters.
+
+The vehicle class contains information about each vehicle with relevant methods to update it appropriately.
+Vehicle has an abstract drive method, updating speed and position appropriately depending on the Vehicle created.
+Vehicle has an abstract stop method, updating speed and position appropriately depending on the Vehicle created.
+Vehicle can also return information and set information about itself (Getter and Setter Methods).
+
+Car: (Subclass of Vehicle)
+Attributes/Variables: (those inherited from Vehicle) + final int MAXSPEED, ACCELERATION, DECELERATION, length
+Car inherits all of vehicles methods and attributes, however implements its own drive and stop methods so it acts distinctly
+from other Vehicle types.
+
+Bus: (Subclass of Vehicle)
+Attributes/Variables: (those inherited from Vehicle) + final int MAXSPEED, ACCELERATION, DECELERATION, length
+Bus inherits all of vehicles methods and attributes, however implements its own drive and stop methods so it acts distinctly
+from other Vehicle types.
+
+Motorbike: (Subclass of Vehicle)
+Attributes/Variables: (those inherited from Vehicle) + final int MAXSPEED, ACCELERATION, DECELERATION, length
+Motorbike inherits all of vehicles methods and attributes, however implements its own drive and stop methods so it acts distinctly
+from other Vehicle types.
+
+
+TrafficLight:
+Note: Since the previous version the traffic light has been disabled until road interaction is working as intended for all
+road types and once the GUI allows for building. However, reimplementing them shoudn't be too difficult.
+
+Attributes/Variables: private int position, lightnum. private boolean status.
+Methods/Behaviours: TrafficLight, toggleColour, isStatus, setters/getters
+
+TrafficLight has a toggle colour method which switches the lights status.
+TrafficLight has an isStatus method which returns the current status of the light.
+TrafficLight can also return information about itself (Getter Methods)
+
+[View Package]
+
+TrafficSimGUI: (Subclass of JFrame)
+Note: The GUI still needs some completion and some of the functionality isn't too intuitive.
+Current Controls: Drop down and select to change road type, left click to place/remove, middle mouse to rotate.
+Menu bar options: Saving has been fully implemented, loading half implemented, the simulation button builds the simulation, the run
+button runs the simulation, the exit button exits the simulation, the about button brings up this document.
+The editor is currently not implemented, however when simulator would be run is would lock the user out of editing, and to stop
+the simulation and return to editing, the edit button would be used. Also, editable labels need to be added to allow for the
+user to easily changed the number and types of vehicles being spawned as the implementation in the simlation class
+is ready for this.
+
+Attributes/Variables: private int ROWS, COLUMNS, rotations, String[] roadTypes, JLabel label, BufferedImage roadImage
+private JMenuItem save, load, exit, run, simulation, editor, about, imageButtonRow Arraylist<ImageButton>, JComboBox<String> comboBox
+private imagesMap Map<String, String> (Most of these are just used to build the GUI)
+
+Methods/Behaviours: TrafficSimGui, addSaveActionListener, addLoadActionListener, addExitActionListener, addSimulationActionListener,
+addEditorActionListener, addAboutActionListener, actionPerformed, loadImage, createButtons, updateStatus.
+Note: The action listeners are just to allow for control to be done in main instead of the view section to better replicate
+the model view controller design.
+
+The GUI first initialises and places all relevant components where they are expected to be. It then creates ItemButtons to
+be used to allow for interaction on the GUI. The GUI can then be used to create a configuration of roads. This data of this configuration
+is then received by main when the simulation action listener is called. When run is called the GUI will enter running mode
+and will prevent editing. A status bar at the top also informs the user of the current operation. Text fields will be used to
+implement the amount of cars/busses/motorbikes within the simulation.
+
+ItemButton: (Subclass of JButton)
+Attributes/Variables: private int rotations, private String roadType
+private boolean northConnection, eastConnection, southConnection, westConnection, hasRoad, hasLight, isEndPiece, spawner
+
+Methods/Behaviours: ItemButton, setRoadType
+
+ItemButton is an extended version of JButton which stores extra information used to determine which road is placed on it.
+This is done using the setRoadType method. When the buttons are created in TrafficSimGUI, they are given action listeners which
+allow for the user to visually preview and place roads onto the buttons. When main wants information of the road configuration,
+if gets the information from the ItemButtons stored in TrafficSimGUI.
+
+
+
+W.I.P:
+Lane changing, once this is complete, implementation of three and four way roads should be rather simple.
+Working traffic lights, once three and four way roads are implemented, this shouldn't be too difficult.
+Vehicle collision, just more conditional checks, not difficult just tedious.
+Traffic road rules (Give way, ect), this would be difficult to implement and would require a lot of conditional checks
+with intricate details including current and future positions of all involved vehicles.

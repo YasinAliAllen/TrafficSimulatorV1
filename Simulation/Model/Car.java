@@ -2,7 +2,7 @@ package Model;
 
 public class Car extends Vehicle {
     private final int MAXSPEED = 6, ACCELERATION = 2, DECELERATION = 4;
-    int length = 2 * carBreadth;
+    private int length = 2 * carBreadth;
 
     public Car(int position, int vehicleNum, int speed) {
         super(position, vehicleNum, speed);
@@ -30,11 +30,6 @@ public class Car extends Vehicle {
     @Override
     public int getMAXSPEED() {
         return MAXSPEED;
-    }
-
-    @Override
-    int getLength() {
-        return length;
     }
 
     @Override
