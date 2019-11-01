@@ -21,7 +21,7 @@ public class Main {
             boolean roadsConnected = true;
             ArrayList<ArrayList<ItemButton>> items = trafficSimGUI.getItems();
             for (int i = 0; i < items.size(); i++) {
-                simulationData.add(new ArrayList<String>());
+                simulationData.add(new ArrayList<>());
                 for (int j = 0; j < items.get(i).size(); j++) {
                     if (i != 0 && items.get(i).get(j).hasRoad() && items.get(i).get(j).hasNorthConnection()) {
                         //checks north to south connections

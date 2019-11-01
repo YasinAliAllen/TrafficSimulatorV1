@@ -7,7 +7,6 @@ public class Car extends Vehicle {
     public Car(int position, int vehicleNum, int speed) {
         super(position, vehicleNum, speed);
         vehicleType = "Car";
-
     }
 
     @Override

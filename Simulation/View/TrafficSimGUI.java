@@ -13,28 +13,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class TrafficSimGUI extends JFrame implements ActionListener {
-    Map<String, String> imagesMap = new HashMap<>();
-    int rotations = 0;
-    String[] roadTypes = {"Road Straight", "Road Three Way", "Road Four Way"};
-    final int ROWS = 16, COLUMNS = 32;
-    JLabel label = new JLabel("Status: Editor...");
-    private ArrayList<ArrayList<ItemButton>> itemButtonsArray = new ArrayList<ArrayList<ItemButton>>();//array storing itemPanels
-    BufferedImage roadImage;
-    private ArrayList<ItemButton> itemButtonRow = new ArrayList<ItemButton>();
-    JComboBox comboBox = new JComboBox(roadTypes);
-    JMenuBar menuBar = new JMenuBar();
-    JMenu file = new JMenu("File");
-    JMenuItem save = new JMenuItem("Save");
-    JMenuItem load = new JMenuItem("Load");
-    JMenuItem exit = new JMenuItem("Exit");
-    JMenu settings = new JMenu("Settings");
-    JMenuItem run = new JMenuItem("Run");
-    JMenuItem simulation = new JMenuItem("Simulation");
-    JMenuItem editor = new JMenuItem("Editor");
-    JMenu help = new JMenu("Help");
-    JMenuItem about = new JMenuItem("About");
+    private final int ROWS = 16, COLUMNS = 32;
+    private Map<String, String> imagesMap = new HashMap<>();
+    private int rotations = 0;
+    private String[] roadTypes = {"Road Straight", "Road Three Way", "Road Four Way"};
+    private JLabel label = new JLabel("Status: Editor...");
+    private ArrayList<ArrayList<ItemButton>> itemButtonsArray = new ArrayList<>();//array storing itemPanels
+    private BufferedImage roadImage;
+    private ArrayList<ItemButton> itemButtonRow = new ArrayList<>();
+    private JComboBox<String> comboBox = new JComboBox<>(roadTypes);
+    private JMenuItem save = new JMenuItem("Save");
+    private JMenuItem load = new JMenuItem("Load");
+    private JMenuItem exit = new JMenuItem("Exit");
+    private JMenuItem run = new JMenuItem("Run");
+    private JMenuItem simulation = new JMenuItem("Simulation");
+    private JMenuItem editor = new JMenuItem("Editor");
 
     public TrafficSimGUI() {
         imagesMap.put("Road Straight0", ".\\Simulation\\View\\Images\\HorizontalRoad.jpg");
@@ -49,17 +45,21 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(600, 600);
+        JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
         setLayout(new GridLayout(ROWS, COLUMNS));
 
+        JMenu file = new JMenu("File");
         menuBar.add(file);
+        JMenu settings = new JMenu("Settings");
         menuBar.add(settings);
+        JMenu help = new JMenu("Help");
         menuBar.add(help);
         menuBar.add(label);
 
         comboBox.addActionListener(actionEvent -> {
             rotations = 0;
-            switch (comboBox.getSelectedItem().toString()) {
+            switch (Objects.requireNonNull(comboBox.getSelectedItem()).toString()) {
                 case "Road Straight":
                     loadImage(imagesMap.get("Road Straight" + rotations));
                     break;
@@ -87,6 +87,7 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         editor.addActionListener(this);
         settings.add(editor);
         help.addActionListener(this);
+        JMenuItem about = new JMenuItem("About");
         help.add(about);
 
         createButtons();
@@ -158,7 +159,7 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                             } else {
                                 System.out.println("Road Placed!");
                                 button.setHasRoad(true);
-                                button.setRoadType(comboBox.getSelectedItem().toString(), rotations);
+                                button.setRoadType(Objects.requireNonNull(comboBox.getSelectedItem()).toString(), rotations);
 
                                 ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
                                         button.getWidth(), button.getHeight(), Image.SCALE_FAST));
@@ -168,7 +169,7 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                             break;
                         case 2: //rotate road
                             System.out.println("Item Rotated");
-                            if (!(comboBox.getSelectedItem().toString().equals("Four Four Way"))) {
+                            if (!(Objects.requireNonNull(comboBox.getSelectedItem()).toString().equals("Four Four Way"))) {
                                 if ((rotations == 1 && comboBox.getSelectedItem().toString().equals("Road Straight"))
                                         || (rotations == 3 &&
                                         comboBox.getSelectedItem().toString().equals("Road Three Way"))) {
@@ -213,7 +214,7 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
             itemButtonRow.add(button);
             if (i == rowEndPos - 1) {
                 itemButtonsArray.add(itemButtonRow);
-                itemButtonRow = new ArrayList<ItemButton>();
+                itemButtonRow = new ArrayList<>();
                 rowEndPos += COLUMNS;
             }
             add(button);
