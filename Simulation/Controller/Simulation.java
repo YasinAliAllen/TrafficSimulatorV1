@@ -5,15 +5,13 @@ import Model.RoadFourWay;
 import Model.RoadStraight;
 import Model.RoadThreeWay;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class Simulation {
     ArrayList<ArrayList<Road>> roads = new ArrayList<>();//array storing roads
     final int LENGTH = 20;
     Random random = new Random();
+    Map<String, Integer> currentVehicles = new HashMap<>();
     private int currentVehicle = 0;
     private int numSpawners = 0;
     private int chosenSpawner = 0;
@@ -42,6 +40,9 @@ public class Simulation {
     }
 
     void createSimulation(ArrayList<ArrayList<String>> data, int cars, int motorbikes, int busses) {
+        currentVehicles.put("Cars", currentCars);
+        currentVehicles.put("Motorbike", currentMotorbikes);
+        currentVehicles.put("Bus", currentBusses);
         this.numSpawners = 0;
         this.numCars = cars;
         this.numMotorbikes = motorbikes;
@@ -64,7 +65,7 @@ public class Simulation {
     }
 
 
-    private void changeRoadStraight(int rowNum, int roadNum, int laneNum, int vehicleNum) {
+    private void changeRoadStraight(int rowNum, int roadNum, int laneNum, int vehicleNum, String vehicleType) {
         if (roads.get(rowNum).get(roadNum).hasNorthConnection() || roads.get(rowNum).get(roadNum).hasSouthConnection()) {
             switch (laneNum) {
                 case 0:
@@ -73,9 +74,9 @@ public class Simulation {
                         roads.get(rowNum).get(roadNum).destroyVehicle(vehicleNum, laneNum);
                         currentVehicle = vehicleNum;
                         currentCars--;
-                        spawnVehicles("Car");
+                        spawnVehicles(vehicleType);
                     } else {
-                        roads.get(rowNum - 1).get(roadNum).createVehicle("Car",
+                        roads.get(rowNum - 1).get(roadNum).createVehicle(vehicleType,
                                 (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getPosition() +
                                         roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getSpeed())
                                         % roads.get(rowNum).get(roadNum).getLength(),
@@ -91,7 +92,7 @@ public class Simulation {
                         currentVehicle = vehicleNum;
                         currentCars--;
                     } else {
-                        roads.get(rowNum + 1).get(roadNum).createVehicle("Car",
+                        roads.get(rowNum + 1).get(roadNum).createVehicle(vehicleType,
                                 (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getPosition() +
                                         roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getSpeed()) % roads.get(rowNum).get(roadNum).getLength(),
                                 roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getVehicleNum(),
@@ -176,50 +177,83 @@ public class Simulation {
 
     }
 
+    //randomly spawns vehicles until the maximum of that vehicle type is spawned
     void spawnVehicles(String vehicleType) {
-        while (currentCars < numCars) {
-            currentSpawner = 0;
-            for (int rowNum = 0; rowNum < roads.size(); rowNum++) {
-                for (int roadNum = 0; roadNum < roads.get(rowNum).size(); roadNum++) {
-                    if (roads.get(rowNum).get(roadNum) != null) {
-                        if (roads.get(rowNum).get(roadNum).isSpawner()) {
-                            if (currentSpawner == chosenSpawner) {
-                                if (rowNum == 0 && roads.get(rowNum).get(roadNum).hasNorthConnection()) {
-                                    roads.get(rowNum).get(roadNum).createVehicle(vehicleType,
-                                            0, currentVehicle, 0, 1);
-                                } else if (rowNum == 0 && roadNum == roads.get(rowNum).size() - 1
-                                        && roads.get(rowNum).get(roadNum).hasEastConnection()) {
-                                    roads.get(rowNum).get(roadNum).createVehicle(vehicleType,
-                                            0, currentVehicle, 0, 1);
-                                } else if (rowNum == 0 && roadNum == 0
-                                        && roads.get(rowNum).get(roadNum).hasWestConnection()) {
-                                    roads.get(rowNum).get(roadNum).createVehicle(vehicleType,
-                                            0, currentVehicle, 0, 0);
-                                } else if (rowNum == roads.size() - 1 &&
-                                        roads.get(rowNum).get(roadNum).hasSouthConnection()) {
-                                    roads.get(rowNum).get(roadNum).createVehicle(vehicleType,
-                                            0, currentVehicle, 0, 0);
-                                } else if (rowNum == roads.size() - 1 && roadNum == 0 &&
-                                        roads.get(rowNum).get(roadNum).hasWestConnection()) {
-                                    roads.get(rowNum).get(roadNum).createVehicle(vehicleType,
-                                            0, currentVehicle, 0, 0);
-                                } else if (rowNum == roads.size() - 1 && roadNum == roads.get(rowNum).size() - 1 &&
-                                        roads.get(rowNum).get(roadNum).hasEastConnection()) {
-                                    roads.get(rowNum).get(roadNum).createVehicle(vehicleType,
-                                            0, currentVehicle, 0, 1);
-                                }
-                                currentVehicle++;
-                                currentCars++;
+        currentSpawner = 0;
+        for (int rowNum = 0; rowNum < roads.size(); rowNum++) {
+            for (int roadNum = 0; roadNum < roads.get(rowNum).size(); roadNum++) {
+                if (roads.get(rowNum).get(roadNum) != null) {
+                    if (roads.get(rowNum).get(roadNum).isSpawner()) {
+                        if (currentSpawner == chosenSpawner) {
+                            if (rowNum == 0 && roads.get(rowNum).get(roadNum).hasNorthConnection()) {
+                                roads.get(rowNum).get(roadNum).createVehicle(vehicleType,
+                                        0, currentVehicle, 0, 1);
+                            } else if (rowNum == 0 && roadNum == roads.get(rowNum).size() - 1
+                                    && roads.get(rowNum).get(roadNum).hasEastConnection()) {
+                                roads.get(rowNum).get(roadNum).createVehicle(vehicleType,
+                                        0, currentVehicle, 0, 1);
+                            } else if (rowNum == 0 && roadNum == 0
+                                    && roads.get(rowNum).get(roadNum).hasWestConnection()) {
+                                roads.get(rowNum).get(roadNum).createVehicle(vehicleType,
+                                        0, currentVehicle, 0, 0);
+                            } else if (rowNum == roads.size() - 1 &&
+                                    roads.get(rowNum).get(roadNum).hasSouthConnection()) {
+                                roads.get(rowNum).get(roadNum).createVehicle(vehicleType,
+                                        0, currentVehicle, 0, 0);
+                            } else if (rowNum == roads.size() - 1 && roadNum == 0 &&
+                                    roads.get(rowNum).get(roadNum).hasWestConnection()) {
+                                roads.get(rowNum).get(roadNum).createVehicle(vehicleType,
+                                        0, currentVehicle, 0, 0);
+                            } else if (rowNum == roads.size() - 1 && roadNum == roads.get(rowNum).size() - 1 &&
+                                    roads.get(rowNum).get(roadNum).hasEastConnection()) {
+                                roads.get(rowNum).get(roadNum).createVehicle(vehicleType,
+                                        0, currentVehicle, 0, 1);
+                            }
+                            currentVehicle++;
+/*                            int tempValue = currentVehicles.get(vehicleType) + 1;
+                            currentVehicles.replace(vehicleType, tempValue);*/
+                            switch (vehicleType) {
+                                case "Car":
+                                    currentCars++;
+                                    break;
+                                case "Motorbike":
+                                    currentMotorbikes++;
+                                    break;
+                                case "Bus":
+                                    currentBusses++;
+                                    break;
+                            }
+                            chosenSpawner = random.nextInt(numSpawners);
+
+                            if (vehicleType.equals("Car")) {
                                 if (currentCars == numCars) {
                                     break;
                                 }
-                                chosenSpawner = random.nextInt(numSpawners);
+                            } else if (vehicleType.equals("Motorbike")) {
+                                if (currentMotorbikes == numMotorbikes) {
+                                    break;
+                                }
+                            } else if (vehicleType.equals("Bus")) {
+                                if (currentBusses == numBusses) {
+                                    break;
+                                }
                             }
-                            currentSpawner++;
+
                         }
+                        currentSpawner++;
                     }
                 }
+            }
+            if (vehicleType.equals("Car")) {
                 if (currentCars == numCars) {
+                    break;
+                }
+            } else if (vehicleType.equals("Motorbike")) {
+                if (currentMotorbikes == numMotorbikes) {
+                    break;
+                }
+            } else if (vehicleType.equals("Bus")) {
+                if (currentBusses == numBusses) {
                     break;
                 }
             }
@@ -231,57 +265,72 @@ public class Simulation {
             @Override
             public void run() {
                 if (currentCars != numCars) {
-                    spawnVehicles("Car");
+                    chosenSpawner = random.nextInt(numSpawners);
+                    while (currentCars < numCars) {
+                        spawnVehicles("Car");
+                    }
+                } else if (currentMotorbikes != numMotorbikes) {
+                    chosenSpawner = random.nextInt(numSpawners);
+                    while (currentMotorbikes < numMotorbikes) {
+                        spawnVehicles("Motorbike");
+                    }
+                } else if (currentBusses != numBusses) {
+                    chosenSpawner = random.nextInt(numSpawners);
+                    while (currentBusses < numBusses) {
+                        spawnVehicles("Bus");
+                    }
                 } else
-                for (int rowNum = 0; rowNum < roads.size(); rowNum++) { //updates all roads
-                    for (int roadNum = 0; roadNum < roads.get(rowNum).size(); roadNum++) {
-                        if (roads.get(rowNum).get(roadNum) != null) {
-                            if (roads.get(rowNum).get(roadNum).getLanes() != null)
-                                        for (int laneNum = 0; laneNum < roads.get(rowNum).get(roadNum).getLanes().size(); laneNum++) {
-                                            for (int vehicleNum = 0; vehicleNum < numVehicles; vehicleNum++) {
-                                                if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum) != null) { //checks for vehicles
-                                                    System.out.printf("Vehicle: %d | Row %d | Road: %d | Position: %d\n",
-                                                            roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getVehicleNum(), rowNum, roadNum,
-                                                            roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getPosition());
-                                                    if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getSpeed() ==
-                                                            roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getMAXSPEED())
-                                                    //checks if car needs to accelerate
-                                                    {
-                                                        if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getPosition() +
-                                                                roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getSpeed()
-                                                                > roads.get(rowNum).get(roadNum).getLength()) //checks if car needs to swap roads
-                                                            changeRoadStraight(rowNum, roadNum, laneNum, vehicleNum);
-                                                    } else {
-                                                        if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getPosition() +
-                                                                roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getSpeed() +
-                                                                roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getAcceleration()
-                                                                > roads.get(rowNum).get(roadNum).getLength())
-                                                            //checks if car needs to swap roads + accelerate
-                                                            changeRoadsAccelerating(rowNum, roadNum, laneNum, vehicleNum);
-                                                    }
-                                                }
-                                                if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum) != null) {
-                                                    //checks for vehicle as one may have been removed
-                                                    if (roads.get(rowNum).get(roadNum).countLights() != 0)
-                                                        checkForLight(rowNum, roadNum, vehicleNum, laneNum);
-                                                    else
-                                                        roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).drive();
+                    for (int rowNum = 0; rowNum < roads.size(); rowNum++) { //updates all roads
+                        for (int roadNum = 0; roadNum < roads.get(rowNum).size(); roadNum++) {
+                            if (roads.get(rowNum).get(roadNum) != null) {
+                                if (roads.get(rowNum).get(roadNum).getLanes() != null)
+                                    for (int laneNum = 0; laneNum < roads.get(rowNum).get(roadNum).getLanes().size(); laneNum++) {
+                                        for (int vehicleNum = 0; vehicleNum < numVehicles; vehicleNum++) {
+                                            if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum) != null) { //checks for vehicles
+                                                System.out.printf("%s: %d | Row %d | Road: %d | Position: %d\n",
+                                                        roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getVehicleType(),
+                                                        roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getVehicleNum(), rowNum, roadNum,
+                                                        roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getPosition());
+                                                if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getSpeed() ==
+                                                        roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getMAXSPEED())
+                                                //checks if car needs to accelerate
+                                                {
+                                                    if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getPosition() +
+                                                            roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getSpeed()
+                                                            > roads.get(rowNum).get(roadNum).getLength()) //checks if car needs to swap roads
+                                                        changeRoadStraight(rowNum, roadNum, laneNum, vehicleNum,
+                                                                roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getVehicleType());
+                                                } else {
+                                                    if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getPosition() +
+                                                            roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getSpeed() +
+                                                            roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getAcceleration()
+                                                            > roads.get(rowNum).get(roadNum).getLength())
+                                                        //checks if car needs to swap roads + accelerate
+                                                        changeRoadsAccelerating(rowNum, roadNum, laneNum, vehicleNum);
                                                 }
                                             }
+                                            if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum) != null) {
+                                                //checks for vehicle as one may have been removed
+                                                if (roads.get(rowNum).get(roadNum).countLights() != 0)
+                                                    checkForLight(rowNum, roadNum, vehicleNum, laneNum);
+                                                else
+                                                    roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).drive();
+                                            }
                                         }
+                                    }
 
 
-                                    if (time % 25 == 0)
-                                        toggleLights(rowNum, roadNum);
+                                if (time % 25 == 0)
+                                    toggleLights(rowNum, roadNum);
 
+                            }
+                        }
+                        time++; //updates timer after all cars are moved
+                        if (numCars == 0) {
+                            System.out.println("We have run out of vehicles!");
+                            System.exit(0);
                         }
                     }
-                    time++; //updates timer after all cars are moved
-                    if (numCars == 0) {
-                        System.out.println("We have run out of vehicles!");
-                        System.exit(0);
-                    }
-                }
             }
         };
         Timer timer = new Timer();

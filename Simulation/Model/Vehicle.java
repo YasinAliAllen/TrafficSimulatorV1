@@ -2,6 +2,7 @@ package Model;
 
 public abstract class Vehicle {
     public int position, speed, vehicleNum, carBreadth = 1;
+    String vehicleType = "";
 
     public Vehicle(int position, int vehicleNum, int speed) {
         this.position = position;
@@ -36,4 +37,8 @@ public abstract class Vehicle {
     }
 
     public abstract int getAcceleration();
+
+    public String getVehicleType() {
+        return vehicleType;
+    }
 }
