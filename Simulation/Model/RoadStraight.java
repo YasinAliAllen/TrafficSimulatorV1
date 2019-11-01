@@ -30,8 +30,8 @@ public class RoadStraight extends Road {
         return vehiclesLanes;
     }
 
-    public int countVehicles(int lane) {
-        return vehiclesLanes.get(lane).size();
+    public int countVehicles(int laneNum) {
+        return vehiclesLanes.get(laneNum).size();
     }
 
     public int countLights() {

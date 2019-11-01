@@ -36,26 +36,26 @@ public class RoadThreeWay extends Road {
     }
 
     @Override
-    public void createVehicle(String type, int position, int vehicleNum, int speed, int lane) {
-        for (int i = 0; i < vehiclesLanes.get(lane).size(); i++)
-            if (vehiclesLanes.get(lane).get(i).getVehicleNum() == vehicleNum) //removes car with matching number
-                vehiclesLanes.get(lane).remove(i);
+    public void createVehicle(String vehicleType, int position, int vehicleNum, int speed, int laneNum) {
+        for (int i = 0; i < vehiclesLanes.get(laneNum).size(); i++)
+            if (vehiclesLanes.get(laneNum).get(i).getVehicleNum() == vehicleNum) //removes car with matching number
+                vehiclesLanes.get(laneNum).remove(i);
 
     }
 
     @Override
-    public void destroyVehicle(int vehicleNum, int lane) {
-        for (int i = 0; i < vehiclesLanes.get(lane).size(); i++)
-            if (vehiclesLanes.get(lane).get(i).getVehicleNum() == vehicleNum) //removes car with matching number
-                vehiclesLanes.get(lane).remove(i);
+    public void destroyVehicle(int vehicleNum, int laneNum) {
+        for (int i = 0; i < vehiclesLanes.get(laneNum).size(); i++)
+            if (vehiclesLanes.get(laneNum).get(i).getVehicleNum() == vehicleNum) //removes car with matching number
+                vehiclesLanes.get(laneNum).remove(i);
     }
 
     @Override
-    public Vehicle getVehicle(int vehicleNum, int lane) {
-        if (vehiclesLanes.get(lane).isEmpty())
+    public Vehicle getVehicle(int vehicleNum, int laneNum) {
+        if (vehiclesLanes.get(laneNum).isEmpty())
             return null;
         else
-            for (Vehicle value : vehiclesLanes.get(lane)) { //cycles through all vehicles
+            for (Vehicle value : vehiclesLanes.get(laneNum)) { //cycles through all vehicles
                 if (value.getVehicleNum() == vehicleNum) //gets car with matching number
                     return value;
             }
@@ -64,7 +64,7 @@ public class RoadThreeWay extends Road {
 
     @Override
     public ArrayList<ArrayList<Vehicle>> getLanes() {
-        return null;
+        return vehiclesLanes;
     }
 
     @Override
