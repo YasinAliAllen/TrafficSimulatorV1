@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class TrafficSimGUI extends JFrame implements ActionListener {
+
     private final int ROWS = 16, COLUMNS = 32;
     private Map<String, String> imagesMap = new HashMap<>();
     private int rotations = 0;
@@ -29,9 +30,16 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
     private JMenuItem load = new JMenuItem("Load");
     private JMenuItem exit = new JMenuItem("Exit");
     private JMenuItem run = new JMenuItem("Run");
-    private JMenuItem simulation = new JMenuItem("Simulation");
+    JTextField cars = new JTextField();
     private JMenuItem editor = new JMenuItem("Editor");
     private JMenuItem about = new JMenuItem("About");
+    JLabel motorbikesLabel = new JLabel("Motorbikes");
+    JTextField motorbikes = new JTextField();
+    JLabel bussesLabel = new JLabel("Busses");
+    JTextField busses = new JTextField();
+    private JMenuItem build = new JMenuItem("Build");
+    private JLabel carsLabel = new JLabel("Cars");
+
 
     public TrafficSimGUI() {
         imagesMap.put("Road Straight0", ".\\Simulation\\View\\Images\\HorizontalRoad.jpg");
@@ -58,6 +66,14 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         menuBar.add(help);
         menuBar.add(label);
 
+
+        menuBar.add(carsLabel);
+        menuBar.add(cars);
+        menuBar.add(motorbikesLabel);
+        menuBar.add(motorbikes);
+        menuBar.add(bussesLabel);
+        menuBar.add(busses);
+
         comboBox.addActionListener(actionEvent -> {
             rotations = 0;
             switch (Objects.requireNonNull(comboBox.getSelectedItem()).toString()) {
@@ -83,8 +99,8 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         file.add(exit);
         run.addActionListener(this);
         settings.add(run);
-        simulation.addActionListener(this);
-        settings.add(simulation);
+        build.addActionListener(this);
+        settings.add(build);
         editor.addActionListener(this);
         settings.add(editor);
         help.addActionListener(this);
@@ -111,8 +127,8 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         run.addActionListener(actionListener);
     }
 
-    public void addSimulationActionListener(ActionListener actionListener) {
-        simulation.addActionListener(actionListener);
+    public void addBuildActionListener(ActionListener actionListener) {
+        build.addActionListener(actionListener);
     }
 
     public void addEditorActionListener(ActionListener actionListener) {
@@ -230,5 +246,18 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
 
     public ArrayList<ArrayList<ItemButton>> getItems() {
         return itemButtonsArray;
+    }
+
+    public int[] getVehicles() {
+        try {
+            return new int[]{Integer.parseInt(cars.getText()), Integer.parseInt(motorbikes.getText()),
+                    Integer.parseInt(busses.getText())};
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    public String getStatus() {
+        return label.getText();
     }
 }

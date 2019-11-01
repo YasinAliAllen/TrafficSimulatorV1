@@ -1,3 +1,4 @@
+
 Program Specification
 A traffic simulator with the ability to edit and simulate the users chosen design.
 This simulation should return something useful like the average speed of cars throughout the simulation.
