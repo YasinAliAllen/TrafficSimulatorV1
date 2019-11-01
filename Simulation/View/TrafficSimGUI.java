@@ -178,7 +178,8 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                             } else {
                                 System.out.println("Road Placed!");
                                 button.setHasRoad(true);
-                                button.setRoadType(Objects.requireNonNull(comboBox.getSelectedItem()).toString(), rotations);
+                                button.setRoadType(Objects.requireNonNull(comboBox.getSelectedItem()).toString(),
+                                        rotations);
 
                                 ImageIcon image = new ImageIcon(roadImage.getScaledInstance(
                                         button.getWidth(), button.getHeight(), Image.SCALE_FAST));
@@ -188,7 +189,8 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                             break;
                         case 2: //rotate road
                             System.out.println("Item Rotated");
-                            if (!(Objects.requireNonNull(comboBox.getSelectedItem()).toString().equals("Four Four Way"))) {
+                            if (!(Objects.requireNonNull(comboBox.getSelectedItem()).toString()
+                                    .equals("Four Four Way"))) {
                                 if ((rotations == 1 && comboBox.getSelectedItem().toString().equals("Road Straight"))
                                         || (rotations == 3 &&
                                         comboBox.getSelectedItem().toString().equals("Road Three Way"))) {

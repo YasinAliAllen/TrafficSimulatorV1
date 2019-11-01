@@ -149,7 +149,8 @@ public class Main {
                     if (i == 0 && items.get(i).get(j).isEndPiece() && items.get(i).get(j).hasRoad() &&
                             items.get(i).get(j).hasNorthConnection()) {
                         items.get(i).get(j).setSpawner(true);
-                    } else if ((i == items.size() - 1) && items.get(i).get(j).isEndPiece() && items.get(i).get(j).hasRoad() &&
+                    } else if ((i == items.size() - 1) && items.get(i).get(j).isEndPiece() &&
+                            items.get(i).get(j).hasRoad() &&
                             items.get(i).get(j).hasSouthConnection()) {
                         items.get(i).get(j).setSpawner(true);
                     } else if (j == 0 && items.get(i).get(j).isEndPiece() && items.get(i).get(j).hasRoad() &&
@@ -167,6 +168,8 @@ public class Main {
                             items.get(i).get(j).getRotations() + "," + items.get(i).get(j).isSpawner());
                 }
             }
+
+            //opens a GUI for user to save files
             JFileChooser fileChooser = new JFileChooser();
             int status = fileChooser.showSaveDialog(trafficSimGUI);
             if (status == JFileChooser.APPROVE_OPTION) {
@@ -185,6 +188,7 @@ public class Main {
         });
 
         trafficSimGUI.addLoadActionListener(actionEvent -> {
+            //opens a GUI for user to load files
             JFileChooser fileChooser = new JFileChooser();
             int status = fileChooser.showOpenDialog(trafficSimGUI);
             ArrayList<ArrayList<String>> simulationData = new ArrayList<>();
@@ -194,8 +198,8 @@ public class Main {
                     String line;
                     while ((line = fileReader.readLine()) != null) {
                         String[] values = line.split(",");
-                        System.out.println(Arrays.toString(values));
-                        simulationData.add(new ArrayList<String>(Arrays.asList(values)));
+                        simulationData.add(new ArrayList<>(Arrays.asList(values)));
+                        System.out.println(simulationData.toString());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -204,6 +208,7 @@ public class Main {
         });
 
         trafficSimGUI.addAboutActionListener(actionEvent -> {
+            //opens information file
             try {
                 Desktop.getDesktop().open(new File(".\\Simulation\\Design\\WorkingDocument.txt"));
             } catch (IOException e) {
