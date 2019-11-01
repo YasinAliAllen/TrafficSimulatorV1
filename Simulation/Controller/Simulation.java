@@ -12,6 +12,8 @@ public class Simulation {
     final int LENGTH = 20;
     Random random = new Random();
     Map<String, Integer> currentVehicles = new HashMap<>();
+    Map<String, Integer> numVehicles = new HashMap<>();
+    private int totalVehicles = 0;
     private int currentVehicle = 0;
     private int numSpawners = 0;
     private int chosenSpawner = 0;
@@ -19,7 +21,6 @@ public class Simulation {
     private int currentCars = 0;
     private int currentMotorbikes = 0;
     private int currentBusses = 0;
-    private int numVehicles = 0;
     private int numCars = 0;
     private int numMotorbikes = 0;
     private int numBusses = 0;
@@ -40,14 +41,17 @@ public class Simulation {
     }
 
     void createSimulation(ArrayList<ArrayList<String>> data, int cars, int motorbikes, int busses) {
-        currentVehicles.put("Cars", currentCars);
+        currentVehicles.put("Car", currentCars);
         currentVehicles.put("Motorbike", currentMotorbikes);
         currentVehicles.put("Bus", currentBusses);
+        numVehicles.put("Car", cars);
+        numVehicles.put("Motorbike", motorbikes);
+        numVehicles.put("Bus", busses);
         this.numSpawners = 0;
         this.numCars = cars;
         this.numMotorbikes = motorbikes;
         this.numBusses = busses;
-        this.numVehicles = cars + motorbikes + busses;
+        this.totalVehicles = cars + motorbikes + busses;
         this.roads = new ArrayList<ArrayList<Road>>();//array storing roads
         for (int i = 0; i < data.size(); i++) {
             roads.add(new ArrayList<Road>());
@@ -66,6 +70,7 @@ public class Simulation {
 
 
     private void changeRoadStraight(int rowNum, int roadNum, int laneNum, int vehicleNum, String vehicleType) {
+        int numVehicleType = currentVehicles.get(vehicleType);
         if (roads.get(rowNum).get(roadNum).hasNorthConnection() || roads.get(rowNum).get(roadNum).hasSouthConnection()) {
             switch (laneNum) {
                 case 0:
@@ -73,7 +78,8 @@ public class Simulation {
                         System.out.println("We have run out of road for vehicle " + vehicleNum);
                         roads.get(rowNum).get(roadNum).destroyVehicle(vehicleNum, laneNum);
                         currentVehicle = vehicleNum;
-                        currentCars--;
+
+                        currentVehicles.replace(vehicleType, numVehicleType - 1);
                         spawnVehicles(vehicleType);
                     } else {
                         roads.get(rowNum - 1).get(roadNum).createVehicle(vehicleType,
@@ -90,7 +96,7 @@ public class Simulation {
                         System.out.println("We have run out of road for vehicle " + vehicleNum);
                         roads.get(rowNum).get(roadNum).destroyVehicle(vehicleNum, laneNum);
                         currentVehicle = vehicleNum;
-                        currentCars--;
+                        currentVehicles.replace(vehicleType, numVehicleType - 1);
                     } else {
                         roads.get(rowNum + 1).get(roadNum).createVehicle(vehicleType,
                                 (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getPosition() +
@@ -210,52 +216,19 @@ public class Simulation {
                                         0, currentVehicle, 0, 1);
                             }
                             currentVehicle++;
-/*                            int tempValue = currentVehicles.get(vehicleType) + 1;
-                            currentVehicles.replace(vehicleType, tempValue);*/
-                            switch (vehicleType) {
-                                case "Car":
-                                    currentCars++;
-                                    break;
-                                case "Motorbike":
-                                    currentMotorbikes++;
-                                    break;
-                                case "Bus":
-                                    currentBusses++;
-                                    break;
-                            }
+                            int numVehicleType = currentVehicles.get(vehicleType) + 1;
+                            currentVehicles.replace(vehicleType, numVehicleType);
                             chosenSpawner = random.nextInt(numSpawners);
-
-                            if (vehicleType.equals("Car")) {
-                                if (currentCars == numCars) {
-                                    break;
-                                }
-                            } else if (vehicleType.equals("Motorbike")) {
-                                if (currentMotorbikes == numMotorbikes) {
-                                    break;
-                                }
-                            } else if (vehicleType.equals("Bus")) {
-                                if (currentBusses == numBusses) {
-                                    break;
-                                }
+                            if (currentVehicles.get(vehicleType).equals(numVehicles.get(vehicleType))) {
+                                break;
                             }
-
                         }
                         currentSpawner++;
                     }
                 }
             }
-            if (vehicleType.equals("Car")) {
-                if (currentCars == numCars) {
-                    break;
-                }
-            } else if (vehicleType.equals("Motorbike")) {
-                if (currentMotorbikes == numMotorbikes) {
-                    break;
-                }
-            } else if (vehicleType.equals("Bus")) {
-                if (currentBusses == numBusses) {
-                    break;
-                }
+            if (currentVehicles.get(vehicleType).equals(numVehicles.get(vehicleType))) {
+                break;
             }
         }
     }
@@ -264,28 +237,20 @@ public class Simulation {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                if (currentCars != numCars) {
-                    chosenSpawner = random.nextInt(numSpawners);
-                    while (currentCars < numCars) {
-                        spawnVehicles("Car");
+                for (String vehicleType : numVehicles.keySet()) {
+                    if (!currentVehicles.get(vehicleType).equals(numVehicles.get(vehicleType))) {
+                        chosenSpawner = random.nextInt(numSpawners);
+                        while (currentVehicles.get(vehicleType) < numCars) {
+                            spawnVehicles(vehicleType);
+                        }
                     }
-                } else if (currentMotorbikes != numMotorbikes) {
-                    chosenSpawner = random.nextInt(numSpawners);
-                    while (currentMotorbikes < numMotorbikes) {
-                        spawnVehicles("Motorbike");
-                    }
-                } else if (currentBusses != numBusses) {
-                    chosenSpawner = random.nextInt(numSpawners);
-                    while (currentBusses < numBusses) {
-                        spawnVehicles("Bus");
-                    }
-                } else
+                }
                     for (int rowNum = 0; rowNum < roads.size(); rowNum++) { //updates all roads
                         for (int roadNum = 0; roadNum < roads.get(rowNum).size(); roadNum++) {
                             if (roads.get(rowNum).get(roadNum) != null) {
                                 if (roads.get(rowNum).get(roadNum).getLanes() != null)
                                     for (int laneNum = 0; laneNum < roads.get(rowNum).get(roadNum).getLanes().size(); laneNum++) {
-                                        for (int vehicleNum = 0; vehicleNum < numVehicles; vehicleNum++) {
+                                        for (int vehicleNum = 0; vehicleNum < totalVehicles; vehicleNum++) {
                                             if (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum) != null) { //checks for vehicles
                                                 System.out.printf("%s: %d | Row %d | Road: %d | Position: %d\n",
                                                         roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getVehicleType(),
