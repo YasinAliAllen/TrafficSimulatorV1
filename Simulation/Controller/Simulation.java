@@ -81,7 +81,7 @@ public class Simulation {
                                         roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getSpeed())
                                         % roads.get(rowNum).get(roadNum).getLength(),
                                 roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getVehicleNum(),
-                                roads.get(rowNum).get(roadNum).getSpeed(laneNum, vehicleNum), laneNum); //Creates car on next road
+                                roads.get(rowNum).get(roadNum).getSpeed(vehicleNum, laneNum), laneNum); //Creates car on next road
                         roads.get(rowNum).get(roadNum).destroyVehicle(vehicleNum, laneNum); //Removes old car from old road
                     }
                     break;
@@ -99,7 +99,7 @@ public class Simulation {
                                 (roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getPosition() +
                                         roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getSpeed()) % roads.get(rowNum).get(roadNum).getLength(),
                                 roads.get(rowNum).get(roadNum).getVehicle(vehicleNum, laneNum).getVehicleNum(),
-                                roads.get(rowNum).get(roadNum).getSpeed(laneNum, vehicleNum), laneNum); //Creates car on next road
+                                roads.get(rowNum).get(roadNum).getSpeed(vehicleNum, laneNum), laneNum); //Creates car on next road
                         roads.get(rowNum).get(roadNum).destroyVehicle(vehicleNum, laneNum); //Removes old car from old road
                     }
                     break;

@@ -112,7 +112,6 @@ public class Main {
             } else {
                 trafficSimGUI.updateStatus("Running...");
                 simulation.runSimulation();
-                trafficSimGUI.updateStatus("Complete!");
             }
         });
 

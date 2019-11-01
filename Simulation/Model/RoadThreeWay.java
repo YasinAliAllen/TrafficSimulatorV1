@@ -111,4 +111,14 @@ public class RoadThreeWay extends Road {
     public boolean hasWestConnection() {
         return westConnection;
     }
+
+    @Override
+    public void createTrafficLight(int trafficLightNum, int position) {
+
+    }
+
+    @Override
+    public int countVehicles(int laneNum) {
+        return 0;
+    }
 }

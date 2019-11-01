@@ -1,3 +1,5 @@
+Note, can currently handle the entire process for vertical straight roads, test this by building columns then building and
+running the program and viewing console output! :)
 
 Program Specification
 A traffic simulator with the ability to edit and simulate the users chosen design.

@@ -87,5 +87,8 @@ public abstract class Road {
         return westConnection;
     }
 
+    public abstract void createTrafficLight(int trafficLightNum, int position);
+
+    public abstract int countVehicles(int laneNum);
 }
 
