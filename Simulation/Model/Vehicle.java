@@ -1,7 +1,9 @@
 package Model;
 
 public abstract class Vehicle {
-    public int position, speed, vehicleNum, carBreadth = 1;
+    int position, speed;
+    int carBreadth = 1;
+    private int vehicleNum;
     String vehicleType = "";
 
     public Vehicle(int position, int vehicleNum, int speed) {
@@ -16,7 +18,7 @@ public abstract class Vehicle {
 
     public abstract int getMAXSPEED();
 
-    abstract int getLength();
+    /*    abstract int getLength();*/
 
     public int getPosition() {
         return position;

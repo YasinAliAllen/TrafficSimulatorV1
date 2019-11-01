@@ -16,8 +16,8 @@ public class RoadStraight extends Road {
             this.northConnection = true;
             this.southConnection = true;
         }
-        this.vehiclesLanes.add(new ArrayList<Vehicle>());
-        this.vehiclesLanes.add(new ArrayList<Vehicle>());
+        this.vehiclesLanes.add(new ArrayList<>());
+        this.vehiclesLanes.add(new ArrayList<>());
     }
 
     public void createTrafficLight(int trafficLightNum, int position) {

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public abstract class Road {
 
-    public ArrayList<ArrayList<Vehicle>> vehiclesLanes = new ArrayList<>();
+    ArrayList<ArrayList<Vehicle>> vehiclesLanes = new ArrayList<>();
     public int length;
-    public boolean spawner = false;
-    public boolean northConnection = false;
-    public boolean eastConnection = false;
-    public boolean southConnection = false;
-    public boolean westConnection = false;
+    boolean spawner = false;
+    boolean northConnection = false;
+    boolean eastConnection = false;
+    boolean southConnection = false;
+    boolean westConnection = false;
 
     public void createVehicle(String type,
                               int position, int vehicleNum, int speed, int laneNum) {

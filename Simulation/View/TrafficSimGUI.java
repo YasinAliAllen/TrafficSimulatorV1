@@ -30,15 +30,12 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
     private JMenuItem load = new JMenuItem("Load");
     private JMenuItem exit = new JMenuItem("Exit");
     private JMenuItem run = new JMenuItem("Run");
-    JTextField cars = new JTextField();
-    private JMenuItem editor = new JMenuItem("Editor");
-    private JMenuItem about = new JMenuItem("About");
-    JLabel motorbikesLabel = new JLabel("Motorbikes");
-    JTextField motorbikes = new JTextField();
-    JLabel bussesLabel = new JLabel("Busses");
-    JTextField busses = new JTextField();
     private JMenuItem build = new JMenuItem("Build");
-    private JLabel carsLabel = new JLabel("Cars");
+    private JMenuItem about = new JMenuItem("About");
+    private JTextField cars = new JTextField();
+    private JTextField motorbikes = new JTextField();
+    private JTextField busses = new JTextField();
+
 
 
     public TrafficSimGUI() {
@@ -67,10 +64,13 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         menuBar.add(label);
 
 
+        JLabel carsLabel = new JLabel("Cars");
         menuBar.add(carsLabel);
         menuBar.add(cars);
+        JLabel motorbikesLabel = new JLabel("Motorbikes");
         menuBar.add(motorbikesLabel);
         menuBar.add(motorbikes);
+        JLabel bussesLabel = new JLabel("Busses");
         menuBar.add(bussesLabel);
         menuBar.add(busses);
 
@@ -101,6 +101,7 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         settings.add(run);
         build.addActionListener(this);
         settings.add(build);
+        JMenuItem editor = new JMenuItem("Editor");
         editor.addActionListener(this);
         settings.add(editor);
         help.addActionListener(this);
@@ -131,9 +132,9 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         build.addActionListener(actionListener);
     }
 
-    public void addEditorActionListener(ActionListener actionListener) {
+    /*public void addEditorActionListener(ActionListener actionListener) {
         editor.addActionListener(actionListener);
-    }
+    }*/
 
     public void addAboutActionListener(ActionListener actionListener) {
         about.addActionListener(actionListener);
@@ -167,10 +168,10 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
                             if (button.hasRoad()) {
                                 button.setHasRoad(false);
                                 button.setRoadType("", 0);
-                                button.setNorthConnection(false);
-                                button.setEastConnection(false);
-                                button.setSouthConnection(false);
-                                button.setWestConnection(false);
+                                button.setNorthConnection();
+                                button.setEastConnection();
+                                button.setSouthConnection();
+                                button.setWestConnection();
                                 System.out.println("Road Removed!");
                                 button.setIcon(null);
                                 button.repaint();
@@ -227,7 +228,7 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
             });
             if (i < COLUMNS || itemButtonRow.isEmpty() || i == rowEndPos - 1 || i > ROWS * COLUMNS - COLUMNS) {
                 //sets edge pieces
-                button.setIsEndPiece(true);
+                button.setIsEndPiece();
             }
             itemButtonRow.add(button);
             if (i == rowEndPos - 1) {

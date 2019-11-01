@@ -32,10 +32,6 @@ public class Bus extends Vehicle {
         return MAXSPEED;
     }
 
-    @Override
-    int getLength() {
-        return length;
-    }
 
     @Override
     int getDeceleration() {

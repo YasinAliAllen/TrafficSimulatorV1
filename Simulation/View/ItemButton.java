@@ -10,7 +10,7 @@ public class ItemButton extends JButton {
     private boolean southConnection = false;
     private boolean westConnection = false;
     private boolean hasRoad = false;
-    private boolean hasLights = false;
+    /*    private boolean hasLights = false;*/
     private boolean isEndPiece = false;
     private boolean spawner = false;
 
@@ -24,12 +24,12 @@ public class ItemButton extends JButton {
         return hasRoad;
     }
 
-    public void setHasRoad(boolean hasRoad) {
+    void setHasRoad(boolean hasRoad) {
         this.hasRoad = hasRoad;
     }
 
-    public void setIsEndPiece(boolean isEndPiece) {
-        this.isEndPiece = isEndPiece;
+    void setIsEndPiece() {
+        this.isEndPiece = true;
     }
 
     public boolean isEndPiece() {
@@ -40,7 +40,7 @@ public class ItemButton extends JButton {
         return roadType;
     }
 
-    public void setRoadType(String roadType, int rotations) {
+    void setRoadType(String roadType, int rotations) {
         this.roadType = roadType;
         this.rotations = rotations;
         switch (roadType) {
@@ -93,32 +93,32 @@ public class ItemButton extends JButton {
         return northConnection;
     }
 
-    public void setNorthConnection(boolean northConnection) {
-        this.northConnection = northConnection;
+    void setNorthConnection() {
+        this.northConnection = false;
     }
 
     public boolean hasEastConnection() {
         return eastConnection;
     }
 
-    public void setEastConnection(boolean eastConnection) {
-        this.eastConnection = eastConnection;
+    void setEastConnection() {
+        this.eastConnection = false;
     }
 
     public boolean hasSouthConnection() {
         return southConnection;
     }
 
-    public void setSouthConnection(boolean southConnection) {
-        this.southConnection = southConnection;
+    void setSouthConnection() {
+        this.southConnection = false;
     }
 
     public boolean hasWestConnection() {
         return westConnection;
     }
 
-    public void setWestConnection(boolean westConnection) {
-        this.westConnection = westConnection;
+    void setWestConnection() {
+        this.westConnection = false;
     }
 
     public boolean isSpawner() {
