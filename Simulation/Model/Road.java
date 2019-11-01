@@ -62,7 +62,13 @@ public abstract class Road {
     }
 
     public int getSpeed(int laneNum, int vehicleNum) {
-        return vehiclesLanes.get(laneNum).get(vehicleNum).getSpeed();
+        int vehicleIndex = 0;
+        for (int numVehicles = 0; numVehicles < vehiclesLanes.get(laneNum).size(); numVehicles++) {
+            if (vehiclesLanes.get(laneNum).get(numVehicles).getVehicleNum() == vehicleNum) {
+                vehicleIndex = numVehicles;
+            }
+        }
+        return vehiclesLanes.get(laneNum).get(vehicleIndex).getSpeed();
     }
 
     public boolean hasNorthConnection() {
