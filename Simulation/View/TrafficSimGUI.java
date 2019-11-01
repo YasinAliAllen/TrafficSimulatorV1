@@ -31,6 +31,7 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
     private JMenuItem run = new JMenuItem("Run");
     private JMenuItem simulation = new JMenuItem("Simulation");
     private JMenuItem editor = new JMenuItem("Editor");
+    private JMenuItem about = new JMenuItem("About");
 
     public TrafficSimGUI() {
         imagesMap.put("Road Straight0", ".\\Simulation\\View\\Images\\HorizontalRoad.jpg");
@@ -87,8 +88,9 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
         editor.addActionListener(this);
         settings.add(editor);
         help.addActionListener(this);
-        JMenuItem about = new JMenuItem("About");
+
         help.add(about);
+        about.addActionListener(this);
 
         createButtons();
     }
@@ -118,7 +120,7 @@ public class TrafficSimGUI extends JFrame implements ActionListener {
     }
 
     public void addAboutActionListener(ActionListener actionListener) {
-        load.addActionListener(actionListener);
+        about.addActionListener(actionListener);
     }
 
     @Override

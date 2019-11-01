@@ -4,10 +4,8 @@ import View.ItemButton;
 import View.TrafficSimGUI;
 
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -180,6 +178,15 @@ public class Main {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        trafficSimGUI.addAboutActionListener(actionEvent -> {
+            System.out.println("yeet");
+            try {
+                Desktop.getDesktop().open(new File(".\\Simulation\\Design\\WorkingDocument.txt"));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
 
