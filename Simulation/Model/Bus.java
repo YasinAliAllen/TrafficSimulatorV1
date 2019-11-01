@@ -42,4 +42,8 @@ public class Bus extends Vehicle {
     public int getAcceleration() {
         return ACCELERATION;
     }
+
+    public int getLength() {
+        return length;
+    }
 }

@@ -12,8 +12,10 @@ public abstract class Vehicle {
         this.vehicleNum = vehicleNum;
     }
 
+    //accelerates or drives at full speed
     public abstract void drive();
 
+    //decelerates or doesnt move if stopped
     public abstract void stop();
 
     public abstract int getMAXSPEED();

@@ -12,6 +12,7 @@ public abstract class Road {
     boolean southConnection = false;
     boolean westConnection = false;
 
+    //creates a vehicle in a lane
     public void createVehicle(String type,
                               int position, int vehicleNum, int speed, int laneNum) {
         switch (type) {
@@ -30,12 +31,14 @@ public abstract class Road {
         }
     }
 
+    //destroys a specified vehicle
     public void destroyVehicle(int vehicleNum, int laneNum) {
         for (int i = 0; i < vehiclesLanes.get(laneNum).size(); i++)
             if (vehiclesLanes.get(laneNum).get(i).getVehicleNum() == vehicleNum) //removes car with matching number
                 vehiclesLanes.get(laneNum).remove(i);
     }
 
+    //returns a specified vehicle
     public Vehicle getVehicle(int vehicleNum, int laneNum) {
         if (vehiclesLanes.get(laneNum).isEmpty())
             return null;
@@ -61,6 +64,7 @@ public abstract class Road {
         return spawner;
     }
 
+    //returns the speed of a specified vehicle
     public int getSpeed(int vehicleNum, int laneNum) {
         int vehicleIndex = 0;
         for (int numVehicles = 0; numVehicles < vehiclesLanes.get(laneNum).size(); numVehicles++) {
