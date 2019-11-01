@@ -1,0 +1,91 @@
+Program Specification
+A traffic simulator with the ability to edit and simulate the users chosen design.
+This simulation should return something useful like the average speed of cars throughout the simulation.
+This allows the user to test different designs and discover which is best at promoting traffic flow.
+
+
+
+Problem Decomposition:
+This program is using the following objects: Controller.Main, Controller.Simulation, Model.RoadStraight, Model.Vehicle, Model.TrafficLight, Model.Car, Model.Bus, Model.Motorbike.
+Controller.Main calls Controller.Simulation. Controller.Simulation uses an array of RoadStraights to store information about each road and update them.
+Model.RoadStraight uses arrays of vehicles and lights to create, destroy and store information on them and update them.
+Model.Car, Model.Bus and Model.Motorbike are all subclasses of Model.Vehicle.
+Vehicles have methods allowing them to update their information.
+Model.TrafficLight is called when present on a Model.RoadStraight with a vehicle and returns information allowing for proper
+interaction.
+TrafficLights also have methods allowing them to change their status.
+
+
+
+Class Design:
+
+Controller.Main:
+Only contains Controller.Main() method.
+The main class will be used to switch the program between either simulation mode or editor mode.
+Controller.Main will initialise in simulation mode by creating a Controller.Simulation() class and calling appropriate methods.
+
+
+
+Controller.Simulation:
+Attributes/Variables: private final int (placeholders): NUMROADS, NUMLIGHTS, NUMCARS, MAXSPEED.
+private int: numCars, time. ArrayList roads, ArrayList lightsRoad (used for randomization),
+ArrayList carsRoad (used for randomization).
+Methods/Behaviors: createSimulation, changeRoads, changeRoadsAccelerating, toggleLights, checkForLight, runSimulation.
+
+The Controller.Simulation class contains methods pertaining to activities handled by the simulation.
+The Controller.Simulation stores all roads in an array allowing for the to interact with each other allowing simulation to have
+vehicles transition between roads.
+Controller.Simulation handles interaction between vehicles and traffic lights.
+Controller.Simulation checks on a per road basis what needs to be updated and then does so accordingly.
+
+
+
+Model.RoadStraight:
+Note: This is for the moment the base road type, it may be refactored into a Road class if its chosen to be used as a
+basis for all future road types. In future the program will have 3 road types.
+
+Attributes/Variables: private int length, ArrayList vehicles, ArrayList trafficLights.
+Methods/Behaviors: Model.RoadStraight, createVehicle, destroyVehicle, createTrafficLight, countVehicles, countLights, setters and getters.
+
+Model.RoadStraight is creatable with a specified length, defining its endpoint.
+Model.RoadStraight contains all vehicles and traffic lights relevant to its position. This allows for these objects to be
+obtained by Controller.Simulation from Model.RoadStraight.
+Model.RoadStraight allows for vehicles to be created or destroyed, this can be used by simulation to transfer vehicles
+between roads.
+Model.RoadStraight allows for TrafficLights to be created, allowing them to interact with vehicles at a more precise level
+Model.RoadStraight has methods which returns information about what is contained on the road, like the amount of
+vehicles and traffic lights (Getter Methods).
+
+
+
+Model.Vehicle:
+Attributes/Variables: public int length, breadth
+private int position, speed, acceleration, deceleration, vehicleNum
+Methods/Behaviours: Model.Vehicle, drive, stop, setters/getters.
+
+The vehicle class contains information about each vehicle with relevant methods to update it appropriately.
+Model.Vehicle has a drive method, updating speed and position appropriately.
+Model.Vehicle has a stop method, updating speed and position appropriately.
+Model.Vehicle can also return information about itself (Getter Methods).
+
+Model.Car: (Currently a placeholder)
+Model.Car class inherits everything from vehicle.
+
+Model.Bus: (Currently a placeholder)
+Model.Bus class inherits everything from vehicle.
+
+Model.Motorbike: (Currently a placeholder)
+Model.Motorbike class inherits everything from vehicle.
+
+
+
+Model.TrafficLight:
+Note: At the moment Model.TrafficLight is using a boolean for status to signify red or green, this will be changed to add
+an amber light in a future version.
+
+Attributes/Variables: private int position, lightnum. private boolean status.
+Methods/Behaviours: Model.TrafficLight, toggleColour, isStatus, setters/getters
+
+Model.TrafficLight has a toggle colour method which switches the lights status.
+Model.TrafficLight has an isStatus method which returns the current status of the light.
+Model.TrafficLight can also return information about itself (Getter Methods)

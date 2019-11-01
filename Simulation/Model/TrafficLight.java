@@ -1,4 +1,6 @@
-class TrafficLight {
+package Model;
+
+public class TrafficLight {
     private int position;
     private boolean status; //true = green | false = red
     private int lightNum;
@@ -8,19 +10,19 @@ class TrafficLight {
         this.lightNum = lightNum;
     }
 
-    void toggleColour() {
+    public void toggleColour() {
         status = !status;
     }
 
-    int getPosition() {
+    public int getPosition() {
         return position;
     }
 
-    boolean isStatus() {
+    public boolean isStatus() {
         return status;
     }
 
-    int getLightNumber() {
+    public int getLightNumber() {
         return lightNum;
     }
 }

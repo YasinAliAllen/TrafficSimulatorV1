@@ -1,9 +1,11 @@
+package Model;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class VehicleTest {
-    private Vehicle vehicle = new Vehicle(0, 0, 1, 0, 1, 2);
+    private Vehicle vehicle = new Car(0, 0, 1);
     private int position = 0;
 
     @Test
@@ -11,7 +13,7 @@ class VehicleTest {
         for (int i = 0; i < 3; i++) {
             assertEquals(i, vehicle.getSpeed());
             assertEquals(position, vehicle.getPosition());
-            vehicle.drive(3);
+            vehicle.drive();
             position += vehicle.getSpeed();
         }
     }
